@@ -17,6 +17,7 @@ export async function POST(request: Request) {
     const admin = await db.collection("admins").findOne({ email: email });
 
     if (admin) {
+      console.log("Admin found:", admin);
       await db.collection("admins").updateOne(
         { email: email },
         {

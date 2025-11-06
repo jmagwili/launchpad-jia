@@ -61,6 +61,7 @@ export async function signInWithGoogle(type) {
     })
     .then(async (res) => {
       if (
+        console.log(res.data),
         res.data.error &&
         profile.email.split("@")[1] !== "whitecloak.com" &&
         !profile.email.split("@")[1].includes("shae")
