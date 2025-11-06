@@ -167,6 +167,19 @@ export async function signInWithGoogle(type) {
       });
 
       if (orgData.data.length == 0) {
+        // Check if user is a super admin before redirecting to job portal
+        const superAdminCheck = await axios.post("/api/admin/check-super-admin", {
+          email: profile.email
+        });
+
+        if (superAdminCheck.data.isSuperAdmin) {
+          // User is a super admin, redirect to admin portal
+          localStorage.role = "admin";
+          window.location.href = "/admin-portal";
+          return;
+        }
+
+        // Not a super admin, redirect to job portal
         localStorage.role = "applicant";
         window.location.href = window.location.origin.includes("localhost")
           ? "/job-portal"
