@@ -80,33 +80,18 @@ export async function signInWithGoogle(type) {
         (host.includes("localhost") || host.includes("hirejia.ai")) &&
         res.data.role == "applicant"
       ) {
-        Swal.fire({
-          title: "No Account Found",
-          text: `There's no employer account associated with your login ${res.data.email}.`,
-          icon: "warning",
-          showCancelButton: true, // second button
-          confirmButtonText: "OK",
-          cancelButtonText: "I'm a job seeker",
-          customClass: {
-            title: styles.swalTitle,
-            icon: styles.swalIcon,
-            confirmButton: styles.swalConfirmButton,
-            cancelButton: styles.swalCancelButton,
-            htmlContainer: styles.swalDescription,
-            popup: styles.swalContainer,
-            actions: styles.swalAction,
-          },
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.close();
-          } else if (result.dismiss === Swal.DismissReason.cancel) {
-            window.location.href = host.includes("localhost")
-              ? "/job-portal"
-              : "https://www.hellojia.ai";
-          }
-        });
+        // Applicant trying to access recruiter login - redirect to job portal
+        toast.dismiss("loading-toast");
+        successToast("Redirecting to job portal...");
 
-        localStorage.removeItem("user");
+        localStorage.role = "applicant";
+
+        setTimeout(() => {
+          window.location.href = host.includes("localhost")
+            ? "/job-portal"
+            : "https://www.hellojia.ai";
+        }, 1000);
+
         return false;
       }
 

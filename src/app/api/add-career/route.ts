@@ -64,7 +64,10 @@ export async function POST(request: Request) {
         }
       },
       {
-        $unwind: "$plan"
+        $unwind: {
+          path: "$plan",
+          preserveNullAndEmptyArrays: true  // Allow orgs without plans
+        }
       },
     ]).toArray();
 
@@ -73,8 +76,9 @@ export async function POST(request: Request) {
     }
 
     const totalActiveCareers = await db.collection("careers").countDocuments({ orgID, status: "active" });
+    const jobLimit = (orgDetails[0].plan?.jobLimit || 3) + (orgDetails[0].extraJobSlots || 0);
 
-    if (totalActiveCareers >= (orgDetails[0].plan.jobLimit + (orgDetails[0].extraJobSlots || 0))) {
+    if (totalActiveCareers >= jobLimit) {
       return NextResponse.json({ error: "You have reached the maximum number of jobs for your plan" }, { status: 400 });
     }
 
