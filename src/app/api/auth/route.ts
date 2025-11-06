@@ -30,6 +30,30 @@ export async function POST(request: Request) {
 
       return NextResponse.json(admin);
     } else {
+      // Check if user is a member of any organization
+      const member = await db.collection("members").findOne({ email: email });
+
+      if (member) {
+        // Update member's last login time
+        await db.collection("members").updateOne(
+          { email: email },
+          {
+            $set: {
+              name: name,
+              image: image,
+              lastLogin: new Date(),
+            },
+          }
+        );
+
+        return NextResponse.json({
+          email: member.email,
+          name: name,
+          image: image,
+          role: "admin" // Members are admins of their organization
+        });
+      }
+
       const applicant = await db
         .collection("applicants")
         .findOne({ email: email });
