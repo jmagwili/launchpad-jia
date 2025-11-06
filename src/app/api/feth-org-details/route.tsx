@@ -46,7 +46,10 @@ export async function POST(req: Request) {
         }
     },
     {
-      $unwind: "$plan"
+      $unwind: {
+        path: "$plan",
+        preserveNullAndEmptyArrays: true  // Allow orgs without plans
+      }
     },
     ]).toArray();
 
