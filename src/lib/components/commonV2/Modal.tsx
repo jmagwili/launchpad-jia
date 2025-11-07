@@ -211,11 +211,12 @@ export default function ({ modalType, setModalType }) {
       localStorage.clear();
       sessionStorage.clear();
 
-      window.location.href = `${
-        window.location.origin.includes("localhost")
-          ? "/job-portal"
-          : pathConstants.employee
-      }`;
+      // window.location.href = `${
+      //   window.location.origin.includes("localhost")
+      //     ? "/job-portal"
+      //     : pathConstants.employee
+      // }`;
+      window.location.href = "/job-portal"
     };
   }
 
