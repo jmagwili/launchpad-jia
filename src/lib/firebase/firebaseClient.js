@@ -87,9 +87,10 @@ export async function signInWithGoogle(type) {
         localStorage.role = "applicant";
 
         setTimeout(() => {
-          window.location.href = host.includes("localhost")
-            ? "/job-portal"
-            : "https://www.hellojia.ai";
+          // window.location.href = host.includes("localhost")
+          //   ? "/job-portal"
+          //   : "https://www.hellojia.ai";
+          window.location.href = "/job-portal"
         }, 1000);
 
         return false;
@@ -166,9 +167,10 @@ export async function signInWithGoogle(type) {
 
         // Not a super admin, redirect to job portal
         localStorage.role = "applicant";
-        window.location.href = window.location.origin.includes("localhost")
-          ? "/job-portal"
-          : "https://www.hellojia.ai";
+        // window.location.href = window.location.origin.includes("localhost")
+        //   ? "/job-portal"
+        //   : "https://www.hellojia.ai";
+        window.location.href = "/job-portal"
         return;
       }
 
