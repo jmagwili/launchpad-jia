@@ -14,7 +14,7 @@ import FullScreenLoadingAnimation from "./FullScreenLoadingAnimation";
 import { assetConstants, pathConstants } from "@/lib/utils/constantsV2";
 import styles from "@/lib/styles/screens/careerForm.module.scss";
 
-  const step = ["Submit CV", "CV Screening", "Review Next Steps"];
+  const step = ["Career Details & Team Access", "CV Review & Pre-Screening", "AI Interview Setup", "Review Career"];
   const stepStatus = ["Completed", "Pending", "In Progress"];
 
 
@@ -106,7 +106,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [showSaveModal, setShowSaveModal] = useState("");
     const [isSavingCareer, setIsSavingCareer] = useState(false);
     const savingCareerRef = useRef(false);
-      const [currentStep, setCurrentStep] = useState(null);
+      const [currentStep, setCurrentStep] = useState("Career Details & Team Access");
 
 
     function processState(index, isAdvance = false) {
