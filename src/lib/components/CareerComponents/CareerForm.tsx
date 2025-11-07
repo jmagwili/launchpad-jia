@@ -319,48 +319,48 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
               </div>
        </div>
         )}
-                  <div className={styles.stepContainer}>
-                    <div className={styles.step}>
-                      {step.map((_, index) => (
-                        <div className={styles.stepBar} key={index}>
-                          <img
-                            alt=""
-                            src={
-                              assetConstants[
-                                processState(index, true)
-                                  .toLowerCase()
-                                  .replace(" ", "_")
-                              ]
-                            }
-                          />
-                          {index < step.length - 1 && (
-                            <hr
-                              className={
-                                styles[
-                                  processState(index).toLowerCase().replace(" ", "_")
-                                ]
-                              }
-                            />
-                          )}
-                        </div>
-                      ))}
-                    </div>
-        
-                    <div className={styles.step}>
-                      {step.map((item, index) => (
-                        <span
-                          className={`${styles.stepDetails} ${
-                            styles[
-                              processState(index, true).toLowerCase().replace(" ", "_")
-                            ]
-                          }`}
-                          key={index}
-                        >
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+        <div className={styles.stepContainer}>
+          <div className={styles.step}>
+            {step.map((_, index) => (
+              <div className={styles.stepBar} key={index}>
+                <img
+                  alt=""
+                  src={
+                    assetConstants[
+                      processState(index, true)
+                        .toLowerCase()
+                        .replace(" ", "_")
+                    ]
+                  }
+                />
+                {index < step.length - 1 && (
+                  <hr
+                    className={
+                      styles[
+                        processState(index).toLowerCase().replace(" ", "_")
+                      ]
+                    }
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.step}>
+            {step.map((item, index) => (
+              <span
+                className={`${styles.stepDetails} ${
+                  styles[
+                    processState(index, true).toLowerCase().replace(" ", "_")
+                  ]
+                }`}
+                key={index}
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", gap: 16, alignItems: "flex-start", marginTop: 16 }}>
         <div style={{ width: "60%", display: "flex", flexDirection: "column", gap: 8 }}>
           <div className="layered-card-outer">
