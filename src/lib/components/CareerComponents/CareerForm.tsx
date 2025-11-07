@@ -911,7 +911,27 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                           settingList={screeningSettingList}
                         />
 
-                        <hr style={{ marginTop: 16, marginBottom: 16, color: "black" }} />
+                        <hr style={{ margin: "16px 0" }} />
+
+                        <div>
+                          <span style={{color: "#181D27", fontWeight: 700}}>Require Video on Interview</span>
+                        </div>
+                        <div>
+                          <span>Require candidates to keep their camera on. Recordings will appear on their analysis page.</span>
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "row",justifyContent: "space-between", gap: 8, marginTop: 8 }}>
+                            <div style={{ display: "flex", flexDirection: "row", gap: 8 }}>
+                                <i className="la la-video" style={{ color: "#414651", fontSize: 20 }}></i>
+                                <span>Require Video Interview</span>
+                            </div>
+                            <div style={{ display: "flex", flexDirection: "row", alignItems: "flex-start", gap: 8 }}>
+                                <label className="switch">
+                                    <input type="checkbox" checked={requireVideo} onChange={() => setRequireVideo(!requireVideo)} />
+                                    <span className="slider round"></span>
+                                </label>
+                                <span>{requireVideo ? "Yes" : "No"}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
               </div>
