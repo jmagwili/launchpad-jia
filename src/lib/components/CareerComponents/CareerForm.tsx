@@ -569,6 +569,36 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         </div>
 
         <div style={{ width: "40%", display: "flex", flexDirection: "column", gap: 8 }}>
+          <div className="layered-card-outer">
+            <div className="layered-card-middle">
+              <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
+                <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <i className="la la-suitcase" style={{ color: "#FFFFFF", fontSize: 20 }}></i>
+                </div>
+                <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>Tips</span>
+              </div>
+                <div className="layered-card-content">
+                  <div>
+                    <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>Use clear, standard job titles </span>
+                    <span>
+                      for better searchability (e.g., "Software Engineer" instead of "Code Ninja" or "Tech Rockstar").
+                    </span>
+                  </div>
+                    <div>
+                    <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>Avoid abbreviations </span>
+                    <span>
+                      or internal role codes that applicants might not understand (e.g., user "QA Engineer" instead of "QE II" or "QA-TL").
+                    </span>
+                  </div>
+                  <div>
+                    <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>Keep it concise </span>
+                    <span>
+                      — job titles should be no more than a few words (2 - 4 max), avoiding fluff or marketing terms.
+                    </span>
+                  </div>
+                </div>
+            </div>
+          </div>
         <div className="layered-card-outer">
               <div className="layered-card-middle">
               <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
@@ -607,7 +637,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
               </div>
           </div>
 
-          <div className="layered-card-outer">
+          {/* <div className="layered-card-outer">
               <div className="layered-card-middle">
               <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
                   <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -775,7 +805,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                       />
                   </div>
               </div>
-          </div>
+          </div> */}
         </div>
       </div>
       {showSaveModal && (
