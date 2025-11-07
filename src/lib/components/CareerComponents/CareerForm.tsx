@@ -813,7 +813,77 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         )}
 
         {currentStep == step[1] && (
-          <></>
+          <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", gap: 16, alignItems: "flex-start", marginTop: 16 }}>
+          <div style={{ width: "60%", display: "flex", flexDirection: "column", gap: 8 }}>
+            <div className="layered-card-outer">
+                <div className="layered-card-middle">
+                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
+                    <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <i className="la la-suitcase" style={{ color: "#FFFFFF", fontSize: 20 }}></i>
+                    </div>
+                        <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>1. CV Review Settings</span>
+                    </div>
+                    <div className="layered-card-content">
+                        <div>
+                          <span style={{color: "#181D27", fontWeight: 700}}>CV Screening</span>
+                        </div>
+                        <div style={{marginBottom: 10}}>
+                          <span>Jia automatically endorses canditates who meet the chosen criteria</span>
+                        </div>
+                        <CustomDropdown
+                          onSelectSetting={(setting) => {
+                              setScreeningSetting(setting);
+                          }}
+                          screeningSetting={screeningSetting}
+                          settingList={screeningSettingList}
+                        />
+                    </div>
+                </div>
+            </div>
+            <div className="layered-card-outer">
+              <div className="layered-card-middle">
+                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
+                    <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <i className="la la-suitcase" style={{ color: "#FFFFFF", fontSize: 20 }}></i>
+                    </div>
+                        <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>2. Pre-Screening Questions</span>
+                        <span>(optional)</span>
+                    </div>
+                    <div className="layered-card-content">
+                      
+                    </div>
+                </div>
+            </div>
+          </div>
+
+          <div style={{ width: "40%", display: "flex", flexDirection: "column", gap: 8 }}>
+            <div className="layered-card-outer">
+              <div className="layered-card-middle">
+                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
+                  <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <i className="la la-suitcase" style={{ color: "#FFFFFF", fontSize: 20 }}></i>
+                  </div>
+                  <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>Tips</span>
+                </div>
+                  <div className="layered-card-content">
+                    <div>
+                      <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>Add a Secret Prompt </span>
+                      <span>
+                        to fine-tune how Jia scores and evaluates submitted CVs.
+                      </span>
+                    </div>
+                      <div>
+                      <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>Add Pre-Screening Questions </span>
+                      <span>
+                        to collect key details such as notice period, work setup, or salary expectations to guide your review and candidate discussions.
+                      </span>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         )}
 
       {showSaveModal && (
