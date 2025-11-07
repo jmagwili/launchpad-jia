@@ -10,6 +10,14 @@ import { useAppContext } from "@/lib/context/AppContext";
 import axios from "axios";
 import CareerActionModal from "./CareerActionModal";
 import FullScreenLoadingAnimation from "./FullScreenLoadingAnimation";
+
+import { assetConstants, pathConstants } from "@/lib/utils/constantsV2";
+import styles from "@/lib/styles/screens/careerForm.module.scss";
+
+  const step = ["Submit CV", "CV Screening", "Review Next Steps"];
+  const stepStatus = ["Completed", "Pending", "In Progress"];
+
+
   // Setting List icons
   const screeningSettingList = [
     {
@@ -98,6 +106,27 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [showSaveModal, setShowSaveModal] = useState("");
     const [isSavingCareer, setIsSavingCareer] = useState(false);
     const savingCareerRef = useRef(false);
+      const [currentStep, setCurrentStep] = useState(null);
+
+
+    function processState(index, isAdvance = false) {
+    const currentStepIndex = step.indexOf(currentStep);
+
+    if (currentStepIndex == index) {
+      if (index == stepStatus.length - 1) {
+        return stepStatus[0];
+      }
+
+      return isAdvance ? stepStatus[2] : stepStatus[1];
+    }
+
+    if (currentStepIndex > index) {
+      return stepStatus[0];
+    }
+
+    return stepStatus[1];
+  }
+
 
     const isFormValid = () => {
         return jobTitle?.trim().length > 0 && description?.trim().length > 0 && questions.some((q) => q.questions.length > 0) && workSetup?.trim().length > 0;
@@ -290,6 +319,48 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
               </div>
        </div>
         )}
+                  <div className={styles.stepContainer}>
+                    <div className={styles.step}>
+                      {step.map((_, index) => (
+                        <div className={styles.stepBar} key={index}>
+                          <img
+                            alt=""
+                            src={
+                              assetConstants[
+                                processState(index, true)
+                                  .toLowerCase()
+                                  .replace(" ", "_")
+                              ]
+                            }
+                          />
+                          {index < step.length - 1 && (
+                            <hr
+                              className={
+                                styles[
+                                  processState(index).toLowerCase().replace(" ", "_")
+                                ]
+                              }
+                            />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+        
+                    <div className={styles.step}>
+                      {step.map((item, index) => (
+                        <span
+                          className={`${styles.stepDetails} ${
+                            styles[
+                              processState(index, true).toLowerCase().replace(" ", "_")
+                            ]
+                          }`}
+                          key={index}
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
         <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", gap: 16, alignItems: "flex-start", marginTop: 16 }}>
         <div style={{ width: "60%", display: "flex", flexDirection: "column", gap: 8 }}>
           <div className="layered-card-outer">
