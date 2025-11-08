@@ -976,8 +976,8 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         )}
 
         {currentStep == step[3] && (
-          <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", gap: 16, alignItems: "flex-start", marginTop: 16 }}>
-            <div style={{ width: "60%", display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", width: "100%", gap: 16, alignItems: "flex-start", marginTop: 16 }}>
+            <div style={{ width: "90%", display: "flex", flexDirection: "column", gap: 8 }}>
               <div className="layered-card-middle">
                 {/* HEADER */}
                 <div
@@ -998,19 +998,25 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                       gap: 8,
                     }}
                   >
-                    <div
-                      style={{
-                        cursor: "pointer",
-                        marginTop: 12,
-                        color: "#181D27",
-                        fontWeight: 600,
-                        transition: "transform 0.3s ease",
-                        transform: isOpen ? "rotate(90deg)" : "rotate(0deg)",
-                      }}
-                      onClick={() => setIsOpen(!isOpen)}
-                    >
-                      ▶
-                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <div
+                        style={{
+                          cursor: "pointer",
+                          fontWeight: 600,
+                          transition: "transform 0.3s ease",
+                          transform: isOpen ? "rotate(-180deg)" : "rotate(0deg)",
+                          fontSize: 22,
+                          lineHeight: 1, // helps keep the 'v' vertically centered
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          margin: "0 5px"
+                        }}
+                        onClick={() => setIsOpen(!isOpen)}
+                      >
+                        v
+                      </div>
+                  </div>
 
                     <div
                       style={{
@@ -1156,33 +1162,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                 )}
               </div>
             </div>
-
-          <div style={{ width: "40%", display: "flex", flexDirection: "column", gap: 8 }}>
-            <div className="layered-card-outer">
-              <div className="layered-card-middle">
-                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
-                  <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <i className="la la-suitcase" style={{ color: "#FFFFFF", fontSize: 20 }}></i>
-                  </div>
-                  <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>Tips</span>
-                </div>
-                  <div className="layered-card-content">
-                    <div>
-                      <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>Add a Secret Prompt </span>
-                      <span>
-                        to fine-tune how Jia scores and evaluates submitted CVs.
-                      </span>
-                    </div>
-                      <div>
-                      <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>Add Pre-Screening Questions </span>
-                      <span>
-                        to collect key details such as notice period, work setup, or salary expectations to guide your review and candidate discussions.
-                      </span>
-                    </div>
-                  </div>
-              </div>
-            </div>
-          </div>
         </div>
         )}
 
