@@ -106,7 +106,15 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [showSaveModal, setShowSaveModal] = useState("");
     const [isSavingCareer, setIsSavingCareer] = useState(false);
     const savingCareerRef = useRef(false);
-      const [currentStep, setCurrentStep] = useState("Review Career");
+    const [currentStep, setCurrentStep] = useState("Review Career");
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [content, setContent] = useState(
+      "This is the initial accordion content coming from state."
+    );
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [editValue, setEditValue] = useState(content);
 
 
     function processState(index, isAdvance = false) {
@@ -970,17 +978,175 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         {currentStep == step[3] && (
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", gap: 16, alignItems: "flex-start", marginTop: 16 }}>
             <div style={{ width: "60%", display: "flex", flexDirection: "column", gap: 8 }}>
-                  <div className="layered-card-middle">
-                    <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
-                      <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <i className="la la-suitcase" style={{ color: "#FFFFFF", fontSize: 20 }}></i>
-                      </div>
-                      <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>1. AI Interview Settings</span>
+              <div className="layered-card-middle">
+                {/* HEADER */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  {/* TITLE + ICON */}
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 8,
+                    }}
+                  >
+                    <div
+                  style={{
+                    cursor: "pointer",
+                    marginTop: 12,
+                    color: "#181D27",
+                    fontWeight: 600,
+                  }}
+                  onClick={() => setIsOpen(!isOpen)}
+                >
+                  {isOpen ? "▼" : "▶"}
+                </div>
+                    <div
+                      style={{
+                        width: 32,
+                        height: 32,
+                        backgroundColor: "#181D27",
+                        borderRadius: "50%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <i
+                        className="la la-suitcase"
+                        style={{ color: "#FFFFFF", fontSize: 20 }}
+                      ></i>
                     </div>
-                      <div className="layered-card-content">
-                        
-                      </div>
+
+                    <span
+                      style={{
+                        fontSize: 16,
+                        color: "#181D27",
+                        fontWeight: 700,
+                      }}
+                    >
+                      Career Details and Team Access
+                    </span>
                   </div>
+
+                  {/* EDIT BUTTON */}
+                  <button
+                    onClick={() => {
+                      setEditValue(content);
+                      setIsEditing(true);
+                    }}
+                    style={{
+                      background: "none",
+                      border: "1px solid #181D27",
+                      padding: "4px 10px",
+                      borderRadius: 8,
+                      fontSize: 12,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Edit
+                  </button>
+                </div>
+
+                {/* ACCORDION TOGGLE */}
+                
+
+                {/* ACCORDION CONTENT */}
+                {isOpen && (
+                  <div className="layered-card-content" style={{ marginTop: 12 }}>
+                    <p>{content}</p>
+                  </div>
+                )}
+
+                {/* EDIT MODAL */}
+                {isEditing && (
+                  <div
+                    style={{
+                      position: "fixed",
+                      top: 0,
+                      left: 0,
+                      width: "100vw",
+                      height: "100vh",
+                      background: "rgba(0,0,0,0.4)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: 20,
+                      zIndex: 99,
+                    }}
+                  >
+                    <div
+                      style={{
+                        background: "#fff",
+                        padding: 20,
+                        borderRadius: 12,
+                        width: "100%",
+                        maxWidth: 500,
+                      }}
+                    >
+                      <h3>Edit Content</h3>
+
+                      <textarea
+                        value={editValue}
+                        onChange={(e) => setEditValue(e.target.value)}
+                        style={{
+                          width: "100%",
+                          height: 150,
+                          marginTop: 10,
+                          padding: 10,
+                          borderRadius: 8,
+                          border: "1px solid #ccc",
+                        }}
+                      />
+
+                      <div
+                        style={{
+                          marginTop: 16,
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          gap: 8,
+                        }}
+                      >
+                        <button
+                          onClick={() => setIsEditing(false)}
+                          style={{
+                            padding: "6px 12px",
+                            borderRadius: 6,
+                            border: "1px solid #999",
+                            background: "#eee",
+                          }}
+                        >
+                          Cancel
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setContent(editValue);
+                            setIsEditing(false);
+                          }}
+                          style={{
+                            padding: "6px 12px",
+                            borderRadius: 6,
+                            border: "none",
+                            background: "#181D27",
+                            color: "#fff",
+                          }}
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
           <div style={{ width: "40%", display: "flex", flexDirection: "column", gap: 8 }}>
