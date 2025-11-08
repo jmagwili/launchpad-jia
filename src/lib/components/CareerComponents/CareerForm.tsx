@@ -1042,7 +1042,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         fontWeight: 700,
                       }}
                     >
-                      Career Details and Team Accessed
+                      Career Details & Team Accessed
                     </span>
                   </div>
 
@@ -1069,7 +1069,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                 <div
                   style={{
                     overflow: "hidden",
-                    maxHeight: isOpen ? "300px" : "0px",
+                    maxHeight: isOpen ? "" : "0px",
                     opacity: isOpen ? 1 : 0,
                     transition: "max-height 0.4s ease, opacity 0.3s ease",
                     marginTop: isOpen ? 12 : 0,
@@ -1077,6 +1077,86 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                 >
                   <div className="layered-card-content">
                     <p>{content}</p>
+                    <div style={{fontWeight:700, color: "#181D27"}}> 
+                      <span>Job Title</span>
+                    </div>
+                    <div> 
+                      <span>{jobTitle}</span>
+                    </div>
+                    <hr style={{ margin: "10px 0" }} />
+                    <div style={{ display: "flex", flexDirection: "row", gap: 20 }}> 
+                      <div style={{flex: 1}}>
+                        <div style={{fontWeight:700, color: "#181D27"}}> 
+                          <span>Employment Type</span>
+                        </div>
+                        <div> 
+                          <span>{employmentType}</span>
+                        </div>
+                      </div>
+                      <div style={{flex: 1}}>
+                        <div style={{fontWeight:700, color: "#181D27"}}> 
+                          <span>Work Arrangement</span>
+                        </div>
+                        <div> 
+                          <span>{workSetup}</span>
+                        </div>
+                      </div>
+                      <div style={{flex: 1}} />
+                    </div>
+                    <hr style={{ margin: "10px 0" }} />
+                    <div style={{ display: "flex", flexDirection: "row", gap: 20 }}> 
+                      <div style={{flex: 1}}>
+                        <div style={{fontWeight:700, color: "#181D27"}}> 
+                          <span>Country</span>
+                        </div>
+                        <div> 
+                          <span>{country}</span>
+                        </div>
+                      </div>
+                      <div style={{flex: 1}}>
+                        <div style={{fontWeight:700, color: "#181D27"}}> 
+                          <span>State / Province</span>
+                        </div>
+                        <div> 
+                          <span>{province}</span>
+                        </div>
+                      </div>
+                      <div style={{flex: 1}}>
+                        <div style={{fontWeight:700, color: "#181D27"}}> 
+                          <span>City</span>
+                        </div>
+                        <div> 
+                          <span>{city}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <hr style={{ margin: "10px 0" }} />
+                    <div style={{ display: "flex", flexDirection: "row", gap: 20 }}> 
+                      <div style={{flex: 1}}>
+                        <div style={{fontWeight:700, color: "#181D27"}}> 
+                          <span>Minimum Salary</span>
+                        </div>
+                        <div> 
+                          <span>{minimumSalary}</span>
+                        </div>
+                      </div>
+                      <div style={{flex: 1}}>
+                        <div style={{fontWeight:700, color: "#181D27"}}> 
+                          <span>Maximum Salary</span>
+                        </div>
+                        <div> 
+                          <span>{maximumSalary}</span>
+                        </div>
+                      </div>
+                      <div style={{flex: 1}} />
+                    </div>
+                    <hr style={{ margin: "10px 0" }} />
+                    <div style={{fontWeight:700, color: "#181D27"}}> 
+                      <span>Job Description</span>
+                    </div>
+                    <div> 
+                      <span>{description}</span>
+                    </div>
                   </div>
                 </div>
 
