@@ -106,7 +106,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [showSaveModal, setShowSaveModal] = useState("");
     const [isSavingCareer, setIsSavingCareer] = useState(false);
     const savingCareerRef = useRef(false);
-      const [currentStep, setCurrentStep] = useState("AI Interview Setup");
+      const [currentStep, setCurrentStep] = useState("Review Career");
 
 
     function processState(index, isAdvance = false) {
@@ -937,6 +937,51 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
               </div>
               <InterviewQuestionGeneratorV2 questions={questions} setQuestions={(questions) => setQuestions(questions)} jobTitle={jobTitle} description={description} />
           </div>
+
+          <div style={{ width: "40%", display: "flex", flexDirection: "column", gap: 8 }}>
+            <div className="layered-card-outer">
+              <div className="layered-card-middle">
+                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
+                  <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <i className="la la-suitcase" style={{ color: "#FFFFFF", fontSize: 20 }}></i>
+                  </div>
+                  <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>Tips</span>
+                </div>
+                  <div className="layered-card-content">
+                    <div>
+                      <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>Add a Secret Prompt </span>
+                      <span>
+                        to fine-tune how Jia scores and evaluates submitted CVs.
+                      </span>
+                    </div>
+                      <div>
+                      <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>Add Pre-Screening Questions </span>
+                      <span>
+                        to collect key details such as notice period, work setup, or salary expectations to guide your review and candidate discussions.
+                      </span>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        )}
+
+        {currentStep == step[3] && (
+          <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", gap: 16, alignItems: "flex-start", marginTop: 16 }}>
+            <div style={{ width: "60%", display: "flex", flexDirection: "column", gap: 8 }}>
+                  <div className="layered-card-middle">
+                    <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
+                      <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <i className="la la-suitcase" style={{ color: "#FFFFFF", fontSize: 20 }}></i>
+                      </div>
+                      <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>1. AI Interview Settings</span>
+                    </div>
+                      <div className="layered-card-content">
+                        
+                      </div>
+                  </div>
+            </div>
 
           <div style={{ width: "40%", display: "flex", flexDirection: "column", gap: 8 }}>
             <div className="layered-card-outer">
