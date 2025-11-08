@@ -989,7 +989,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                     width: "100%",
                   }}
                 >
-                  {/* TITLE + ICON */}
+                  {/* TITLE + ICON + TOGGLE */}
                   <div
                     style={{
                       display: "flex",
@@ -999,16 +999,19 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                     }}
                   >
                     <div
-                  style={{
-                    cursor: "pointer",
-                    marginTop: 12,
-                    color: "#181D27",
-                    fontWeight: 600,
-                  }}
-                  onClick={() => setIsOpen(!isOpen)}
-                >
-                  {isOpen ? "▼" : "▶"}
-                </div>
+                      style={{
+                        cursor: "pointer",
+                        marginTop: 12,
+                        color: "#181D27",
+                        fontWeight: 600,
+                        transition: "transform 0.3s ease",
+                        transform: isOpen ? "rotate(90deg)" : "rotate(0deg)",
+                      }}
+                      onClick={() => setIsOpen(!isOpen)}
+                    >
+                      ▶
+                    </div>
+
                     <div
                       style={{
                         width: 32,
@@ -1033,7 +1036,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         fontWeight: 700,
                       }}
                     >
-                      Career Details and Team Access
+                      Career Details and Team Accessed
                     </span>
                   </div>
 
@@ -1056,15 +1059,20 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                   </button>
                 </div>
 
-                {/* ACCORDION TOGGLE */}
-                
-
-                {/* ACCORDION CONTENT */}
-                {isOpen && (
-                  <div className="layered-card-content" style={{ marginTop: 12 }}>
+                {/* ACCORDION CONTENT (animated) */}
+                <div
+                  style={{
+                    overflow: "hidden",
+                    maxHeight: isOpen ? "300px" : "0px",
+                    opacity: isOpen ? 1 : 0,
+                    transition: "max-height 0.4s ease, opacity 0.3s ease",
+                    marginTop: isOpen ? 12 : 0,
+                  }}
+                >
+                  <div className="layered-card-content">
                     <p>{content}</p>
                   </div>
-                )}
+                </div>
 
                 {/* EDIT MODAL */}
                 {isEditing && (
