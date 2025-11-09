@@ -183,6 +183,24 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         return jobTitle?.trim().length > 0 && description?.trim().length > 0 && questions.some((q) => q.questions.length > 0) && workSetup?.trim().length > 0;
     }
 
+    // Step-aware validation for "Save and Continue"
+    const isCurrentStepValid = () => {
+        const currentStepIndex = step.indexOf(currentStep);
+
+        switch(currentStepIndex) {
+            case 0: // Step 1: Career Details & Team Access
+                return jobTitle?.trim().length > 0 && description?.trim().length > 0 && workSetup?.trim().length > 0;
+            case 1: // Step 2: CV Review & Pre-Screening
+                return true; // Screening settings have defaults, so always valid
+            case 2: // Step 3: AI Interview Setup
+                return questions.some((q) => q.questions.length > 0); // Require at least one question
+            case 3: // Step 4: Review Career (final step)
+                return isFormValid(); // Full validation
+            default:
+                return false;
+        }
+    }
+
     const updateCareer = async (status: string) => {
         if (Number(minimumSalary) && Number(maximumSalary) && Number(minimumSalary) > Number(maximumSalary)) {
             errorToast("Minimum salary cannot be greater than maximum salary", 1300);
@@ -313,7 +331,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     };
 
     const saveDraftAndContinue = async () => {
-        if (!isFormValid()) {
+        if (!isCurrentStepValid()) {
             errorToast("Please fill in all required fields", 1300);
             return;
         }
@@ -436,8 +454,8 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                           Save as Unpublished
                   </button>
                   <button
-                  disabled={!isFormValid() || isSavingCareer}
-                  style={{ width: "fit-content", background: !isFormValid() || isSavingCareer ? "#D5D7DA" : "black", color: "#fff", border: "1px solid #E9EAEB", padding: "8px 16px", borderRadius: "60px", cursor: !isFormValid() || isSavingCareer ? "not-allowed" : "pointer", whiteSpace: "nowrap"}} onClick={() => {
+                  disabled={(currentStep === step[3] ? !isFormValid() : !isCurrentStepValid()) || isSavingCareer}
+                  style={{ width: "fit-content", background: (currentStep === step[3] ? !isFormValid() : !isCurrentStepValid()) || isSavingCareer ? "#D5D7DA" : "black", color: "#fff", border: "1px solid #E9EAEB", padding: "8px 16px", borderRadius: "60px", cursor: (currentStep === step[3] ? !isFormValid() : !isCurrentStepValid()) || isSavingCareer ? "not-allowed" : "pointer", whiteSpace: "nowrap"}} onClick={() => {
                     currentStep === step[3] ? confirmSaveCareer("active") : saveDraftAndContinue();
                   }}>
                     <i className="la la-check-circle" style={{ color: "#fff", fontSize: 20, marginRight: 8 }}></i>
