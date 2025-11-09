@@ -1183,12 +1183,26 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         padding: 20,
                         borderRadius: 12,
                         width: "100%",
-                        maxWidth: 500,
+                        maxWidth: 700,
                       }}
                     >
                       <h3>Edit Content</h3>
 
-                      <textarea
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                          marginTop: 10,
+                          padding: 10,
+                          borderRadius: 8,
+                          border: "1px solid #ccc",
+                          maxHeight: 400,
+                          overflowY: "auto",
+                        }}
+                      >
+                        
+                      </div>
+                      {/* <textarea
                         value={editValue}
                         onChange={(e) => setEditValue(e.target.value)}
                         style={{
@@ -1199,7 +1213,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                           borderRadius: 8,
                           border: "1px solid #ccc",
                         }}
-                      />
+                      /> */}
 
                       <div
                         style={{
