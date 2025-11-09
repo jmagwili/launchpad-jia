@@ -127,6 +127,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [tempMinimumSalary, setTempMinimumSalary] = useState("");
     const [tempMaximumSalary, setTempMaximumSalary] = useState("");
     const [tempDescription, setTempDescription] = useState();
+    const [tempScreeningSetting, setTempScreeningSetting] = useState();
 
     function processState(index, isAdvance = false) {
     const currentStepIndex = step.indexOf(currentStep);
@@ -1511,6 +1512,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                   <button
                     onClick={() => {
                       setIsCVReviewEditing(true);
+                      setTempScreeningSetting(screeningSetting);
                     }}
                     style={{
                       background: "none",
@@ -1536,7 +1538,22 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                   }}
                 >
                   <div className="layered-card-content">
-                    cv review content
+                    <div style={{fontWeight:700, color: "#181D27"}}> 
+                      <span>CV Screening</span>
+                    </div>
+                    <div>
+                      <span>
+                        {
+                          screeningSetting == "No Automatic Promotion" 
+                          ? `${screeningSetting}` 
+                          : `Automatically endorses candidates who are ${screeningSetting}`
+                        }
+                      </span>
+                    </div>
+                    <hr style={{margin: "10px 0"}} />
+                    <div style={{fontWeight:700, color: "#181D27"}}> 
+                      <span>Pre-Screening Questions</span>
+                    </div>
                   </div>
                 </div>
 
@@ -1569,7 +1586,21 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                       <h3>Edit CV Review & Pre-Screening Questions</h3>
 
                      <div className="layered-card-content" style={{ maxHeight: "400px", overflowY: "auto" }}>
-                     
+                      <div className="layered-card-content">
+                        <div>
+                          <span style={{color: "#181D27", fontWeight: 700}}>CV Screening</span>
+                        </div>
+                        <div style={{marginBottom: 10}}>
+                          <span>Jia automatically endorses canditates who meet the chosen criteria</span>
+                        </div>
+                        <CustomDropdown
+                          onSelectSetting={(setting) => {
+                              setTempScreeningSetting(setting);
+                          }}
+                          screeningSetting={tempScreeningSetting}
+                          settingList={screeningSettingList}
+                        />
+                      </div>
                      </div>
 
                       <div
@@ -1595,6 +1626,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         <button
                           onClick={() => {
                             setIsCVReviewEditing(false);
+                            setScreeningSetting(tempScreeningSetting);
                           }}
                           style={{
                             padding: "6px 12px",
