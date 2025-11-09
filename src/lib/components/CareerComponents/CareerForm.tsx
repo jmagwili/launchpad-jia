@@ -108,8 +108,11 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const savingCareerRef = useRef(false);
     const [currentStep, setCurrentStep] = useState("Review Career");
 
+    // Accordion States
     const [isCareerDetailsOpen, setIsCareerDetailsOpen] = useState(false);
     const [isCareerDetailsEditing, setIsCareerDetailsEditing] = useState(false);
+    const [isCVReviewOpen, setIsCVReviewOpen] = useState(false);
+    const [isCVReviewEditing, setIsCVReviewEditing] = useState(false);
 
     // temp variables for edit modal
     const [tempJobTitle, setTempJobTitle] = useState("");
@@ -1417,6 +1420,179 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                             setMaximumSalary(tempMaximumSalary);
                             setDescription(tempDescription);
                             setIsCareerDetailsEditing(false);
+                          }}
+                          style={{
+                            padding: "6px 12px",
+                            borderRadius: 6,
+                            border: "none",
+                            background: "#181D27",
+                            color: "#fff",
+                          }}
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="layered-card-middle">
+                {/* HEADER */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "100%",
+                    cursor: "pointer",  
+                  }}
+                  onClick={() => setIsCVReviewOpen(!isCVReviewOpen)}
+                >
+                  {/* TITLE + ICON + TOGGLE */}
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 8,
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <div
+                        style={{
+                          fontWeight: 600,
+                          transition: "transform 0.3s ease",
+                          transform: isCVReviewOpen ? "rotate(-180deg)" : "rotate(0deg)",
+                          fontSize: 22,
+                          lineHeight: 1, // helps keep the 'v' vertically centered
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          margin: "0 5px"
+                        }}
+                      >
+                        v
+                      </div>
+                  </div>
+
+                    <div
+                      style={{
+                        width: 32,
+                        height: 32,
+                        backgroundColor: "#181D27",
+                        borderRadius: "50%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <i
+                        className="la la-suitcase"
+                        style={{ color: "#FFFFFF", fontSize: 20 }}
+                      ></i>
+                    </div>
+
+                    <span
+                      style={{
+                        fontSize: 16,
+                        color: "#181D27",
+                        fontWeight: 700,
+                      }}
+                    >
+                      CV Review & Pre-Screening Questions
+                    </span>
+                  </div>
+
+                  {/* EDIT BUTTON */}
+                  <button
+                    onClick={() => {
+                      setIsCVReviewEditing(true);
+                    }}
+                    style={{
+                      background: "none",
+                      border: "1px solid #181D27",
+                      padding: "4px 10px",
+                      borderRadius: 8,
+                      fontSize: 12,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Edit
+                  </button>
+                </div>
+
+                {/* ACCORDION CONTENT (animated) */}
+                <div
+                  style={{
+                    overflow: "hidden",
+                    maxHeight: isCVReviewOpen ? "" : "0px",
+                    opacity: isCVReviewOpen ? 1 : 0,
+                    transition: "max-height 0.4s ease, opacity 0.3s ease",
+                    marginTop: isCVReviewOpen ? 12 : 0,
+                  }}
+                >
+                  <div className="layered-card-content">
+                    
+                  </div>
+                </div>
+
+                {/* EDIT MODAL */}
+                {isCVReviewEditing && (
+                  <div
+                    style={{
+                      position: "fixed",
+                      top: 0,
+                      left: 0,
+                      width: "100vw",
+                      height: "100vh",
+                      background: "rgba(0,0,0,0.4)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: 20,
+                      zIndex: 99,
+                    }}
+                  >
+                    <div
+                      style={{
+                        background: "#fff",
+                        padding: 20,
+                        borderRadius: 12,
+                        width: "100%",
+                        maxWidth: 700,
+                      }}
+                    >
+                      <h3>Edit Content</h3>
+
+                     <div className="layered-card-content" style={{ maxHeight: "400px", overflowY: "auto" }}>
+                     
+                     </div>
+
+                      <div
+                        style={{
+                          marginTop: 16,
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          gap: 8,
+                        }}
+                      >
+                        <button
+                          onClick={() => setIsCVReviewEditing(false)}
+                          style={{
+                            padding: "6px 12px",
+                            borderRadius: 6,
+                            border: "1px solid #999",
+                            background: "#eee",
+                          }}
+                        >
+                          Cancel
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setIsCVReviewEditing(false);
                           }}
                           style={{
                             padding: "6px 12px",
