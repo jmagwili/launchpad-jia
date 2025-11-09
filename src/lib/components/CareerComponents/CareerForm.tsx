@@ -1547,7 +1547,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         {
                           screeningSetting == "No Automatic Promotion" 
                           ? `${screeningSetting}` 
-                          : `Automatically endorses candidates who are ${screeningSetting}`
+                          : `Automatically endorse candidates who are ${screeningSetting}`
                         }
                       </span>
                     </div>
@@ -1741,7 +1741,22 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                   }}
                 >
                   <div className="layered-card-content">
-                    AI interview content
+                    <div style={{fontWeight:700, color: "#181D27"}}> 
+                      <span>AI Interview Screening</span>
+                    </div>
+                    <div>
+                      <span>
+                        {
+                          interviewScreening == "No Automatic Promotion" 
+                          ? `${interviewScreening}` 
+                          : `Automatically endorse candidates who are ${interviewScreening}`
+                        }
+                      </span>
+                    </div>
+                    <hr style={{margin: "10px 0"}} />
+                    <div style={{fontWeight:700, color: "#181D27"}}> 
+                      <span>Interview Questions</span>
+                    </div>
                   </div>
                 </div>
 
