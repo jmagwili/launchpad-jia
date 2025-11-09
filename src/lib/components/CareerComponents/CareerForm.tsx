@@ -109,12 +109,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [currentStep, setCurrentStep] = useState("Review Career");
 
     const [isOpen, setIsOpen] = useState(false);
-    const [content, setContent] = useState(
-      "This is the initial accordion content coming from state."
-    );
-
     const [isEditing, setIsEditing] = useState(false);
-    const [editValue, setEditValue] = useState(content);
 
     // temp variables for edit modal
     const [tempJobTitle, setTempJobTitle] = useState("");
@@ -1057,7 +1052,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                   {/* EDIT BUTTON */}
                   <button
                     onClick={() => {
-                      setEditValue(content);
                       setTempJobTitle(jobTitle);
                       setTempEmploymentType(employmentType);
                       setTempWorkSetup(workSetup);
@@ -1094,7 +1088,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                   }}
                 >
                   <div className="layered-card-content">
-                    <p>{content}</p>
                     <div style={{fontWeight:700, color: "#181D27"}}> 
                       <span>Job Title</span>
                     </div>
@@ -1389,20 +1382,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                             text={tempDescription}
                           />
                         </div>
-
                     </div>
-                      {/* <textarea
-                        value={editValue}
-                        onChange={(e) => setEditValue(e.target.value)}
-                        style={{
-                          width: "100%",
-                          height: 150,
-                          marginTop: 10,
-                          padding: 10,
-                          borderRadius: 8,
-                          border: "1px solid #ccc",
-                        }}
-                      /> */}
 
                       <div
                         style={{
@@ -1426,7 +1406,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
 
                         <button
                           onClick={() => {
-                            setContent(editValue);
                             setJobTitle(tempJobTitle);
                             setEmploymentType(tempEmploymentType);
                             setWorkSetup(tempWorkSetup);
