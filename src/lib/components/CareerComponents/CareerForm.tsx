@@ -1757,6 +1757,33 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                     <div style={{fontWeight:700, color: "#181D27"}}> 
                       <span>Interview Questions</span>
                     </div>
+
+                      {(() => {
+                        // Counter to track question numbers across all categories
+                        let globalIndex = 1;
+
+                        return questions.map((categoryGroup) => (
+                          <div key={categoryGroup.id} >
+                            <h3 style={{ fontWeight: 700, color: "#181D27" }}>{categoryGroup.category}</h3>
+
+                            {categoryGroup.questions && categoryGroup.questions.length > 0 ? (
+                              <ul style={{ marginLeft: "1.5rem", listStyleType: "none", paddingLeft: 0 }}>
+                                {categoryGroup.questions.map((q) => {
+                                  const currentIndex = globalIndex++;
+                                  return (
+                                    <li key={q.id}>
+                                      {currentIndex}. {q.question}
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                            ) : (
+                              <p style={{ marginLeft: "1.5rem" }}>No questions yet.</p>
+                            )}
+                          </div>
+                        ));
+                      })()}
+
                   </div>
                 </div>
 
