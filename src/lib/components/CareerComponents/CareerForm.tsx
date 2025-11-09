@@ -416,13 +416,13 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                       }}>
                           Save as Unpublished
                   </button>
-                  <button 
+                  <button
                   disabled={!isFormValid() || isSavingCareer}
                   style={{ width: "fit-content", background: !isFormValid() || isSavingCareer ? "#D5D7DA" : "black", color: "#fff", border: "1px solid #E9EAEB", padding: "8px 16px", borderRadius: "60px", cursor: !isFormValid() || isSavingCareer ? "not-allowed" : "pointer", whiteSpace: "nowrap"}} onClick={() => {
-                    confirmSaveCareer("active");
+                    currentStep === step[3] ? confirmSaveCareer("active") : saveDraftAndContinue();
                   }}>
                     <i className="la la-check-circle" style={{ color: "#fff", fontSize: 20, marginRight: 8 }}></i>
-                      Save as Published
+                      {currentStep === step[3] ? "Save as Published" : "Save and Continue"}
                   </button>
                 </div>
         </div>) : (
@@ -939,23 +939,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                 </div>
             </div> */}
           </div>
-
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 20 }}>
-            <button
-              onClick={saveDraftAndContinue}
-              disabled={!isFormValid() || isSavingCareer}
-              style={{
-                padding: "8px 16px",
-                borderRadius: "60px",
-                border: "none",
-                background: !isFormValid() || isSavingCareer ? "#D5D7DA" : "#181D27",
-                color: "#fff",
-                cursor: !isFormValid() || isSavingCareer ? "not-allowed" : "pointer",
-              }}
-            >
-              Save and Continue
-            </button>
-          </div>
         </div>
 
         )}
@@ -1029,36 +1012,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                   </div>
               </div>
             </div>
-          </div>
-
-          <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
-            <button
-              onClick={goToPreviousStep}
-              style={{
-                padding: "8px 16px",
-                borderRadius: "60px",
-                border: "1px solid #D5D7DA",
-                background: "#fff",
-                color: "#414651",
-                cursor: "pointer",
-              }}
-            >
-              Previous
-            </button>
-            <button
-              onClick={saveDraftAndContinue}
-              disabled={isSavingCareer}
-              style={{
-                padding: "8px 16px",
-                borderRadius: "60px",
-                border: "none",
-                background: isSavingCareer ? "#D5D7DA" : "#181D27",
-                color: "#fff",
-                cursor: isSavingCareer ? "not-allowed" : "pointer",
-              }}
-            >
-              Save and Continue
-            </button>
           </div>
         </div>
         )}
@@ -1141,36 +1094,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                   </div>
               </div>
             </div>
-          </div>
-
-          <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
-            <button
-              onClick={goToPreviousStep}
-              style={{
-                padding: "8px 16px",
-                borderRadius: "60px",
-                border: "1px solid #D5D7DA",
-                background: "#fff",
-                color: "#414651",
-                cursor: "pointer",
-              }}
-            >
-              Previous
-            </button>
-            <button
-              onClick={saveDraftAndContinue}
-              disabled={!isFormValid() || isSavingCareer}
-              style={{
-                padding: "8px 16px",
-                borderRadius: "60px",
-                border: "none",
-                background: !isFormValid() || isSavingCareer ? "#D5D7DA" : "#181D27",
-                color: "#fff",
-                cursor: !isFormValid() || isSavingCareer ? "not-allowed" : "pointer",
-              }}
-            >
-              Save and Continue
-            </button>
           </div>
         </div>
         )}
