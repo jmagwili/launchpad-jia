@@ -116,6 +116,17 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState(content);
 
+    // temp variables for edit modal
+    const [tempJobTitle, setTempJobTitle] = useState("");
+    const [tempEmploymentType, setTempEmploymentType] = useState();
+    const [tempWorkSetup, setTempWorkSetup] = useState();
+    const [tempCountry, setTempCountry] = useState();
+    const [tempProvince, setTempProvince] = useState();
+    const [tempCity, setTempCity] = useState("");
+    const [tempSalaryNegotiable, setTempSalaryNegotiable] = useState(false);
+    const [tempMinimumSalary, setTempMinimumSalary] = useState("");
+    const [tempMaximumSalary, setTempMaximumSalary] = useState("");
+    const [tempDescription, setTempDescription] = useState();
 
     function processState(index, isAdvance = false) {
     const currentStepIndex = step.indexOf(currentStep);
@@ -1047,6 +1058,16 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                   <button
                     onClick={() => {
                       setEditValue(content);
+                      setTempJobTitle(jobTitle);
+                      setTempEmploymentType(employmentType);
+                      setTempWorkSetup(workSetup);
+                      setTempCountry(country);
+                      setTempProvince(province);
+                      setTempCity(city);
+                      setTempSalaryNegotiable(salaryNegotiable);
+                      setTempMinimumSalary(minimumSalary);
+                      setTempMaximumSalary(maximumSalary);
+                      setTempDescription(description);
                       setIsEditing(true);
                     }}
                     style={{
@@ -1191,11 +1212,11 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         </div>
                         <span>Job Title</span>
                         <input
-                        value={jobTitle}
+                        value={tempJobTitle}
                         className="form-control"
                         placeholder="Enter job title"
                         onChange={(e) => {
-                            setJobTitle(e.target.value || "");
+                            setTempJobTitle(e.target.value || "");
                         }}
                         ></input>
                         <div style={{ marginTop: 16}}>
@@ -1206,9 +1227,9 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                             <span>Employment Type</span>
                             <CustomDropdown
                               onSelectSetting={(employmentType) => {
-                                  setEmploymentType(employmentType);
+                                  setTempEmploymentType(employmentType);
                               }}
-                              screeningSetting={employmentType}
+                              screeningSetting={tempEmploymentType}
                               settingList={employmentTypeOptions}
                               placeholder="Select Employment Type"
                             />
@@ -1217,9 +1238,9 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                             <span>Arrangement</span>
                             <CustomDropdown
                               onSelectSetting={(setting) => {
-                                  setWorkSetup(setting);
+                                  setTempWorkSetup(setting);
                               }}
-                              screeningSetting={workSetup}
+                              screeningSetting={tempWorkSetup}
                               settingList={workSetupOptions}
                               placeholder="Select Work Setup"
                             />
@@ -1233,9 +1254,9 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                             <span>Country</span>
                             <CustomDropdown
                               onSelectSetting={(setting) => {
-                                  setCountry(setting);
+                                  setTempCountry(setting);
                               }}
-                              screeningSetting={country}
+                              screeningSetting={tempCountry}
                               settingList={[]}
                               placeholder="Select Country"
                             />
@@ -1244,13 +1265,13 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                             <span>State / Province</span>
                             <CustomDropdown
                               onSelectSetting={(province) => {
-                                  setProvince(province);
+                                  setTempProvince(province);
                                   const provinceObj = provinceList.find((p) => p.name === province);
                                   const cities = philippineCitiesAndProvinces.cities.filter((city) => city.province === provinceObj.key);
                                   setCityList(cities);
-                                  setCity(cities[0].name);
+                                  setTempCity(cities[0].name);
                               }}
-                              screeningSetting={province}
+                              screeningSetting={tempProvince}
                               settingList={provinceList}
                               placeholder="Select State / Province"
                             />
@@ -1259,9 +1280,9 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                             <span>City</span>
                             <CustomDropdown
                               onSelectSetting={(city) => {
-                                  setCity(city);
+                                  setTempCity(city);
                               }}
-                              screeningSetting={city}
+                              screeningSetting={tempCity}
                               settingList={cityList}
                               placeholder="Select City"
                             />
@@ -1271,10 +1292,10 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                           <span style={{color: "#181D27", fontWeight: 700}}>Salary</span>
                           <div style={{ display: "flex", flexDirection: "row", alignItems: "flex-start", gap: 8, minWidth: "130px" }}>
                             <label className="switch">
-                                <input type="checkbox" checked={salaryNegotiable} onChange={() => setSalaryNegotiable(!salaryNegotiable)} />
+                                <input type="checkbox" checked={tempSalaryNegotiable} onChange={() => setTempSalaryNegotiable(!tempSalaryNegotiable)} />
                                 <span className="slider round"></span>
                             </label>
-                              <span>{salaryNegotiable ? "Negotiable" : "Fixed"}</span>
+                              <span>{tempSalaryNegotiable ? "Negotiable" : "Fixed"}</span>
                           </div>
                         </div>
                         <div style={{ display: "flex", gap: 16 }}>
@@ -1300,9 +1321,9 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                 style={{ paddingLeft: "28px" }}
                                 placeholder="0"
                                 min={0}
-                                value={minimumSalary}
+                                value={tempMinimumSalary}
                                 onChange={(e) => {
-                                  setMinimumSalary(e.target.value || "");
+                                  setTempMinimumSalary(e.target.value || "");
                                 }}
                               />
                               <span style={{
@@ -1340,9 +1361,9 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                 style={{ paddingLeft: "28px" }}
                                 placeholder="0"
                                 min={0}
-                                value={maximumSalary}
+                                value={tempMaximumSalary}
                                 onChange={(e) => {
-                                  setMaximumSalary(e.target.value || "");
+                                  setTempMaximumSalary(e.target.value || "");
                                 }}
                               ></input>
                               <span style={{
@@ -1364,8 +1385,8 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         </div>
                         <div>
                           <RichTextEditor
-                            setText={setDescription}
-                            text={description}
+                            setText={setTempDescription}
+                            text={tempDescription}
                           />
                         </div>
 
@@ -1406,6 +1427,16 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         <button
                           onClick={() => {
                             setContent(editValue);
+                            setJobTitle(tempJobTitle);
+                            setEmploymentType(tempEmploymentType);
+                            setWorkSetup(tempWorkSetup);
+                            setCountry(tempCountry);
+                            setProvince(tempProvince);
+                            setCity(tempCity);
+                            setSalaryNegotiable(tempSalaryNegotiable);
+                            setMinimumSalary(tempMinimumSalary);
+                            setMaximumSalary(tempMaximumSalary);
+                            setDescription(tempDescription);
                             setIsEditing(false);
                           }}
                           style={{
