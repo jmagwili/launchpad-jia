@@ -312,13 +312,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         }
     };
 
-    const goToPreviousStep = () => {
-        const currentStepIndex = step.indexOf(currentStep);
-        if (currentStepIndex > 0) {
-            setCurrentStep(step[currentStepIndex - 1]);
-        }
-    };
-
     const saveDraftAndContinue = async () => {
         if (!isFormValid()) {
             errorToast("Please fill in all required fields", 1300);
@@ -722,8 +715,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                   </div>
               </div>
             </div>
-
-            <InterviewQuestionGeneratorV2 questions={questions} setQuestions={(questions) => setQuestions(questions)} jobTitle={jobTitle} description={description} />
           </div>
 
           <div style={{ width: "40%", display: "flex", flexDirection: "column", gap: 8 }}>
