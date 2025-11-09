@@ -66,6 +66,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [salaryNegotiable, setSalaryNegotiable] = useState(career?.salaryNegotiable || true);
     const [minimumSalary, setMinimumSalary] = useState(career?.minimumSalary || "");
     const [maximumSalary, setMaximumSalary] = useState(career?.maximumSalary || "");
+    const [interviewScreening, setInterviewScreening] = useState(career?.interviewScreening || "Good Fit and above");
     const [questions, setQuestions] = useState(career?.questions || [
       {
         id: 1,
@@ -922,9 +923,9 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         </div>
                         <CustomDropdown
                           onSelectSetting={(setting) => {
-                              setScreeningSetting(setting);
+                              setInterviewScreening(setting);
                           }}
-                          screeningSetting={screeningSetting}
+                          screeningSetting={interviewScreening}
                           settingList={screeningSettingList}
                         />
 
