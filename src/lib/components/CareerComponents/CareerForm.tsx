@@ -108,8 +108,8 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const savingCareerRef = useRef(false);
     const [currentStep, setCurrentStep] = useState("Review Career");
 
-    const [isOpen, setIsOpen] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
+    const [isCareerDetailsOpen, setIsCareerDetailsOpen] = useState(false);
+    const [isCareerDetailsEditing, setIsCareerDetailsEditing] = useState(false);
 
     // temp variables for edit modal
     const [tempJobTitle, setTempJobTitle] = useState("");
@@ -992,7 +992,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                     width: "100%",
                     cursor: "pointer",  
                   }}
-                  onClick={() => setIsOpen(!isOpen)}
+                  onClick={() => setIsCareerDetailsOpen(!isCareerDetailsOpen)}
                 >
                   {/* TITLE + ICON + TOGGLE */}
                   <div
@@ -1008,7 +1008,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         style={{
                           fontWeight: 600,
                           transition: "transform 0.3s ease",
-                          transform: isOpen ? "rotate(-180deg)" : "rotate(0deg)",
+                          transform: isCareerDetailsOpen ? "rotate(-180deg)" : "rotate(0deg)",
                           fontSize: 22,
                           lineHeight: 1, // helps keep the 'v' vertically centered
                           display: "flex",
@@ -1062,7 +1062,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                       setTempMinimumSalary(minimumSalary);
                       setTempMaximumSalary(maximumSalary);
                       setTempDescription(description);
-                      setIsEditing(true);
+                      setIsCareerDetailsEditing(true);
                     }}
                     style={{
                       background: "none",
@@ -1081,10 +1081,10 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                 <div
                   style={{
                     overflow: "hidden",
-                    maxHeight: isOpen ? "" : "0px",
-                    opacity: isOpen ? 1 : 0,
+                    maxHeight: isCareerDetailsOpen ? "" : "0px",
+                    opacity: isCareerDetailsOpen ? 1 : 0,
                     transition: "max-height 0.4s ease, opacity 0.3s ease",
-                    marginTop: isOpen ? 12 : 0,
+                    marginTop: isCareerDetailsOpen ? 12 : 0,
                   }}
                 >
                   <div className="layered-card-content">
@@ -1172,7 +1172,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                 </div>
 
                 {/* EDIT MODAL */}
-                {isEditing && (
+                {isCareerDetailsEditing && (
                   <div
                     style={{
                       position: "fixed",
@@ -1393,7 +1393,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         }}
                       >
                         <button
-                          onClick={() => setIsEditing(false)}
+                          onClick={() => setIsCareerDetailsEditing(false)}
                           style={{
                             padding: "6px 12px",
                             borderRadius: 6,
@@ -1416,7 +1416,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                             setMinimumSalary(tempMinimumSalary);
                             setMaximumSalary(tempMaximumSalary);
                             setDescription(tempDescription);
-                            setIsEditing(false);
+                            setIsCareerDetailsEditing(false);
                           }}
                           style={{
                             padding: "6px 12px",
