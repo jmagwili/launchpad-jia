@@ -986,7 +986,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         {currentStep == step[3] && (
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", width: "100%", gap: 16, alignItems: "flex-start", marginTop: 16 }}>
             <div style={{ width: "90%", display: "flex", flexDirection: "column", gap: 8 }}>
-              <div className="layered-card-middle" style={{cursor: "pointer"}}  onClick={() => setIsOpen(!isOpen)}>
+              <div className="layered-card-middle">
                 {/* HEADER */}
                 <div
                   style={{
@@ -995,7 +995,9 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                     alignItems: "center",
                     justifyContent: "space-between",
                     width: "100%",
+                    cursor: "pointer",  
                   }}
+                  onClick={() => setIsOpen(!isOpen)}
                 >
                   {/* TITLE + ICON + TOGGLE */}
                   <div
