@@ -554,9 +554,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                             </div>
                           </div>
                         </div>
-
-                        {/* <span>Description</span>
-                        <RichTextEditor setText={setDescription} text={description} /> */}
                     </div>
                 </div>
             </div>
@@ -1188,20 +1185,191 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                     >
                       <h3>Edit Content</h3>
 
-                      <div
-                        style={{
-                          width: "100%",
-                          height: "auto",
-                          marginTop: 10,
-                          padding: 10,
-                          borderRadius: 8,
-                          border: "1px solid #ccc",
-                          maxHeight: 400,
-                          overflowY: "auto",
+                     <div className="layered-card-content" style={{ maxHeight: "400px", overflowY: "auto" }}>
+                        <div>
+                          <span style={{color: "#181D27", fontWeight: 700}}>Basic Information</span>
+                        </div>
+                        <span>Job Title</span>
+                        <input
+                        value={jobTitle}
+                        className="form-control"
+                        placeholder="Enter job title"
+                        onChange={(e) => {
+                            setJobTitle(e.target.value || "");
                         }}
-                      >
-                        
-                      </div>
+                        ></input>
+                        <div style={{ marginTop: 16}}>
+                          <span style={{color: "#181D27", fontWeight: 700}}>Work Setting</span>
+                        </div>
+                        <div style={{display: "flex", gap: 16}}>
+                          <div style={{flex: 1}}>
+                            <span>Employment Type</span>
+                            <CustomDropdown
+                              onSelectSetting={(employmentType) => {
+                                  setEmploymentType(employmentType);
+                              }}
+                              screeningSetting={employmentType}
+                              settingList={employmentTypeOptions}
+                              placeholder="Select Employment Type"
+                            />
+                          </div>
+                          <div style={{flex: 1}}>
+                            <span>Arrangement</span>
+                            <CustomDropdown
+                              onSelectSetting={(setting) => {
+                                  setWorkSetup(setting);
+                              }}
+                              screeningSetting={workSetup}
+                              settingList={workSetupOptions}
+                              placeholder="Select Work Setup"
+                            />
+                          </div>
+                        </div>
+                        <div style={{ marginTop: 16}}>
+                          <span style={{color: "#181D27", fontWeight: 700}}>Location</span>
+                        </div>
+                        <div style={{display: "flex", gap: 16}}>
+                          <div style={{flex: 1}}>
+                            <span>Country</span>
+                            <CustomDropdown
+                              onSelectSetting={(setting) => {
+                                  setCountry(setting);
+                              }}
+                              screeningSetting={country}
+                              settingList={[]}
+                              placeholder="Select Country"
+                            />
+                          </div>
+                          <div style={{flex: 1}}>
+                            <span>State / Province</span>
+                            <CustomDropdown
+                              onSelectSetting={(province) => {
+                                  setProvince(province);
+                                  const provinceObj = provinceList.find((p) => p.name === province);
+                                  const cities = philippineCitiesAndProvinces.cities.filter((city) => city.province === provinceObj.key);
+                                  setCityList(cities);
+                                  setCity(cities[0].name);
+                              }}
+                              screeningSetting={province}
+                              settingList={provinceList}
+                              placeholder="Select State / Province"
+                            />
+                          </div>
+                          <div style={{flex: 1}}>
+                            <span>City</span>
+                            <CustomDropdown
+                              onSelectSetting={(city) => {
+                                  setCity(city);
+                              }}
+                              screeningSetting={city}
+                              settingList={cityList}
+                              placeholder="Select City"
+                            />
+                          </div>
+                        </div> 
+                        <div style={{ marginTop: 16, display: "flex", justifyContent: "space-between" }}>
+                          <span style={{color: "#181D27", fontWeight: 700}}>Salary</span>
+                          <div style={{ display: "flex", flexDirection: "row", alignItems: "flex-start", gap: 8, minWidth: "130px" }}>
+                            <label className="switch">
+                                <input type="checkbox" checked={salaryNegotiable} onChange={() => setSalaryNegotiable(!salaryNegotiable)} />
+                                <span className="slider round"></span>
+                            </label>
+                              <span>{salaryNegotiable ? "Negotiable" : "Fixed"}</span>
+                          </div>
+                        </div>
+                        <div style={{ display: "flex", gap: 16 }}>
+                          <div style={{flex: 1}}>
+                            <span>Minimum Salary</span>
+                            <div style={{ position: "relative" }}>
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  left: "12px",
+                                  top: "50%",
+                                  transform: "translateY(-50%)",
+                                  color: "#6c757d",
+                                  fontSize: "16px",
+                                  pointerEvents: "none",
+                                }}
+                              >
+                                P
+                              </span>
+                              <input
+                                type="number"
+                                className="form-control"
+                                style={{ paddingLeft: "28px" }}
+                                placeholder="0"
+                                min={0}
+                                value={minimumSalary}
+                                onChange={(e) => {
+                                  setMinimumSalary(e.target.value || "");
+                                }}
+                              />
+                              <span style={{
+                                position: "absolute",
+                                right: "30px",
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                color: "#6c757d",
+                                fontSize: "16px",
+                                pointerEvents: "none",
+                              }}>
+                                PHP
+                              </span>
+                            </div>
+                          </div>
+                          <div style={{flex: 1}}>
+                            <span>Maximum Salary</span>
+                            <div style={{ position: "relative" }}>
+                              <span
+                                style={{
+                                position: "absolute",
+                                left: "12px",
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                color: "#6c757d",
+                                fontSize: "16px",
+                                pointerEvents: "none",
+                                }}
+                              >
+                              P
+                              </span>
+                              <input
+                                type="number"
+                                className="form-control"
+                                style={{ paddingLeft: "28px" }}
+                                placeholder="0"
+                                min={0}
+                                value={maximumSalary}
+                                onChange={(e) => {
+                                  setMaximumSalary(e.target.value || "");
+                                }}
+                              ></input>
+                              <span style={{
+                                position: "absolute",
+                                right: "30px",
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                color: "#6c757d",
+                                fontSize: "16px",
+                                pointerEvents: "none",
+                              }}>
+                                PHP
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div style={{ color: "#181D27", fontWeight: 700, marginTop: 16, marginBottom: 10 }}>
+                          <span>Job Description</span>
+                        </div>
+                        <div>
+                          <RichTextEditor
+                            setText={setDescription}
+                            text={description}
+                          />
+                        </div>
+
+                    </div>
                       {/* <textarea
                         value={editValue}
                         onChange={(e) => setEditValue(e.target.value)}
