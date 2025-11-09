@@ -107,7 +107,8 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [showSaveModal, setShowSaveModal] = useState("");
     const [isSavingCareer, setIsSavingCareer] = useState(false);
     const savingCareerRef = useRef(false);
-    const [currentStep, setCurrentStep] = useState("Review Career");
+    const [currentStep, setCurrentStep] = useState(step[0]); // Start at first step
+    const [savedCareerId, setSavedCareerId] = useState(career?._id || null); // Track career ID for updates
 
     // Accordion States
     const [isCareerDetailsOpen, setIsCareerDetailsOpen] = useState(false);
@@ -277,6 +278,115 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         }
       }
     }
+
+    const goToNextStep = () => {
+        const currentStepIndex = step.indexOf(currentStep);
+        if (currentStepIndex < step.length - 1) {
+            setCurrentStep(step[currentStepIndex + 1]);
+        }
+    };
+
+    const goToPreviousStep = () => {
+        const currentStepIndex = step.indexOf(currentStep);
+        if (currentStepIndex > 0) {
+            setCurrentStep(step[currentStepIndex - 1]);
+        }
+    };
+
+    const saveDraftAndContinue = async () => {
+        if (!isFormValid()) {
+            errorToast("Please fill in all required fields", 1300);
+            return;
+        }
+
+        if (!savingCareerRef.current) {
+            setIsSavingCareer(true);
+            savingCareerRef.current = true;
+
+            let userInfoSlice = {
+                image: user.image,
+                name: user.name,
+                email: user.email,
+            };
+
+            try {
+                let response;
+
+                // If we already have a saved career ID, update it; otherwise, create new
+                if (savedCareerId) {
+                    // Update existing career
+                    const updatedCareer = {
+                        _id: savedCareerId,
+                        jobTitle,
+                        description,
+                        workSetup,
+                        workSetupRemarks,
+                        questions,
+                        lastEditedBy: userInfoSlice,
+                        screeningSetting,
+                        requireVideo,
+                        salaryNegotiable,
+                        minimumSalary: isNaN(Number(minimumSalary)) ? null : Number(minimumSalary),
+                        maximumSalary: isNaN(Number(maximumSalary)) ? null : Number(maximumSalary),
+                        country,
+                        province,
+                        location: city,
+                        status: "inactive", // Keep as draft
+                        employmentType,
+                        interviewScreening,
+                        updatedAt: Date.now(),
+                    };
+                    response = await axios.post("/api/update-career", updatedCareer);
+                } else {
+                    // Create new career
+                    const careerData = {
+                        jobTitle,
+                        description,
+                        workSetup,
+                        workSetupRemarks,
+                        questions,
+                        lastEditedBy: userInfoSlice,
+                        createdBy: userInfoSlice,
+                        screeningSetting,
+                        orgID,
+                        requireVideo,
+                        salaryNegotiable,
+                        minimumSalary: isNaN(Number(minimumSalary)) ? null : Number(minimumSalary),
+                        maximumSalary: isNaN(Number(maximumSalary)) ? null : Number(maximumSalary),
+                        country,
+                        province,
+                        location: city,
+                        status: "inactive", // Save as draft
+                        employmentType,
+                        interviewScreening,
+                    };
+                    response = await axios.post("/api/add-career", careerData);
+                    // Save the career ID for future updates
+                    if (response.data?.career?._id) {
+                        setSavedCareerId(response.data.career._id);
+                    }
+                }
+
+                if (response.status === 200) {
+                    candidateActionToast(
+                        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8, marginLeft: 8 }}>
+                            <span style={{ fontSize: 14, fontWeight: 700, color: "#181D27" }}>Draft saved</span>
+                        </div>,
+                        1300,
+                        <i className="la la-check-circle" style={{ color: "#039855", fontSize: 32 }}></i>
+                    );
+                    // Navigate to next step instead of redirecting
+                    goToNextStep();
+                }
+            } catch (error) {
+                console.error(error);
+                errorToast("Failed to save draft", 1300);
+            } finally {
+                savingCareerRef.current = false;
+                setIsSavingCareer(false);
+            }
+        }
+    };
 
     useEffect(() => {
         const parseProvinces = () => {
@@ -788,7 +898,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                           PHP
                         </span>
                         </div>
-                        
+
 
                         <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>Location</span>
 
@@ -828,6 +938,23 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                     </div>
                 </div>
             </div> */}
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 20 }}>
+            <button
+              onClick={saveDraftAndContinue}
+              disabled={!isFormValid() || isSavingCareer}
+              style={{
+                padding: "8px 16px",
+                borderRadius: "60px",
+                border: "none",
+                background: !isFormValid() || isSavingCareer ? "#D5D7DA" : "#181D27",
+                color: "#fff",
+                cursor: !isFormValid() || isSavingCareer ? "not-allowed" : "pointer",
+              }}
+            >
+              Save and Continue
+            </button>
           </div>
         </div>
 
@@ -902,6 +1029,36 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                   </div>
               </div>
             </div>
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
+            <button
+              onClick={goToPreviousStep}
+              style={{
+                padding: "8px 16px",
+                borderRadius: "60px",
+                border: "1px solid #D5D7DA",
+                background: "#fff",
+                color: "#414651",
+                cursor: "pointer",
+              }}
+            >
+              Previous
+            </button>
+            <button
+              onClick={saveDraftAndContinue}
+              disabled={isSavingCareer}
+              style={{
+                padding: "8px 16px",
+                borderRadius: "60px",
+                border: "none",
+                background: isSavingCareer ? "#D5D7DA" : "#181D27",
+                color: "#fff",
+                cursor: isSavingCareer ? "not-allowed" : "pointer",
+              }}
+            >
+              Save and Continue
+            </button>
           </div>
         </div>
         )}
@@ -984,6 +1141,36 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                   </div>
               </div>
             </div>
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20 }}>
+            <button
+              onClick={goToPreviousStep}
+              style={{
+                padding: "8px 16px",
+                borderRadius: "60px",
+                border: "1px solid #D5D7DA",
+                background: "#fff",
+                color: "#414651",
+                cursor: "pointer",
+              }}
+            >
+              Previous
+            </button>
+            <button
+              onClick={saveDraftAndContinue}
+              disabled={!isFormValid() || isSavingCareer}
+              style={{
+                padding: "8px 16px",
+                borderRadius: "60px",
+                border: "none",
+                background: !isFormValid() || isSavingCareer ? "#D5D7DA" : "#181D27",
+                color: "#fff",
+                cursor: !isFormValid() || isSavingCareer ? "not-allowed" : "pointer",
+              }}
+            >
+              Save and Continue
+            </button>
           </div>
         </div>
         )}
