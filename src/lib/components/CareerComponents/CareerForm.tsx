@@ -107,7 +107,33 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [showSaveModal, setShowSaveModal] = useState("");
     const [isSavingCareer, setIsSavingCareer] = useState(false);
     const savingCareerRef = useRef(false);
-    const [currentStep, setCurrentStep] = useState(step[0]); // Start at first step
+
+    // Determine initial step based on career data
+    const determineInitialStep = () => {
+        if (!career) return step[0]; // New career, start at step 1
+
+        // Check if all basic info is filled (Step 1)
+        const hasBasicInfo = career.jobTitle && career.description && career.workSetup;
+
+        // Check if screening settings are configured (Step 2)
+        const hasScreeningSettings = career.screeningSetting;
+
+        // Check if interview questions are configured (Step 3)
+        const hasInterviewQuestions = career.questions && career.questions.some(q => q.questions && q.questions.length > 0);
+
+        // Determine which step to start on
+        if (hasBasicInfo && hasScreeningSettings && hasInterviewQuestions) {
+            return step[3]; // All steps complete, go to Review
+        } else if (hasBasicInfo && hasScreeningSettings) {
+            return step[2]; // Go to AI Interview Setup
+        } else if (hasBasicInfo) {
+            return step[1]; // Go to CV Review
+        } else {
+            return step[0]; // Start at Career Details
+        }
+    };
+
+    const [currentStep, setCurrentStep] = useState(determineInitialStep()); // Start at appropriate step
     const [savedCareerId, setSavedCareerId] = useState(career?._id || null); // Track career ID for updates
 
     // Accordion States
