@@ -986,7 +986,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         {currentStep == step[3] && (
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", width: "100%", gap: 16, alignItems: "flex-start", marginTop: 16 }}>
             <div style={{ width: "90%", display: "flex", flexDirection: "column", gap: 8 }}>
-              <div className="layered-card-middle">
+              <div className="layered-card-middle" style={{cursor: "pointer"}}  onClick={() => setIsOpen(!isOpen)}>
                 {/* HEADER */}
                 <div
                   style={{
@@ -1009,7 +1009,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <div
                         style={{
-                          cursor: "pointer",
                           fontWeight: 600,
                           transition: "transform 0.3s ease",
                           transform: isOpen ? "rotate(-180deg)" : "rotate(0deg)",
@@ -1020,7 +1019,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                           justifyContent: "center",
                           margin: "0 5px"
                         }}
-                        onClick={() => setIsOpen(!isOpen)}
                       >
                         v
                       </div>
