@@ -129,6 +129,9 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [tempMaximumSalary, setTempMaximumSalary] = useState("");
     const [tempDescription, setTempDescription] = useState();
     const [tempScreeningSetting, setTempScreeningSetting] = useState();
+    const [tempInterviewScreening, setTempInterviewScreening] = useState();
+    const [tempRequireVideo, setTempRequireVideo] = useState(true);
+    const [tempQuestions, setTempQuestions] = useState([]);
 
     function processState(index, isAdvance = false) {
     const currentStepIndex = step.indexOf(currentStep);
@@ -1716,6 +1719,9 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                   <button
                     onClick={() => {
                       setIsAIInterviewEditing(true);
+                      setTempInterviewScreening(interviewScreening);
+                      setTempRequireVideo(requireVideo);
+                      setTempQuestions(questions);
                     }}
                     style={{
                       background: "none",
@@ -1753,7 +1759,16 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         }
                       </span>
                     </div>
+
                     <hr style={{margin: "10px 0"}} />
+
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{color: "#181D27", fontWeight: 700}}>Require Video on Interview</span>
+                      <span>{requireVideo ? "yes" : "no"}</span>
+                    </div>
+
+                    <hr style={{ margin: "16px 0" }} />
+
                     <div style={{fontWeight:700, color: "#181D27"}}> 
                       <span>Interview Questions</span>
                     </div>
@@ -1783,7 +1798,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                           </div>
                         ));
                       })()}
-
                   </div>
                 </div>
 
@@ -1816,7 +1830,42 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                       <h3>Edit AI Interview Setup</h3>
 
                      <div className="layered-card-content" style={{ maxHeight: "400px", overflowY: "auto" }}>
-                     
+                                             <div>
+                          <span style={{color: "#181D27", fontWeight: 700}}>AI Interview Screening</span>
+                        </div>
+                        <div style={{marginBottom: 10}}>
+                          <span>Jia automatically endorses canditates who meet the chosen criteria</span>
+                        </div>
+                        <CustomDropdown
+                          onSelectSetting={(setting) => {
+                              setTempInterviewScreening(setting);
+                          }}
+                          screeningSetting={tempInterviewScreening}
+                          settingList={screeningSettingList}
+                        />
+
+                        <hr style={{ margin: "16px 0" }} />
+
+                        <div>
+                          <span style={{color: "#181D27", fontWeight: 700}}>Require Video on Interview</span>
+                        </div>
+                        <div>
+                          <span>Require candidates to keep their camera on. Recordings will appear on their analysis page.</span>
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "row",justifyContent: "space-between", gap: 8, marginTop: 8 }}>
+                            <div style={{ display: "flex", flexDirection: "row", gap: 8 }}>
+                                <i className="la la-video" style={{ color: "#414651", fontSize: 20 }}></i>
+                                <span>Require Video Interview</span>
+                            </div>
+                            <div style={{ display: "flex", flexDirection: "row", alignItems: "flex-start", gap: 8 }}>
+                                <label className="switch">
+                                    <input type="checkbox" checked={tempRequireVideo} onChange={() => setTempRequireVideo(!tempRequireVideo)} />
+                                    <span className="slider round"></span>
+                                </label>
+                                <span>{requireVideo ? "Yes" : "No"}</span>
+                            </div>
+                        </div>
+                        <InterviewQuestionGeneratorV2 questions={tempQuestions} setQuestions={(questions) => setTempQuestions(questions)} jobTitle={jobTitle} description={description} />
                      </div>
 
                       <div
@@ -1842,6 +1891,9 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         <button
                           onClick={() => {
                             setIsAIInterviewEditing(false);
+                            setInterviewScreening(tempInterviewScreening);
+                            setRequireVideo(tempRequireVideo);
+                            setQuestions(tempQuestions);
                           }}
                           style={{
                             padding: "6px 12px",
