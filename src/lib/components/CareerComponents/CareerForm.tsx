@@ -113,6 +113,8 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [isCareerDetailsEditing, setIsCareerDetailsEditing] = useState(false);
     const [isCVReviewOpen, setIsCVReviewOpen] = useState(false);
     const [isCVReviewEditing, setIsCVReviewEditing] = useState(false);
+    const [isAIInterviewOpen, setIsAIInterviewOpen] = useState(false);
+    const [isAIInterviewEditing, setIsAIInterviewEditing] = useState(false);
 
     // temp variables for edit modal
     const [tempJobTitle, setTempJobTitle] = useState("");
@@ -1048,7 +1050,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         fontWeight: 700,
                       }}
                     >
-                      Career Details & Team Accessed
+                      Career Details & Team Access
                     </span>
                   </div>
 
@@ -1200,7 +1202,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         maxWidth: 700,
                       }}
                     >
-                      <h3>Edit Content</h3>
+                      <h3>Edit Career Details & Team Access</h3>
 
                      <div className="layered-card-content" style={{ maxHeight: "400px", overflowY: "auto" }}>
                         <div>
@@ -1534,7 +1536,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                   }}
                 >
                   <div className="layered-card-content">
-                    
+                    cv review content
                   </div>
                 </div>
 
@@ -1564,7 +1566,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         maxWidth: 700,
                       }}
                     >
-                      <h3>Edit Content</h3>
+                      <h3>Edit CV Review & Pre-Screening Questions</h3>
 
                      <div className="layered-card-content" style={{ maxHeight: "400px", overflowY: "auto" }}>
                      
@@ -1593,6 +1595,178 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         <button
                           onClick={() => {
                             setIsCVReviewEditing(false);
+                          }}
+                          style={{
+                            padding: "6px 12px",
+                            borderRadius: 6,
+                            border: "none",
+                            background: "#181D27",
+                            color: "#fff",
+                          }}
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="layered-card-middle">
+                {/* HEADER */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "100%",
+                    cursor: "pointer",  
+                  }}
+                  onClick={() => setIsAIInterviewOpen(!isAIInterviewOpen)}
+                >
+                  {/* TITLE + ICON + TOGGLE */}
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 8,
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <div
+                        style={{
+                          fontWeight: 600,
+                          transition: "transform 0.3s ease",
+                          transform: isAIInterviewOpen ? "rotate(-180deg)" : "rotate(0deg)",
+                          fontSize: 22,
+                          lineHeight: 1, // helps keep the 'v' vertically centered
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          margin: "0 5px"
+                        }}
+                      >
+                        v
+                      </div>
+                  </div>
+
+                    <div
+                      style={{
+                        width: 32,
+                        height: 32,
+                        backgroundColor: "#181D27",
+                        borderRadius: "50%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <i
+                        className="la la-suitcase"
+                        style={{ color: "#FFFFFF", fontSize: 20 }}
+                      ></i>
+                    </div>
+
+                    <span
+                      style={{
+                        fontSize: 16,
+                        color: "#181D27",
+                        fontWeight: 700,
+                      }}
+                    >
+                      AI Interview Setup
+                    </span>
+                  </div>
+
+                  {/* EDIT BUTTON */}
+                  <button
+                    onClick={() => {
+                      setIsAIInterviewEditing(true);
+                    }}
+                    style={{
+                      background: "none",
+                      border: "1px solid #181D27",
+                      padding: "4px 10px",
+                      borderRadius: 8,
+                      fontSize: 12,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Edit
+                  </button>
+                </div>
+
+                {/* ACCORDION CONTENT (animated) */}
+                <div
+                  style={{
+                    overflow: "hidden",
+                    maxHeight: isAIInterviewOpen ? "" : "0px",
+                    opacity: isAIInterviewOpen ? 1 : 0,
+                    transition: "max-height 0.4s ease, opacity 0.3s ease",
+                    marginTop: isAIInterviewOpen ? 12 : 0,
+                  }}
+                >
+                  <div className="layered-card-content">
+                    AI interview content
+                  </div>
+                </div>
+
+                {/* EDIT MODAL */}
+                {isAIInterviewEditing && (
+                  <div
+                    style={{
+                      position: "fixed",
+                      top: 0,
+                      left: 0,
+                      width: "100vw",
+                      height: "100vh",
+                      background: "rgba(0,0,0,0.4)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: 20,
+                      zIndex: 99,
+                    }}
+                  >
+                    <div
+                      style={{
+                        background: "#fff",
+                        padding: 20,
+                        borderRadius: 12,
+                        width: "100%",
+                        maxWidth: 700,
+                      }}
+                    >
+                      <h3>Edit AI Interview Setup</h3>
+
+                     <div className="layered-card-content" style={{ maxHeight: "400px", overflowY: "auto" }}>
+                     
+                     </div>
+
+                      <div
+                        style={{
+                          marginTop: 16,
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          gap: 8,
+                        }}
+                      >
+                        <button
+                          onClick={() => setIsAIInterviewEditing(false)}
+                          style={{
+                            padding: "6px 12px",
+                            borderRadius: 6,
+                            border: "1px solid #999",
+                            background: "#eee",
+                          }}
+                        >
+                          Cancel
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setIsAIInterviewEditing(false);
                           }}
                           style={{
                             padding: "6px 12px",
