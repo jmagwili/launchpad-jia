@@ -160,6 +160,22 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [tempRequireVideo, setTempRequireVideo] = useState(true);
     const [tempQuestions, setTempQuestions] = useState([]);
 
+    // Check if a specific step is completed
+    const isStepCompleted = (stepIndex) => {
+        switch(stepIndex) {
+            case 0: // Step 1: Career Details & Team Access
+                return jobTitle?.trim().length > 0 && description?.trim().length > 0 && workSetup?.trim().length > 0;
+            case 1: // Step 2: CV Review & Pre-Screening
+                return screeningSetting?.trim().length > 0; // Has screening setting
+            case 2: // Step 3: AI Interview Setup
+                return questions.some((q) => q.questions && q.questions.length > 0); // Has at least one question
+            case 3: // Step 4: Review Career
+                return isFormValid(); // Full validation
+            default:
+                return false;
+        }
+    };
+
     function processState(index, isAdvance = false) {
     const currentStepIndex = step.indexOf(currentStep);
 
@@ -171,8 +187,9 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
       return isAdvance ? stepStatus[2] : stepStatus[1];
     }
 
+    // Check if the step is actually completed
     if (currentStepIndex > index) {
-      return stepStatus[0];
+      return isStepCompleted(index) ? stepStatus[0] : stepStatus[1];
     }
 
     return stepStatus[1];
