@@ -1228,89 +1228,119 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                               </div>
                             </div>
                             <div className="layered-card-content" style={{borderRadius: "0 0 10px 10px", border: "none", flex: 1, gap: 0}}>
-                              {
-                              // Replace strict equality with a case-insensitive check and guard options
-                              (question.type && question.type.toString().toLowerCase() === "dropdown" || question.type.toString().toLowerCase() === "checkboxes") && (
+                              {/* Render options only if type is dropdown or checkboxes */}
+                              {(
+                                question.type &&
+                                (question.type.toString().toLowerCase() === "dropdown" ||
+                                  question.type.toString().toLowerCase() === "checkboxes")
+                              ) && (
                                 <>
-                                {Array.isArray(question.options) && question.options.length > 0 ? (
-                                  question.options.map((option, idx) => (
-                                    <div key={idx} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 20}}>
-                                      <div style={{ height: 40, display: "flex", flex: 1, alignItems: "center", margin: "4px 0", border: "1px solid #e9eaeb", borderRadius: "8px"}}>
-                                        <span style={{height:"100%", width: 40 ,display: "flex", justifyContent: "center", alignItems: "center", borderRight: "1px solid #e9eaeb"}}>{idx + 1}</span>
-                                        <input
-                                          type="text"
-                                          value={option.label}
-                                          placeholder={`Option ${idx + 1}`}
-                                          onChange={(e) => handleUpdateOption(index, idx, e.target.value)}
+                                  {Array.isArray(question.options) && question.options.length > 0 ? (
+                                    question.options.map((option, idx) => (
+                                      <div
+                                        key={idx}
+                                        style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 20 }}
+                                      >
+                                        <div
                                           style={{
-                                            padding: "0 20px",
+                                            height: 40,
+                                            display: "flex",
                                             flex: 1,
-                                            border: "none",
-                                            outline: "none",
-                                            background: "transparent"
+                                            alignItems: "center",
+                                            margin: "4px 0",
+                                            border: "1px solid #e9eaeb",
+                                            borderRadius: "8px",
                                           }}
-                                        />
+                                        >
+                                          <span
+                                            style={{
+                                              height: "100%",
+                                              width: 40,
+                                              display: "flex",
+                                              justifyContent: "center",
+                                              alignItems: "center",
+                                              borderRight: "1px solid #e9eaeb",
+                                            }}
+                                          >
+                                            {idx + 1}
+                                          </span>
+                                          <input
+                                            type="text"
+                                            value={option.label}
+                                            placeholder={`Option ${idx + 1}`}
+                                            onChange={(e) => handleUpdateOption(index, idx, e.target.value)}
+                                            style={{
+                                              padding: "0 20px",
+                                              flex: 1,
+                                              border: "none",
+                                              outline: "none",
+                                              background: "transparent",
+                                            }}
+                                          />
+                                        </div>
+                                        <button
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleRemoveOption(index, idx);
+                                          }}
+                                          style={{
+                                            height: 30,
+                                            width: 30,
+                                            borderRadius: "100%",
+                                            border: "1px solid #e9eaeb",
+                                            backgroundColor: "inherit",
+                                            cursor: "pointer",
+                                            color: "#525f7f",
+                                            fontWeight: 600,
+                                            fontSize: 14,
+                                          }}
+                                        >
+                                          X
+                                        </button>
                                       </div>
-                                      <button 
-                                        onClick={(e) => {
-                                          e.stopPropagation();  // Prevent event bubbling
-                                          handleRemoveOption(index, idx);
-                                        }}
-                                        style={{
-                                          height: 30, 
-                                          width: 30, 
-                                          borderRadius: "100%", 
-                                          border: "1px solid #e9eaeb", 
-                                          backgroundColor: "inherit", 
-                                          cursor: "pointer", 
-                                          color: "#525f7f",
-                                          fontWeight: 600,
-                                          fontSize: 14,
-                                        }}
-                                      >X</button>
-                                    </div>
-                                  ))
-                                ) : (
-                                  <p style={{ color: "#6a6a6a" }}>No options added yet.</p>
-                                )}
-                                <button
-                                  style={{
-                                  height: 40,
-                                  width: 150,
-                                  border: "none",
-                                  backgroundColor: "inherit",
-                                  cursor: "pointer",
-                                  color: "#525f7f",
-                                  marginTop: "8px",
-                                  fontWeight: 500,
-                                  }}
-                                  onClick={()=>handleAddOption(index)}
-                                >
-                                  + Add Option
-                                </button>
-                                <hr style={{margin: "15px 0"}}/>
-                                <div style={{display: "flex", justifyContent: "flex-end"}}>
-                                  <button 
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleDeleteQuestion(index);
-                                    }}
+                                    ))
+                                  ) : (
+                                    <p style={{ color: "#6a6a6a" }}>No options added yet.</p>
+                                  )}
+                                  <button
                                     style={{
-                                      backgroundColor: "white", 
-                                      border: "solid 1px #B32318", 
-                                      borderRadius: "9999px", 
-                                      padding: "4px 12px", 
-                                      cursor: "pointer", 
-                                      color: "#B32318",
-                                      fontWeight: 600
+                                      height: 40,
+                                      width: 150,
+                                      border: "none",
+                                      backgroundColor: "inherit",
+                                      cursor: "pointer",
+                                      color: "#525f7f",
+                                      marginTop: "8px",
+                                      fontWeight: 500,
                                     }}
+                                    onClick={() => handleAddOption(index)}
                                   >
-                                    Delete Question
+                                    + Add Option
                                   </button>
-                                </div>
+                                  <hr style={{ margin: "15px 0" }} />
                                 </>
-                              )
-                              }
+                              )}
+
+                              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteQuestion(index);
+                                  }}
+                                  style={{
+                                    backgroundColor: "white",
+                                    border: "solid 1px #B32318",
+                                    borderRadius: "9999px",
+                                    padding: "4px 12px",
+                                    cursor: "pointer",
+                                    color: "#B32318",
+                                    fontWeight: 600,
+                                    marginTop: "15px", // spacing consistency
+                                  }}
+                                >
+                                  Delete Question
+                                </button>
+                              </div>
                             </div>
                           </div>
                         ))
