@@ -33,6 +33,28 @@ import styles from "@/lib/styles/screens/careerForm.module.scss";
         icon: "la la-times",
     },
 ];
+  const screeningQuestionTypes = [
+    {
+        name: "Short Answer",
+        icon: "la la-check",
+    },
+    {
+        name: "Long Answer",
+        icon: "la la-check-double",
+    },
+    {
+        name: "Dropdown",
+        icon: "la la-times",
+    },
+    {
+        name: "Checkboxes",
+        icon: "la la-times",
+    },
+    {
+        name: "Range",
+        icon: "la la-times",
+    },
+];
 const workSetupOptions = [
     {
         name: "Fully Remote",
@@ -1065,12 +1087,19 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         "No pre-screening questions added yet."
                       ) : (
                         screeningQuestions.map((question: any, index: number) => (
-                          <div className="layered-card-middle" style={{padding: 0, border: "1px solid #e9eaeb", overflow: "hidden"}}>
-                            <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
+                          <div className="layered-card-middle" style={{padding: 0, border: "1px solid #e9eaeb", overflow: "hidden", minHeight: 300}}>
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" ,alignItems: "center", gap: 8 }}>
                               <span>{question.question}</span>
+                              <CustomDropdown
+                              onSelectSetting={(setting) => {
+                                setScreeningSetting(setting);
+                              }}
+                              screeningSetting={screeningSetting}
+                              settingList={screeningQuestionTypes}
+                              />
                             </div>
-                            <div className="layered-card-content" style={{borderRadius: "0 0 10px 10px", border: "none"}}>
-                              testing
+                            <div className="layered-card-content" style={{borderRadius: "0 0 10px 10px", border: "none", flex: 1}}>
+                              test
                             </div>
                           </div>
                         ))
