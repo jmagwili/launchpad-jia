@@ -508,6 +508,17 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
       );
     };
 
+    const handleUpdateOption = (questionIndex: number, optionIndex: number, newLabel: string) => {
+      setScreeningQuestions(prevQuestions => {
+        const updatedQuestions = [...prevQuestions];
+        const question = { ...updatedQuestions[questionIndex] };
+        question.options = [...question.options];
+        question.options[optionIndex] = { ...question.options[optionIndex], label: newLabel };
+        updatedQuestions[questionIndex] = question;
+        return updatedQuestions;
+      });
+    };
+
     useEffect(() => {
         const parseProvinces = () => {
           setProvinceList(philippineCitiesAndProvinces.provinces);
@@ -1126,7 +1137,18 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                     <div key={idx} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 20}}>
                                       <div style={{ height: 40, display: "flex", flex: 1, alignItems: "center", margin: "4px 0", border: "1px solid #e9eaeb", borderRadius: "8px"}}>
                                         <span style={{height:"100%", width: 40 ,display: "flex", justifyContent: "center", alignItems: "center", borderRight: "1px solid #e9eaeb"}}>{idx + 1}</span>
-                                        <span style={{padding: "0 20px", flex: 1}}>{option.label}</span>
+                                        <input
+                                          type="text"
+                                          value={option.label}
+                                          onChange={(e) => handleUpdateOption(index, idx, e.target.value)}
+                                          style={{
+                                            padding: "0 20px",
+                                            flex: 1,
+                                            border: "none",
+                                            outline: "none",
+                                            background: "transparent"
+                                          }}
+                                        />
                                       </div>
                                       <button 
                                         onClick={(e) => {
