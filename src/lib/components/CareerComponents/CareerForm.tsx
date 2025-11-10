@@ -1518,7 +1518,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                           <div style={{ width: "100%" }}>
                             {suggestedQuestions.map((question, index) => (
                               <div key={index} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "12px 0" }}>
-                                <div style={{ display: "flex", flexDirection: "column" }}>
+                                <div style={{ display: "flex", flexDirection: "column", color: question.isAdded ? "#D5D7DA" : "" }}>
                                   <span style={{fontWeight: 700}}>{question.category}</span>
                                   <span>{question.question}</span>
                                 </div>
@@ -1526,12 +1526,12 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                   onClick={() => handleAddSuggested(index)}
                                   disabled={question.isAdded}
                                   style={{
-                                    backgroundColor: question.isAdded ? "#E9EAEB" : "inherit",
-                                    border: "solid 1px #525f7f",
+                                    backgroundColor: "inherit",
+                                    border: question.isAdded ? "solid 1px #D5D7DA" : "solid 1px #525f7f",
                                     borderRadius: "9999px",
                                     padding: "4px 12px",
                                     cursor: question.isAdded ? "not-allowed" : "pointer",
-                                    color: "#525f7f",
+                                    color: question.isAdded ? "#D5D7DA" : "#525f7f",
                                     fontWeight: 600,
                                   }}
                                 >
