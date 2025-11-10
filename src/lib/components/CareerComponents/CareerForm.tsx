@@ -66,6 +66,24 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [salaryNegotiable, setSalaryNegotiable] = useState(career?.salaryNegotiable || true);
     const [minimumSalary, setMinimumSalary] = useState(career?.minimumSalary || "");
     const [maximumSalary, setMaximumSalary] = useState(career?.maximumSalary || "");
+    const [screeningQuestions, setScreeningQuestions] = useState(career?.screeningQuestions || []);
+    const [suggestedQuestions, setSuggestedQuestions] = useState([
+      { 
+        category: "Notice Period",
+        question: "How long is your notice period?",
+        isAdded: false,
+      },
+      {
+        category: "Work Setup",
+        question: "How often are you willing to report to the office each week?",
+        isAdded: false,
+      },
+      {
+        category: "Asking Salary",
+        question: "How much is your expected monthly salary?",
+        isAdded: false,
+      }
+    ]);
     const [interviewScreening, setInterviewScreening] = useState(career?.interviewScreening || "Good Fit and above");
     const [questions, setQuestions] = useState(career?.questions || [
       {
@@ -133,7 +151,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         }
     };
 
-    const [currentStep, setCurrentStep] = useState(determineInitialStep()); // Start at appropriate step
+    const [currentStep, setCurrentStep] = useState(step[1]); // Start at appropriate step
     const [savedCareerId, setSavedCareerId] = useState(career?._id || null); // Track career ID for updates
 
     // Accordion States
@@ -1033,7 +1051,37 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         <span>(optional)</span>
                     </div>
                     <div className="layered-card-content">
-                      
+                      { screeningQuestions.length == 0 && ("No pre-screening questions added yet.") }
+                      <hr style={{margin: "10px 0"}}/>
+                        <div>
+                          <span style={{fontWeight: 700}}>Suggested Pre-screening Questions:</span>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "space-between"}}>
+                          <div>
+                            {suggestedQuestions.map((question, index) => (
+                              <div key={index} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "12px 0" }}>
+                                <div style={{ display: "flex", flexDirection: "column" }}>
+                                  <span style={{fontWeight: 700}}>{question.category}</span>
+                                  <span>{question.question}</span>
+                                </div>
+                                <button
+                                  style={{ 
+                                    backgroundColor: "white", 
+                                    border: "solid 1px #525f7f", 
+                                    borderRadius: "9999px", 
+                                    padding: "4px 12px", 
+                                    cursor: "pointer", 
+                                    color: "#525f7f",
+                                    fontWeight: 600
+                                  }}
+                                  
+                                >
+                                  Add
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                     </div>
                 </div>
             </div>
