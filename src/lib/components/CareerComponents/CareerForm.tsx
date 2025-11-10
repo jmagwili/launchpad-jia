@@ -527,7 +527,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         return updatedQuestions.map((q, i)=>{
           if(i === questionIndex){
             const updatedOptions = q.options ? [...q.options] : [];
-            updatedOptions.push({ label: `Option ${updatedOptions.length + 1}`, value: `option_${updatedOptions.length + 1}` });
+            updatedOptions.push({ label: "", value: `option_${updatedOptions.length + 1}` });
             return { ...q, options: updatedOptions };
           }
           return q;
@@ -1240,6 +1240,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                         <input
                                           type="text"
                                           value={option.label}
+                                          placeholder={`Option ${idx + 1}`}
                                           onChange={(e) => handleUpdateOption(index, idx, e.target.value)}
                                           style={{
                                             padding: "0 20px",
@@ -1270,7 +1271,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                     </div>
                                   ))
                                 ) : (
-                                  <p style={{ color: "#6a6a6a" }}>No options available.</p>
+                                  <p style={{ color: "#6a6a6a" }}>No options added yet.</p>
                                 )}
                                 <button
                                   style={{
