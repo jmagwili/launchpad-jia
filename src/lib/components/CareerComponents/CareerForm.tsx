@@ -1057,7 +1057,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                           <span style={{fontWeight: 700}}>Suggested Pre-screening Questions:</span>
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-between"}}>
-                          <div>
+                          <div style={{ width: "100%" }}>
                             {suggestedQuestions.map((question, index) => (
                               <div key={index} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "12px 0" }}>
                                 <div style={{ display: "flex", flexDirection: "column" }}>
