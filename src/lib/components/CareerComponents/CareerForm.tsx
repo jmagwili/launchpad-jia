@@ -1087,7 +1087,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         "No pre-screening questions added yet."
                       ) : (
                         screeningQuestions.map((question: any, index: number) => (
-                          <div className="layered-card-middle" style={{padding: 0, border: "1px solid #e9eaeb", overflow: "hidden", minHeight: 300}}>
+                          <div key={index} className="layered-card-middle" style={{padding: 0, border: "1px solid #e9eaeb", overflow: "hidden", minHeight: 300}}>
                             <div style={{ height: "60px", padding: "0 20px" , display: "flex", flexDirection: "row", justifyContent: "space-between" ,alignItems: "center", gap: 8 }}>
                               <span>{question.question}</span>
                               <div style={{ width: "250px", flexShrink: 0 }}>
@@ -1100,8 +1100,22 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                 />
                               </div>
                             </div>
-                            <div className="layered-card-content" style={{borderRadius: "0 0 10px 10px", border: "none", flex: 1}}>
-                              test
+                            <div className="layered-card-content" style={{borderRadius: "0 0 10px 10px", border: "none", flex: 1, gap: 0}}>
+                              {
+                                // Replace strict equality with a case-insensitive check and guard options
+                                (question.type && question.type.toString().toLowerCase() === "dropdown") && (
+                                  Array.isArray(question.options) && question.options.length > 0 ? (
+                                    question.options.map((option, idx) => (
+                                      <div key={idx} style={{ height: 40, display: "flex", alignItems: "center", margin: "8px 0", border: "1px solid #e9eaeb", borderRadius: "8px"}}>
+                                        <span style={{height:"100%", width: 40 ,display: "flex", justifyContent: "center", alignItems: "center", borderRight: "1px solid #e9eaeb"}}>{idx + 1}</span>
+                                        <span style={{padding: "0 20px"}}>{option.label}</span>
+                                      </div>
+                                    ))
+                                  ) : (
+                                    <p style={{ color: "#6a6a6a" }}>No options available.</p>
+                                  )
+                                )
+                              }
                             </div>
                           </div>
                         ))
