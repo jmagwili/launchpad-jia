@@ -1102,34 +1102,50 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                             </div>
                             <div className="layered-card-content" style={{borderRadius: "0 0 10px 10px", border: "none", flex: 1, gap: 0}}>
                               {
-                                // Replace strict equality with a case-insensitive check and guard options
-                                (question.type && question.type.toString().toLowerCase() === "dropdown") && (
-                                  Array.isArray(question.options) && question.options.length > 0 ? (
-                                    question.options.map((option, idx) => (
-                                      <div key={idx} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 20}}>
-                                        <div style={{ height: 40, display: "flex", flex: 1, alignItems: "center", margin: "8px 0", border: "1px solid #e9eaeb", borderRadius: "8px"}}>
-                                          <span style={{height:"100%", width: 40 ,display: "flex", justifyContent: "center", alignItems: "center", borderRight: "1px solid #e9eaeb"}}>{idx + 1}</span>
-                                          <span style={{padding: "0 20px", flex: 1}}>{option.label}</span>
-                                        </div>
-                                        <button 
-                                          style={{
-                                            height: 30, 
-                                            width: 30, 
-                                            borderRadius: "100%", 
-                                            border: "1px solid #e9eaeb", 
-                                            backgroundColor: "inherit", 
-                                            cursor: "pointer", 
-                                            color: "#525f7f",
-                                            fontWeight: 600,
-                                            fontSize: 14,
-                                            }}
-                                          >X</button>
-                                      </div>
-                                    ))
-                                  ) : (
-                                    <p style={{ color: "#6a6a6a" }}>No options available.</p>
-                                  )
-                                )
+                              // Replace strict equality with a case-insensitive check and guard options
+                              (question.type && question.type.toString().toLowerCase() === "dropdown") && (
+                                <>
+                                {Array.isArray(question.options) && question.options.length > 0 ? (
+                                  question.options.map((option, idx) => (
+                                  <div key={idx} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 20}}>
+                                    <div style={{ height: 40, display: "flex", flex: 1, alignItems: "center", margin: "4px 0", border: "1px solid #e9eaeb", borderRadius: "8px"}}>
+                                    <span style={{height:"100%", width: 40 ,display: "flex", justifyContent: "center", alignItems: "center", borderRight: "1px solid #e9eaeb"}}>{idx + 1}</span>
+                                    <span style={{padding: "0 20px", flex: 1}}>{option.label}</span>
+                                    </div>
+                                    <button 
+                                    style={{
+                                      height: 30, 
+                                      width: 30, 
+                                      borderRadius: "100%", 
+                                      border: "1px solid #e9eaeb", 
+                                      backgroundColor: "inherit", 
+                                      cursor: "pointer", 
+                                      color: "#525f7f",
+                                      fontWeight: 600,
+                                      fontSize: 14,
+                                      }}
+                                    >X</button>
+                                  </div>
+                                  ))
+                                ) : (
+                                  <p style={{ color: "#6a6a6a" }}>No options available.</p>
+                                )}
+                                <button
+                                  style={{
+                                  height: 40,
+                                  width: 150,
+                                  border: "none",
+                                  backgroundColor: "inherit",
+                                  cursor: "pointer",
+                                  color: "#525f7f",
+                                  marginTop: "8px",
+                                  fontWeight: 500,
+                                  }}
+                                >
+                                  + Add Option
+                                </button>
+                                </>
+                              )
                               }
                             </div>
                           </div>
