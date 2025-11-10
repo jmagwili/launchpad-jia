@@ -575,10 +575,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         parseProvinces();
       },[career])
 
-      useEffect(() => {
-        console.log("screeningQuestions updated:", screeningQuestions);
-      }, [screeningQuestions]);
-
     return (
         <div className="col">
         {formType === "add" ? (<div style={{ marginBottom: "35px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
@@ -1346,56 +1342,108 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                 question.type &&
                                 question.type.toString().toLowerCase() === "range"
                               ) && (
-                                <div>
-                                  <div style={{flex: 1}}>
-                                    <span>Minimum</span>
-                                    <div style={{ position: "relative" }}>
-                                      <span
-                                        style={{
-                                        position: "absolute",
-                                        left: "12px",
-                                        top: "50%",
-                                        transform: "translateY(-50%)",
-                                        color: "#6c757d",
-                                        fontSize: "16px",
-                                        pointerEvents: "none",
-                                        }}
-                                      >
-                                      P
-                                      </span>
-                                      <input
-                                        type="number"
-                                        className="form-control"
-                                        style={{ paddingLeft: "28px" }}
-                                        placeholder="0"
-                                        min={0}
-                                        value={question.range?.min || ""}
-                                        onChange={(e) => {
-                                          setScreeningQuestions((prevQuestions) => {
-                                            const updatedQuestions = [...prevQuestions];
-                                            const existingRange = updatedQuestions[index].range || { min: "", max: "" };
-                                            updatedQuestions[index].range = {
-                                              ...existingRange,
-                                              min: e.target.value,
-                                            };
-                                            return updatedQuestions;
-                                          });
-                                        }}
-                                      ></input>
-                                      <span style={{
-                                        position: "absolute",
-                                        right: "30px",
-                                        top: "50%",
-                                        transform: "translateY(-50%)",
-                                        color: "#6c757d",
-                                        fontSize: "16px",
-                                        pointerEvents: "none",
-                                      }}>
-                                        PHP
-                                      </span>
+                                <>
+                                  <div style={{ display: "flex", gap: 16 }}>
+                                    <div style={{flex: 1}}>
+                                      <span>Minimum</span>
+                                      <div style={{ position: "relative" }}>
+                                        <span
+                                          style={{
+                                          position: "absolute",
+                                          left: "12px",
+                                          top: "50%",
+                                          transform: "translateY(-50%)",
+                                          color: "#6c757d",
+                                          fontSize: "16px",
+                                          pointerEvents: "none",
+                                          }}
+                                        >
+                                        P
+                                        </span>
+                                        <input
+                                          type="number"
+                                          className="form-control"
+                                          style={{ paddingLeft: "28px" }}
+                                          placeholder="0"
+                                          min={0}
+                                          value={question.range?.min || ""}
+                                          onChange={(e) => {
+                                            setScreeningQuestions((prevQuestions) => {
+                                              const updatedQuestions = [...prevQuestions];
+                                              const existingRange = updatedQuestions[index].range || { min: "", max: "" };
+                                              updatedQuestions[index].range = {
+                                                ...existingRange,
+                                                min: e.target.value,
+                                              };
+                                              return updatedQuestions;
+                                            });
+                                          }}
+                                        ></input>
+                                        <span style={{
+                                          position: "absolute",
+                                          right: "30px",
+                                          top: "50%",
+                                          transform: "translateY(-50%)",
+                                          color: "#6c757d",
+                                          fontSize: "16px",
+                                          pointerEvents: "none",
+                                        }}>
+                                          PHP
+                                        </span>
+                                      </div>
+                                    </div>
+
+                                    <div style={{flex: 1}}>
+                                      <span>Maximum</span>
+                                      <div style={{ position: "relative" }}>
+                                        <span
+                                          style={{
+                                          position: "absolute",
+                                          left: "12px",
+                                          top: "50%",
+                                          transform: "translateY(-50%)",
+                                          color: "#6c757d",
+                                          fontSize: "16px",
+                                          pointerEvents: "none",
+                                          }}
+                                        >
+                                        P
+                                        </span>
+                                        <input
+                                          type="number"
+                                          className="form-control"
+                                          style={{ paddingLeft: "28px" }}
+                                          placeholder="0"
+                                          min={0}
+                                          value={question.range?.max || ""}
+                                          onChange={(e) => {
+                                            setScreeningQuestions((prevQuestions) => {
+                                              const updatedQuestions = [...prevQuestions];
+                                              const existingRange = updatedQuestions[index].range || { min: "", max: "" };
+                                              updatedQuestions[index].range = {
+                                                ...existingRange,
+                                                max: e.target.value,
+                                              };
+                                              return updatedQuestions;
+                                            });
+                                          }}
+                                        ></input>
+                                        <span style={{
+                                          position: "absolute",
+                                          right: "30px",
+                                          top: "50%",
+                                          transform: "translateY(-50%)",
+                                          color: "#6c757d",
+                                          fontSize: "16px",
+                                          pointerEvents: "none",
+                                        }}>
+                                          PHP
+                                        </span>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
+                                  <hr style={{margin: "15px 0"}} />
+                                </>
                               )
                               }
 
