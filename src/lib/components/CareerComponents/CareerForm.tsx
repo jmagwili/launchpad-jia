@@ -2240,8 +2240,42 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                       </span>
                     </div>
                     <hr style={{margin: "10px 0"}} />
-                    <div style={{fontWeight:700, color: "#181D27"}}> 
-                      <span>Pre-Screening Questions</span>
+                    <div> 
+                      <span style={{fontWeight:700, color: "#181D27"}}>Pre-Screening Questions</span>
+                      <div>
+                        {screeningQuestions.length == 0 
+                          ? (
+                          <span>No pre-screening questions added.</span>
+                          ):(
+                            <>
+                              <ol>
+                                {screeningQuestions.map((q, index) => (
+                                  <li key={index} style={{ marginBottom: 8 }}>
+                                    <div>
+                                      <span>{q.question}</span>
+                                      <ul>
+                                        { Array.isArray(q.options) &&
+                                          (["dropdown", "checkboxes"].includes(q.type.toString().toLowerCase())) &&
+                                          q.options.map((option, oIndex) => (
+                                            <li key={oIndex}>{option.label}</li>
+                                          ))
+                                        }
+                                        { q.type.toString().toLowerCase() === "range" &&  
+                                          <li>
+                                            Preferred: PHP {q.range?.min ? Number(q.range.min).toLocaleString() : ""} - PHP {q.range?.max ? Number(q.range.max).toLocaleString() : ""}
+                                          </li>
+                                        }
+                                      </ul>
+                                    </div>
+                                  </li>
+                                ))} 
+                              </ol>
+                            </>
+                          )
+                        
+                        }
+
+                      </div>
                     </div>
                   </div>
                 </div>
