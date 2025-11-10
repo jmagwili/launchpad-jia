@@ -99,6 +99,8 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         ]
       }
     ]);
+    // Local state to track question being edited
+    const [editingQuestion, setEditingQuestion] = useState<{ index: number; value: string } | null>(null);
     const [suggestedQuestions, setSuggestedQuestions] = useState([
       { 
         category: "Notice Period",
@@ -1161,18 +1163,33 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         screeningQuestions.map((question: any, index: number) => (
                           <div key={index} className="layered-card-middle" style={{padding: 0, border: "1px solid #e9eaeb", overflow: "hidden", minHeight: 300}}>
                             <div style={{ height: "60px", padding: "0 20px" , display: "flex", flexDirection: "row", justifyContent: "space-between" ,alignItems: "center", gap: 8 }}>
-                              {question.question && question.question.toString().trim().length > 0 ? (
-                                <span>{question.question}</span>
-                              ) : (
+                              {editingQuestion?.index === index || (!question.question || question.question.toString().trim().length === 0) ? (
                                 <input
                                   type="text"
                                   autoFocus
-                                  value={question.question || ""}
-                                  onChange={(e) => handleUpdateQuestion(index, e.target.value)}
+                                  value={editingQuestion?.index === index ? editingQuestion.value : (question.question || "")}
+                                  onChange={(e) => {
+                                    setEditingQuestion({ index, value: e.target.value });
+                                  }}
+                                  onBlur={() => {
+                                    if (editingQuestion?.index === index) {
+                                      handleUpdateQuestion(index, editingQuestion.value);
+                                      setEditingQuestion(null);
+                                    }
+                                  }}
                                   onKeyDown={(e: any) => {
                                     if (e.key === "Enter") {
                                       e.preventDefault();
+                                      if (editingQuestion?.index === index) {
+                                        handleUpdateQuestion(index, editingQuestion.value);
+                                        setEditingQuestion(null);
+                                      }
                                       (e.target as HTMLInputElement).blur();
+                                    }
+                                  }}
+                                  onFocus={() => {
+                                    if (editingQuestion?.index !== index) {
+                                      setEditingQuestion({ index, value: question.question || "" });
                                     }
                                   }}
                                   placeholder="Type your custom question and press Enter"
@@ -1185,6 +1202,13 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                     background: "transparent",
                                   }}
                                 />
+                              ) : (
+                                <span
+                                  onClick={() => setEditingQuestion({ index, value: question.question })}
+                                  style={{ cursor: "pointer", flex: 1 }}
+                                >
+                                  {question.question}
+                                </span>
                               )}
                               <div style={{ width: "250px", flexShrink: 0 }}>
                                 <CustomDropdown
