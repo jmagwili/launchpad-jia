@@ -97,6 +97,11 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
           { label: "College" },
           { label: "Postgraduate" }
         ]
+      },
+      {
+        question: "What is your expected salary range?",
+        type: "range",
+        range: { min: "10000", max: "20000" }
       }
     ]);
     // Local state to track question being edited
@@ -569,6 +574,10 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         }
         parseProvinces();
       },[career])
+
+      useEffect(() => {
+        console.log("screeningQuestions updated:", screeningQuestions);
+      }, [screeningQuestions]);
 
     return (
         <div className="col">
@@ -1217,8 +1226,21 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                   onSelectSetting={(setting) => {
                                     setScreeningQuestions((prevQuestions) => {
                                       const updatedQuestions = [...prevQuestions];
+                                      const settingKey = setting.toString().toLowerCase();
+                                      // set type
                                       updatedQuestions[index].type = setting;
-                                      updatedQuestions[index].options = setting.toString().toLowerCase() === "dropdown" || setting.toString().toLowerCase() === "checkboxes" ? [{ label: "" }] : [];
+                                      // initialize options for dropdown/checkboxes
+                                      if (settingKey === "dropdown" || settingKey === "checkboxes") {
+                                        updatedQuestions[index].options = [{ label: "" }];
+                                      } else {
+                                        updatedQuestions[index].options = [];
+                                      }
+                                      // initialize or remove range for range type
+                                      if (settingKey === "range") {
+                                        updatedQuestions[index].range = { min: "", max: "" };
+                                      } else {
+                                        delete updatedQuestions[index].range;
+                                      }
                                       return updatedQuestions;
                                     });
                                   }}
@@ -1320,6 +1342,62 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                   <hr style={{ margin: "15px 0" }} />
                                 </>
                               )}
+                              {(
+                                question.type &&
+                                question.type.toString().toLowerCase() === "range"
+                              ) && (
+                                <div>
+                                  <div style={{flex: 1}}>
+                                    <span>Minimum</span>
+                                    <div style={{ position: "relative" }}>
+                                      <span
+                                        style={{
+                                        position: "absolute",
+                                        left: "12px",
+                                        top: "50%",
+                                        transform: "translateY(-50%)",
+                                        color: "#6c757d",
+                                        fontSize: "16px",
+                                        pointerEvents: "none",
+                                        }}
+                                      >
+                                      P
+                                      </span>
+                                      <input
+                                        type="number"
+                                        className="form-control"
+                                        style={{ paddingLeft: "28px" }}
+                                        placeholder="0"
+                                        min={0}
+                                        value={question.range?.min || ""}
+                                        onChange={(e) => {
+                                          setScreeningQuestions((prevQuestions) => {
+                                            const updatedQuestions = [...prevQuestions];
+                                            const existingRange = updatedQuestions[index].range || { min: "", max: "" };
+                                            updatedQuestions[index].range = {
+                                              ...existingRange,
+                                              min: e.target.value,
+                                            };
+                                            return updatedQuestions;
+                                          });
+                                        }}
+                                      ></input>
+                                      <span style={{
+                                        position: "absolute",
+                                        right: "30px",
+                                        top: "50%",
+                                        transform: "translateY(-50%)",
+                                        color: "#6c757d",
+                                        fontSize: "16px",
+                                        pointerEvents: "none",
+                                      }}>
+                                        PHP
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              )
+                              }
 
                               <div style={{ display: "flex", justifyContent: "flex-end" }}>
                                 <button
