@@ -1144,6 +1144,18 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                 >
                                   + Add Option
                                 </button>
+                                <hr style={{margin: "15px 0"}}/>
+                                <div style={{display: "flex", justifyContent: "flex-end"}}>
+                                  <button style={{
+                                    backgroundColor: "white", 
+                                    border: "solid 1px #B32318", 
+                                    borderRadius: "9999px", 
+                                    padding: "4px 12px", 
+                                    cursor: "pointer", 
+                                    color: "#B32318",
+                                    fontWeight: 600
+                                  }}>Delete Question</button>
+                                </div>
                                 </>
                               )
                               }
@@ -1165,7 +1177,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                 </div>
                                 <button
                                   style={{ 
-                                    backgroundColor: "white", 
+                                    backgroundColor: "inherit", 
                                     border: "solid 1px #525f7f", 
                                     borderRadius: "9999px", 
                                     padding: "4px 12px", 
