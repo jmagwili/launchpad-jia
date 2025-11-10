@@ -1192,14 +1192,16 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                       setEditingQuestion({ index, value: question.question || "" });
                                     }
                                   }}
-                                  placeholder="Type your custom question and press Enter"
+                                  placeholder="Write your question..."
                                   style={{
                                     flex: 1,
-                                    border: "none",
+                                    border: "1px solid #e9eaeb",
+                                    borderRadius: "8px",
                                     outline: "none",
                                     fontSize: 16,
-                                    padding: "8px 0",
-                                    background: "transparent",
+                                    padding: "8px",
+                                    backgroundColor: "#FFFFFF",
+
                                   }}
                                 />
                               ) : (
