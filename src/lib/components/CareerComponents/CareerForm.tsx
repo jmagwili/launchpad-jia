@@ -525,9 +525,21 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     };
 
     const handleDeleteQuestion = (questionIndex: number) => {
-      setScreeningQuestions(prevQuestions => 
-        prevQuestions.filter((_, index) => index !== questionIndex)
-      );
+      setScreeningQuestions((prevQuestions) => {
+        const deletedQuestion = prevQuestions[questionIndex];
+        // If this question came from a suggested question, mark it as not added
+        if (deletedQuestion?.suggestedIndex !== undefined) {
+          setSuggestedQuestions((prev) => {
+            const updated = [...prev];
+            updated[deletedQuestion.suggestedIndex] = {
+              ...updated[deletedQuestion.suggestedIndex],
+              isAdded: false,
+            };
+            return updated;
+          });
+        }
+        return prevQuestions.filter((_, index) => index !== questionIndex);
+      });
     };
 
     const handleUpdateOption = (questionIndex: number, optionIndex: number, newLabel: string) => {
@@ -581,6 +593,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
       const newQuestion: any = {
         question: suggested.question || "",
         type: suggested.type || "Short Answer",
+        suggestedIndex: sIndex, // Track which suggested question this came from
       };
       if (Array.isArray(suggested.options) && suggested.options.length > 0) {
         newQuestion.options = suggested.options.map((o: any) => ({ label: o.label || o }));
