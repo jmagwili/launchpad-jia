@@ -1134,9 +1134,14 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                               <div style={{ width: "250px", flexShrink: 0 }}>
                                 <CustomDropdown
                                   onSelectSetting={(setting) => {
-                                    setScreeningSetting(setting);
+                                    setScreeningQuestions((prevQuestions) => {
+                                      const updatedQuestions = [...prevQuestions];
+                                      updatedQuestions[index].type = setting;
+                                      updatedQuestions[index].options = setting.toString().toLowerCase() === "dropdown" ? [{ label: "Option 1" }] : [];
+                                      return updatedQuestions;
+                                    });
                                   }}
-                                  screeningSetting={screeningSetting}
+                                  screeningSetting={screeningQuestions[index].type}
                                   settingList={screeningQuestionTypes}
                                 />
                               </div>
