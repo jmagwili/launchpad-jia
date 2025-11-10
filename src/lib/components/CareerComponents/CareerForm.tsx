@@ -502,6 +502,12 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
       });
     };
 
+    const handleDeleteQuestion = (questionIndex: number) => {
+      setScreeningQuestions(prevQuestions => 
+        prevQuestions.filter((_, index) => index !== questionIndex)
+      );
+    };
+
     useEffect(() => {
         const parseProvinces = () => {
           setProvinceList(philippineCitiesAndProvinces.provinces);
@@ -803,7 +809,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                   <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <i className="la la-suitcase" style={{ color: "#FFFFFF", fontSize: 20 }}></i>
                   </div>
-                        <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>2. Job Description</span>
+                  <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>2. Job Description</span>
                 </div>
                   <div className="layered-card-content">
                     <RichTextEditor setText={setDescription} text={description} />
@@ -1160,15 +1166,23 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                 </button>
                                 <hr style={{margin: "15px 0"}}/>
                                 <div style={{display: "flex", justifyContent: "flex-end"}}>
-                                  <button style={{
-                                    backgroundColor: "white", 
-                                    border: "solid 1px #B32318", 
-                                    borderRadius: "9999px", 
-                                    padding: "4px 12px", 
-                                    cursor: "pointer", 
-                                    color: "#B32318",
-                                    fontWeight: 600
-                                  }}>Delete Question</button>
+                                  <button 
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteQuestion(index);
+                                    }}
+                                    style={{
+                                      backgroundColor: "white", 
+                                      border: "solid 1px #B32318", 
+                                      borderRadius: "9999px", 
+                                      padding: "4px 12px", 
+                                      cursor: "pointer", 
+                                      color: "#B32318",
+                                      fontWeight: 600
+                                    }}
+                                  >
+                                    Delete Question
+                                  </button>
                                 </div>
                                 </>
                               )
