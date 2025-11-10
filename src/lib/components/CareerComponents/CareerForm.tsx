@@ -1161,7 +1161,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         "No pre-screening questions added yet."
                       ) : (
                         screeningQuestions.map((question: any, index: number) => (
-                          <div key={index} className="layered-card-middle" style={{padding: 0, border: "1px solid #e9eaeb", overflow: "hidden", minHeight: 300}}>
+                          <div key={index} className="layered-card-middle" style={{padding: 0, border: "1px solid #e9eaeb", overflow: "hidden"}}>
                             <div style={{ height: "60px", padding: "0 20px" , display: "flex", flexDirection: "row", justifyContent: "space-between" ,alignItems: "center", gap: 8 }}>
                               {editingQuestion?.index === index || (!question.question || question.question.toString().trim().length === 0) ? (
                                 <input
