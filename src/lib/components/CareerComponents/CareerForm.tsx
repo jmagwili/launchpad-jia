@@ -1218,7 +1218,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                     setScreeningQuestions((prevQuestions) => {
                                       const updatedQuestions = [...prevQuestions];
                                       updatedQuestions[index].type = setting;
-                                      updatedQuestions[index].options = setting.toString().toLowerCase() === "dropdown" ? [{ label: "Option 1" }] : [];
+                                      updatedQuestions[index].options = setting.toString().toLowerCase() === "dropdown" ? [{ label: "" }] : [];
                                       return updatedQuestions;
                                     });
                                   }}
