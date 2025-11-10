@@ -1535,7 +1535,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                   <span style={{fontWeight: 700}}>{question.category}</span>
                                   <span>{question.question}</span>
                                 </div>
-<button
+                                <button
                                   onClick={() => handleAddSuggested(index)}
                                   disabled={question.isAdded}
                                   style={{
@@ -2324,6 +2324,373 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                           settingList={screeningSettingList}
                         />
                       </div>
+
+                      <div className="layered-card-middle">
+                        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 8, padding: "10px"}}>
+                          <div>
+                            <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>2. Pre-Screening Questions </span>
+                            <span>(optional)</span>
+                          </div>
+                          <button style={{
+                              backgroundColor: "#181D27",
+                              color: "#FFFFFF", 
+                              border: "none",
+                              borderRadius: "9999px", 
+                              padding: "4px 12px", 
+                              cursor: "pointer", 
+                              fontSize: 14,
+                            }}
+                            onClick={handleAddQuestion}
+                          >
+                            + Add Custom
+                          </button>
+                        </div>
+                            <div className="layered-card-content">
+                              { screeningQuestions.length === 0 ? (
+                                "No pre-screening questions added yet."
+                              ) : (
+                                screeningQuestions.map((question: any, index: number) => (
+                                  <div key={index} className="layered-card-middle" style={{padding: 0, border: "1px solid #e9eaeb", overflow: "visible"}}>
+                                    <div style={{ height: "60px", padding: "0 20px" , display: "flex", flexDirection: "row", justifyContent: "space-between" ,alignItems: "center", gap: 8 }}>
+                                      {editingQuestion?.index === index || (!question.question || question.question.toString().trim().length === 0) ? (
+                                        <input
+                                          type="text"
+                                          autoFocus
+                                          value={editingQuestion?.index === index ? editingQuestion.value : (question.question || "")}
+                                          onChange={(e) => {
+                                            setEditingQuestion({ index, value: e.target.value });
+                                          }}
+                                          onBlur={() => {
+                                            if (editingQuestion?.index === index) {
+                                              handleUpdateQuestion(index, editingQuestion.value);
+                                              setEditingQuestion(null);
+                                            }
+                                          }}
+                                          onKeyDown={(e: any) => {
+                                            if (e.key === "Enter") {
+                                              e.preventDefault();
+                                              if (editingQuestion?.index === index) {
+                                                handleUpdateQuestion(index, editingQuestion.value);
+                                                setEditingQuestion(null);
+                                              }
+                                              (e.target as HTMLInputElement).blur();
+                                            }
+                                          }}
+                                          onFocus={() => {
+                                            if (editingQuestion?.index !== index) {
+                                              setEditingQuestion({ index, value: question.question || "" });
+                                            }
+                                          }}
+                                          placeholder="Write your question..."
+                                          style={{
+                                            flex: 1,
+                                            border: "1px solid #e9eaeb",
+                                            borderRadius: "8px",
+                                            outline: "none",
+                                            fontSize: 16,
+                                            padding: "8px",
+                                            backgroundColor: "#FFFFFF",
+
+                                          }}
+                                        />
+                                      ) : (
+                                        <span
+                                          onClick={() => setEditingQuestion({ index, value: question.question })}
+                                          style={{ cursor: "pointer", flex: 1 }}
+                                        >
+                                          {question.question}
+                                        </span>
+                                      )}
+                                      <div style={{ width: "250px", flexShrink: 0 }}>
+                                        <CustomDropdown
+                                          onSelectSetting={(setting) => {
+                                            setScreeningQuestions((prevQuestions) => {
+                                              const updatedQuestions = [...prevQuestions];
+                                              const settingKey = setting.toString().toLowerCase();
+                                              // set type
+                                              updatedQuestions[index].type = setting;
+                                              // initialize options for dropdown/checkboxes
+                                              if (settingKey === "dropdown" || settingKey === "checkboxes") {
+                                                updatedQuestions[index].options = [{ label: "" }];
+                                              } else {
+                                                updatedQuestions[index].options = [];
+                                              }
+                                              // initialize or remove range for range type
+                                              if (settingKey === "range") {
+                                                updatedQuestions[index].range = { min: "", max: "" };
+                                              } else {
+                                                delete updatedQuestions[index].range;
+                                              }
+                                              return updatedQuestions;
+                                            });
+                                          }}
+                                          screeningSetting={screeningQuestions[index].type}
+                                          settingList={screeningQuestionTypes}
+                                        />
+                                      </div>
+                                    </div>
+                                    <div className="layered-card-content" style={{borderRadius: "0 0 20px 20px", border: "none", flex: 1, gap: 0}}>
+                                      {/* Render options only if type is dropdown or checkboxes */}
+                                      {(
+                                        question.type &&
+                                        (question.type.toString().toLowerCase() === "dropdown" ||
+                                          question.type.toString().toLowerCase() === "checkboxes")
+                                      ) && (
+                                        <>
+                                          {Array.isArray(question.options) && question.options.length > 0 ? (
+                                            question.options.map((option, idx) => (
+                                              <div
+                                                key={idx}
+                                                style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 20 }}
+                                              >
+                                                <div
+                                                  style={{
+                                                    height: 40,
+                                                    display: "flex",
+                                                    flex: 1,
+                                                    alignItems: "center",
+                                                    margin: "4px 0",
+                                                    border: "1px solid #e9eaeb",
+                                                    borderRadius: "8px",
+                                                  }}
+                                                >
+                                                  <span
+                                                    style={{
+                                                      height: "100%",
+                                                      width: 40,
+                                                      display: "flex",
+                                                      justifyContent: "center",
+                                                      alignItems: "center",
+                                                      borderRight: "1px solid #e9eaeb",
+                                                    }}
+                                                  >
+                                                    {idx + 1}
+                                                  </span>
+                                                  <input
+                                                    type="text"
+                                                    value={option.label}
+                                                    placeholder={`Option ${idx + 1}`}
+                                                    onChange={(e) => handleUpdateOption(index, idx, e.target.value)}
+                                                    style={{
+                                                      padding: "0 20px",
+                                                      flex: 1,
+                                                      border: "none",
+                                                      outline: "none",
+                                                      background: "transparent",
+                                                    }}
+                                                  />
+                                                </div>
+                                                <button
+                                                  onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleRemoveOption(index, idx);
+                                                  }}
+                                                  style={{
+                                                    height: 30,
+                                                    width: 30,
+                                                    borderRadius: "100%",
+                                                    border: "1px solid #e9eaeb",
+                                                    backgroundColor: "inherit",
+                                                    cursor: "pointer",
+                                                    color: "#525f7f",
+                                                    fontWeight: 600,
+                                                    fontSize: 14,
+                                                  }}
+                                                >
+                                                  X
+                                                </button>
+                                              </div>
+                                            ))
+                                          ) : (
+                                            <p style={{ color: "#6a6a6a" }}>No options added yet.</p>
+                                          )}
+                                          <button
+                                            style={{
+                                              height: 40,
+                                              width: 150,
+                                              border: "none",
+                                              backgroundColor: "inherit",
+                                              cursor: "pointer",
+                                              color: "#525f7f",
+                                              marginTop: "8px",
+                                              fontWeight: 500,
+                                            }}
+                                            onClick={() => handleAddOption(index)}
+                                          >
+                                            + Add Option
+                                          </button>
+                                          <hr style={{ margin: "15px 0" }} />
+                                        </>
+                                      )}
+                                      {(
+                                        question.type &&
+                                        question.type.toString().toLowerCase() === "range"
+                                      ) && (
+                                        <>
+                                          <div style={{ display: "flex", gap: 16 }}>
+                                            <div style={{flex: 1}}>
+                                              <span>Minimum</span>
+                                              <div style={{ position: "relative" }}>
+                                                <span
+                                                  style={{
+                                                  position: "absolute",
+                                                  left: "12px",
+                                                  top: "50%",
+                                                  transform: "translateY(-50%)",
+                                                  color: "#6c757d",
+                                                  fontSize: "16px",
+                                                  pointerEvents: "none",
+                                                  }}
+                                                >
+                                                P
+                                                </span>
+                                                <input
+                                                  type="number"
+                                                  className="form-control"
+                                                  style={{ paddingLeft: "28px" }}
+                                                  placeholder="0"
+                                                  min={0}
+                                                  value={question.range?.min || ""}
+                                                  onChange={(e) => {
+                                                    setScreeningQuestions((prevQuestions) => {
+                                                      const updatedQuestions = [...prevQuestions];
+                                                      const existingRange = updatedQuestions[index].range || { min: "", max: "" };
+                                                      updatedQuestions[index].range = {
+                                                        ...existingRange,
+                                                        min: e.target.value,
+                                                      };
+                                                      return updatedQuestions;
+                                                    });
+                                                  }}
+                                                ></input>
+                                                <span style={{
+                                                  position: "absolute",
+                                                  right: "30px",
+                                                  top: "50%",
+                                                  transform: "translateY(-50%)",
+                                                  color: "#6c757d",
+                                                  fontSize: "16px",
+                                                  pointerEvents: "none",
+                                                }}>
+                                                  PHP
+                                                </span>
+                                              </div>
+                                            </div>
+
+                                            <div style={{flex: 1}}>
+                                              <span>Maximum</span>
+                                              <div style={{ position: "relative" }}>
+                                                <span
+                                                  style={{
+                                                  position: "absolute",
+                                                  left: "12px",
+                                                  top: "50%",
+                                                  transform: "translateY(-50%)",
+                                                  color: "#6c757d",
+                                                  fontSize: "16px",
+                                                  pointerEvents: "none",
+                                                  }}
+                                                >
+                                                P
+                                                </span>
+                                                <input
+                                                  type="number"
+                                                  className="form-control"
+                                                  style={{ paddingLeft: "28px" }}
+                                                  placeholder="0"
+                                                  min={0}
+                                                  value={question.range?.max || ""}
+                                                  onChange={(e) => {
+                                                    setScreeningQuestions((prevQuestions) => {
+                                                      const updatedQuestions = [...prevQuestions];
+                                                      const existingRange = updatedQuestions[index].range || { min: "", max: "" };
+                                                      updatedQuestions[index].range = {
+                                                        ...existingRange,
+                                                        max: e.target.value,
+                                                      };
+                                                      return updatedQuestions;
+                                                    });
+                                                  }}
+                                                ></input>
+                                                <span style={{
+                                                  position: "absolute",
+                                                  right: "30px",
+                                                  top: "50%",
+                                                  transform: "translateY(-50%)",
+                                                  color: "#6c757d",
+                                                  fontSize: "16px",
+                                                  pointerEvents: "none",
+                                                }}>
+                                                  PHP
+                                                </span>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <hr style={{margin: "15px 0"}} />
+                                        </>
+                                      )
+                                      }
+
+                                      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                                        <button
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDeleteQuestion(index);
+                                          }}
+                                          style={{
+                                            backgroundColor: "white",
+                                            border: "solid 1px #B32318",
+                                            borderRadius: "9999px",
+                                            padding: "4px 12px",
+                                            cursor: "pointer",
+                                            color: "#B32318",
+                                            fontWeight: 600,
+                                            marginTop: "15px", // spacing consistency
+                                          }}
+                                        >
+                                          Delete Question
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))
+                              ) }
+                              <hr style={{margin: "10px 0"}}/>
+                                <div>
+                                  <span style={{fontWeight: 700}}>Suggested Pre-screening Questions:</span>
+                                </div>
+                                <div style={{ display: "flex", justifyContent: "space-between"}}>
+                                  <div style={{ width: "100%" }}>
+                                    {suggestedQuestions.map((question, index) => (
+                                      <div key={index} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "12px 0" }}>
+                                        <div style={{ display: "flex", flexDirection: "column", color: question.isAdded ? "#D5D7DA" : "" }}>
+                                          <span style={{fontWeight: 700}}>{question.category}</span>
+                                          <span>{question.question}</span>
+                                        </div>
+                                        <button
+                                          onClick={() => handleAddSuggested(index)}
+                                          disabled={question.isAdded}
+                                          style={{
+                                            backgroundColor: "inherit",
+                                            border: question.isAdded ? "solid 1px #D5D7DA" : "solid 1px #525f7f",
+                                            borderRadius: "9999px",
+                                            padding: "4px 12px",
+                                            cursor: question.isAdded ? "not-allowed" : "pointer",
+                                            color: question.isAdded ? "#D5D7DA" : "#525f7f",
+                                            fontWeight: 600,
+                                          }}
+                                        >
+                                          {question.isAdded ? "Added" : "Add"}
+                                        
+                                        </button>
+
+
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
                      </div>
 
                       <div
