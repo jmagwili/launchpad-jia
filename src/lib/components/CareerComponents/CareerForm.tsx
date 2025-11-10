@@ -1218,7 +1218,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                     setScreeningQuestions((prevQuestions) => {
                                       const updatedQuestions = [...prevQuestions];
                                       updatedQuestions[index].type = setting;
-                                      updatedQuestions[index].options = setting.toString().toLowerCase() === "dropdown" ? [{ label: "" }] : [];
+                                      updatedQuestions[index].options = setting.toString().toLowerCase() === "dropdown" || setting.toString().toLowerCase() === "checkboxes" ? [{ label: "" }] : [];
                                       return updatedQuestions;
                                     });
                                   }}
@@ -1230,7 +1230,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                             <div className="layered-card-content" style={{borderRadius: "0 0 10px 10px", border: "none", flex: 1, gap: 0}}>
                               {
                               // Replace strict equality with a case-insensitive check and guard options
-                              (question.type && question.type.toString().toLowerCase() === "dropdown") && (
+                              (question.type && question.type.toString().toLowerCase() === "dropdown" || question.type.toString().toLowerCase() === "checkboxes") && (
                                 <>
                                 {Array.isArray(question.options) && question.options.length > 0 ? (
                                   question.options.map((option, idx) => (
