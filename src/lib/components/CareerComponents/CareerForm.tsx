@@ -110,16 +110,31 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
       { 
         category: "Notice Period",
         question: "How long is your notice period?",
+        type: "Dropdown",
+        options: [
+          { label: "Immediately" },
+          { label: "< 30 days" },
+          { label: "> 30 days" },
+        ],
         isAdded: false,
       },
       {
         category: "Work Setup",
         question: "How often are you willing to report to the office each week?",
+        type: "Dropdown",
+        options: [
+          { label: "At most 1-2x a week" },
+          { label: "At most 3-4x a week" },
+          { label: "Open to fully onsite work" },
+          { label: "Only open to fully remote work" },
+        ],
         isAdded: false,
       },
       {
         category: "Asking Salary",
         question: "How much is your expected monthly salary?",
+        type: "Range",
+        range: { min: "40000", max: "60000" },
         isAdded: false,
       }
     ]);
