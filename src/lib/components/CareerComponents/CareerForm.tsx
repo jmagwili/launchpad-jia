@@ -1116,13 +1116,23 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
             </div>
             <div className="layered-card-outer">
               <div className="layered-card-middle">
-                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
-                    <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <i className="la la-suitcase" style={{ color: "#FFFFFF", fontSize: 20 }}></i>
-                    </div>
-                        <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>2. Pre-Screening Questions</span>
-                        <span>(optional)</span>
-                    </div>
+                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 8, padding: "10px"}}>
+                  <div>
+                    <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>2. Pre-Screening Questions </span>
+                    <span>(optional)</span>
+                  </div>
+                  <button style={{
+                    backgroundColor: "#181D27",
+                    color: "#FFFFFF", 
+                    border: "none",
+                    borderRadius: "9999px", 
+                    padding: "4px 12px", 
+                    cursor: "pointer", 
+                    fontSize: 14,
+                  }}>
+                    + Add Custom
+                  </button>
+                </div>
                     <div className="layered-card-content">
                       { screeningQuestions.length === 0 ? (
                         "No pre-screening questions added yet."
