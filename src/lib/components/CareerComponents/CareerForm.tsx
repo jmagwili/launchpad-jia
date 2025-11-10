@@ -1227,7 +1227,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                 />
                               </div>
                             </div>
-                            <div className="layered-card-content" style={{borderRadius: "0 0 10px 10px", border: "none", flex: 1, gap: 0}}>
+                            <div className="layered-card-content" style={{borderRadius: "0 0 20px 20px", border: "none", flex: 1, gap: 0}}>
                               {/* Render options only if type is dropdown or checkboxes */}
                               {(
                                 question.type &&
