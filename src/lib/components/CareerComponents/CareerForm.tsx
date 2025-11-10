@@ -573,6 +573,30 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         return updated;
       });
     };
+
+    const handleAddSuggested = (sIndex: number) => {
+      const suggested = suggestedQuestions[sIndex];
+      if (!suggested || suggested.isAdded) return;
+
+      const newQuestion: any = {
+        question: suggested.question || "",
+        type: suggested.type || "Short Answer",
+      };
+      if (Array.isArray(suggested.options) && suggested.options.length > 0) {
+        newQuestion.options = suggested.options.map((o: any) => ({ label: o.label || o }));
+      }
+      if (suggested.range) {
+        newQuestion.range = { ...suggested.range };
+      }
+
+      setScreeningQuestions((prev) => [...prev, newQuestion]);
+      setSuggestedQuestions((prev) => {
+        const updated = [...prev];
+        updated[sIndex] = { ...updated[sIndex], isAdded: true };
+        return updated;
+      });
+    };
+
     
     useEffect(() => {
         const parseProvinces = () => {
@@ -1498,20 +1522,24 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                   <span style={{fontWeight: 700}}>{question.category}</span>
                                   <span>{question.question}</span>
                                 </div>
-                                <button
-                                  style={{ 
-                                    backgroundColor: "inherit", 
-                                    border: "solid 1px #525f7f", 
-                                    borderRadius: "9999px", 
-                                    padding: "4px 12px", 
-                                    cursor: "pointer", 
+<button
+                                  onClick={() => handleAddSuggested(index)}
+                                  disabled={question.isAdded}
+                                  style={{
+                                    backgroundColor: question.isAdded ? "#E9EAEB" : "inherit",
+                                    border: "solid 1px #525f7f",
+                                    borderRadius: "9999px",
+                                    padding: "4px 12px",
+                                    cursor: question.isAdded ? "not-allowed" : "pointer",
                                     color: "#525f7f",
-                                    fontWeight: 600
+                                    fontWeight: 600,
                                   }}
-                                  
                                 >
-                                  Add
+                                  {question.isAdded ? "Added" : "Add"}
+                                
                                 </button>
+
+
                               </div>
                             ))}
                           </div>
