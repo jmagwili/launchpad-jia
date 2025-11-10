@@ -228,6 +228,8 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [tempMaximumSalary, setTempMaximumSalary] = useState("");
     const [tempDescription, setTempDescription] = useState();
     const [tempScreeningSetting, setTempScreeningSetting] = useState();
+    const [tempScreeningQuestions, setTempScreeningQuestions] = useState<any[]>([]);
+    const [tempSuggestedQuestions, setTempSuggestedQuestions] = useState<any[]>([]);
     const [tempInterviewScreening, setTempInterviewScreening] = useState();
     const [tempRequireVideo, setTempRequireVideo] = useState(true);
     const [tempQuestions, setTempQuestions] = useState([]);
@@ -610,7 +612,104 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
       });
     };
 
-    
+    // Temp handlers for the edit modal
+    const handleTempDeleteQuestion = (questionIndex: number) => {
+      setTempScreeningQuestions((prevQuestions) => {
+        const deletedQuestion = prevQuestions[questionIndex];
+        // If this question came from a suggested question, mark it as not added
+        if (deletedQuestion?.suggestedIndex !== undefined) {
+          setTempSuggestedQuestions((prev) => {
+            const updated = [...prev];
+            updated[deletedQuestion.suggestedIndex] = {
+              ...updated[deletedQuestion.suggestedIndex],
+              isAdded: false,
+            };
+            return updated;
+          });
+        }
+        return prevQuestions.filter((_, index) => index !== questionIndex);
+      });
+    };
+
+    const handleTempRemoveOption = (questionIndex: number, optionIndex: number) => {
+      setTempScreeningQuestions(prevQuestions => {
+        const updatedQuestions = [...prevQuestions];
+        const question = { ...updatedQuestions[questionIndex] };
+        question.options = question.options.filter((_, index) => index !== optionIndex);
+        updatedQuestions[questionIndex] = question;
+        return updatedQuestions;
+      });
+    };
+
+    const handleTempUpdateOption = (questionIndex: number, optionIndex: number, newLabel: string) => {
+      setTempScreeningQuestions(prevQuestions => {
+        const updatedQuestions = [...prevQuestions];
+        const question = { ...updatedQuestions[questionIndex] };
+        question.options = [...question.options];
+        question.options[optionIndex] = { ...question.options[optionIndex], label: newLabel };
+        updatedQuestions[questionIndex] = question;
+        return updatedQuestions;
+      });
+    };
+
+    const handleTempAddOption = (questionIndex: number) => {
+      setTempScreeningQuestions((prev)=>{
+        const updatedQuestions = [...prev];
+        return updatedQuestions.map((q, i)=>{
+          if(i === questionIndex){
+            const updatedOptions = q.options ? [...q.options] : [];
+            updatedOptions.push({ label: "", value: `option_${updatedOptions.length + 1}` });
+            return { ...q, options: updatedOptions };
+          }
+          return q;
+        });
+      })
+    }
+
+    const handleTempAddQuestion = () => {
+      setTempScreeningQuestions((prev)=>{
+        const newQuestion = {
+          question: "",
+          type: "Dropdown",
+          options: [],
+        };
+        return [...prev, newQuestion];
+      })
+    }
+
+    const handleTempUpdateQuestion = (questionIndex: number, newText: string) => {
+      setTempScreeningQuestions(prev => {
+        const updated = [...prev];
+        updated[questionIndex] = { ...updated[questionIndex], question: newText };
+        return updated;
+      });
+    };
+
+    const handleTempAddSuggested = (sIndex: number) => {
+      const suggested = tempSuggestedQuestions[sIndex];
+      if (!suggested || suggested.isAdded) return;
+
+      const newQuestion: any = {
+        question: suggested.question || "",
+        type: suggested.type || "Short Answer",
+        suggestedIndex: sIndex, // Track which suggested question this came from
+      };
+      if (Array.isArray(suggested.options) && suggested.options.length > 0) {
+        newQuestion.options = suggested.options.map((o: any) => ({ label: o.label || o }));
+      }
+      if (suggested.range) {
+        newQuestion.range = { ...suggested.range };
+      }
+
+      setTempScreeningQuestions((prev) => [...prev, newQuestion]);
+      setTempSuggestedQuestions((prev) => {
+        const updated = [...prev];
+        updated[sIndex] = { ...updated[sIndex], isAdded: true };
+        return updated;
+      });
+    };
+
+
     useEffect(() => {
         const parseProvinces = () => {
           setProvinceList(philippineCitiesAndProvinces.provinces);
@@ -2202,6 +2301,8 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                     onClick={() => {
                       setIsCVReviewEditing(true);
                       setTempScreeningSetting(screeningSetting);
+                      setTempScreeningQuestions(JSON.parse(JSON.stringify(screeningQuestions)));
+                      setTempSuggestedQuestions(JSON.parse(JSON.stringify(suggestedQuestions)));
                     }}
                     style={{
                       background: "none",
@@ -2333,23 +2434,23 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                           </div>
                           <button style={{
                               backgroundColor: "#181D27",
-                              color: "#FFFFFF", 
+                              color: "#FFFFFF",
                               border: "none",
-                              borderRadius: "9999px", 
-                              padding: "4px 12px", 
-                              cursor: "pointer", 
+                              borderRadius: "9999px",
+                              padding: "4px 12px",
+                              cursor: "pointer",
                               fontSize: 14,
                             }}
-                            onClick={handleAddQuestion}
+                            onClick={handleTempAddQuestion}
                           >
                             + Add Custom
                           </button>
                         </div>
                             <div className="layered-card-content">
-                              { screeningQuestions.length === 0 ? (
+                              { tempScreeningQuestions.length === 0 ? (
                                 "No pre-screening questions added yet."
                               ) : (
-                                screeningQuestions.map((question: any, index: number) => (
+                                tempScreeningQuestions.map((question: any, index: number) => (
                                   <div key={index} className="layered-card-middle" style={{padding: 0, border: "1px solid #e9eaeb", overflow: "visible"}}>
                                     <div style={{ height: "60px", padding: "0 20px" , display: "flex", flexDirection: "row", justifyContent: "space-between" ,alignItems: "center", gap: 8 }}>
                                       {editingQuestion?.index === index || (!question.question || question.question.toString().trim().length === 0) ? (
@@ -2362,7 +2463,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                           }}
                                           onBlur={() => {
                                             if (editingQuestion?.index === index) {
-                                              handleUpdateQuestion(index, editingQuestion.value);
+                                              handleTempUpdateQuestion(index, editingQuestion.value);
                                               setEditingQuestion(null);
                                             }
                                           }}
@@ -2370,7 +2471,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                             if (e.key === "Enter") {
                                               e.preventDefault();
                                               if (editingQuestion?.index === index) {
-                                                handleUpdateQuestion(index, editingQuestion.value);
+                                                handleTempUpdateQuestion(index, editingQuestion.value);
                                                 setEditingQuestion(null);
                                               }
                                               (e.target as HTMLInputElement).blur();
@@ -2404,7 +2505,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                       <div style={{ width: "250px", flexShrink: 0 }}>
                                         <CustomDropdown
                                           onSelectSetting={(setting) => {
-                                            setScreeningQuestions((prevQuestions) => {
+                                            setTempScreeningQuestions((prevQuestions) => {
                                               const updatedQuestions = [...prevQuestions];
                                               const settingKey = setting.toString().toLowerCase();
                                               // set type
@@ -2424,7 +2525,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                               return updatedQuestions;
                                             });
                                           }}
-                                          screeningSetting={screeningQuestions[index].type}
+                                          screeningSetting={question.type}
                                           settingList={screeningQuestionTypes}
                                         />
                                       </div>
@@ -2470,7 +2571,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                                     type="text"
                                                     value={option.label}
                                                     placeholder={`Option ${idx + 1}`}
-                                                    onChange={(e) => handleUpdateOption(index, idx, e.target.value)}
+                                                    onChange={(e) => handleTempUpdateOption(index, idx, e.target.value)}
                                                     style={{
                                                       padding: "0 20px",
                                                       flex: 1,
@@ -2483,7 +2584,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                                 <button
                                                   onClick={(e) => {
                                                     e.stopPropagation();
-                                                    handleRemoveOption(index, idx);
+                                                    handleTempRemoveOption(index, idx);
                                                   }}
                                                   style={{
                                                     height: 30,
@@ -2515,7 +2616,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                               marginTop: "8px",
                                               fontWeight: 500,
                                             }}
-                                            onClick={() => handleAddOption(index)}
+                                            onClick={() => handleTempAddOption(index)}
                                           >
                                             + Add Option
                                           </button>
@@ -2552,7 +2653,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                                   min={0}
                                                   value={question.range?.min || ""}
                                                   onChange={(e) => {
-                                                    setScreeningQuestions((prevQuestions) => {
+                                                    setTempScreeningQuestions((prevQuestions) => {
                                                       const updatedQuestions = [...prevQuestions];
                                                       const existingRange = updatedQuestions[index].range || { min: "", max: "" };
                                                       updatedQuestions[index].range = {
@@ -2601,7 +2702,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                                   min={0}
                                                   value={question.range?.max || ""}
                                                   onChange={(e) => {
-                                                    setScreeningQuestions((prevQuestions) => {
+                                                    setTempScreeningQuestions((prevQuestions) => {
                                                       const updatedQuestions = [...prevQuestions];
                                                       const existingRange = updatedQuestions[index].range || { min: "", max: "" };
                                                       updatedQuestions[index].range = {
@@ -2635,7 +2736,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                         <button
                                           onClick={(e) => {
                                             e.stopPropagation();
-                                            handleDeleteQuestion(index);
+                                            handleTempDeleteQuestion(index);
                                           }}
                                           style={{
                                             backgroundColor: "white",
@@ -2661,14 +2762,14 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                 </div>
                                 <div style={{ display: "flex", justifyContent: "space-between"}}>
                                   <div style={{ width: "100%" }}>
-                                    {suggestedQuestions.map((question, index) => (
+                                    {tempSuggestedQuestions.map((question, index) => (
                                       <div key={index} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "12px 0" }}>
                                         <div style={{ display: "flex", flexDirection: "column", color: question.isAdded ? "#D5D7DA" : "" }}>
                                           <span style={{fontWeight: 700}}>{question.category}</span>
                                           <span>{question.question}</span>
                                         </div>
                                         <button
-                                          onClick={() => handleAddSuggested(index)}
+                                          onClick={() => handleTempAddSuggested(index)}
                                           disabled={question.isAdded}
                                           style={{
                                             backgroundColor: "inherit",
@@ -2717,6 +2818,8 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                           onClick={() => {
                             setIsCVReviewEditing(false);
                             setScreeningSetting(tempScreeningSetting);
+                            setScreeningQuestions(JSON.parse(JSON.stringify(tempScreeningQuestions)));
+                            setSuggestedQuestions(JSON.parse(JSON.stringify(tempSuggestedQuestions)));
                           }}
                           style={{
                             padding: "6px 12px",
