@@ -1090,13 +1090,15 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                           <div className="layered-card-middle" style={{padding: 0, border: "1px solid #e9eaeb", overflow: "hidden", minHeight: 300}}>
                             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" ,alignItems: "center", gap: 8 }}>
                               <span>{question.question}</span>
-                              <CustomDropdown
-                              onSelectSetting={(setting) => {
-                                setScreeningSetting(setting);
-                              }}
-                              screeningSetting={screeningSetting}
-                              settingList={screeningQuestionTypes}
-                              />
+                              <div style={{ width: "250px", flexShrink: 0 }}>
+                                <CustomDropdown
+                                  onSelectSetting={(setting) => {
+                                    setScreeningSetting(setting);
+                                  }}
+                                  screeningSetting={screeningSetting}
+                                  settingList={screeningQuestionTypes}
+                                />
+                              </div>
                             </div>
                             <div className="layered-card-content" style={{borderRadius: "0 0 10px 10px", border: "none", flex: 1}}>
                               test
