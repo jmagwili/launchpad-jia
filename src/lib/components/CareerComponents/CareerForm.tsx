@@ -492,6 +492,16 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         }
     };
 
+    const handleRemoveOption = (questionIndex: number, optionIndex: number) => {
+      setScreeningQuestions(prevQuestions => {
+        const updatedQuestions = [...prevQuestions];
+        const question = { ...updatedQuestions[questionIndex] };
+        question.options = question.options.filter((_, index) => index !== optionIndex);
+        updatedQuestions[questionIndex] = question;
+        return updatedQuestions;
+      });
+    };
+
     useEffect(() => {
         const parseProvinces = () => {
           setProvinceList(philippineCitiesAndProvinces.provinces);
@@ -1107,25 +1117,29 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                 <>
                                 {Array.isArray(question.options) && question.options.length > 0 ? (
                                   question.options.map((option, idx) => (
-                                  <div key={idx} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 20}}>
-                                    <div style={{ height: 40, display: "flex", flex: 1, alignItems: "center", margin: "4px 0", border: "1px solid #e9eaeb", borderRadius: "8px"}}>
-                                    <span style={{height:"100%", width: 40 ,display: "flex", justifyContent: "center", alignItems: "center", borderRight: "1px solid #e9eaeb"}}>{idx + 1}</span>
-                                    <span style={{padding: "0 20px", flex: 1}}>{option.label}</span>
+                                    <div key={idx} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 20}}>
+                                      <div style={{ height: 40, display: "flex", flex: 1, alignItems: "center", margin: "4px 0", border: "1px solid #e9eaeb", borderRadius: "8px"}}>
+                                        <span style={{height:"100%", width: 40 ,display: "flex", justifyContent: "center", alignItems: "center", borderRight: "1px solid #e9eaeb"}}>{idx + 1}</span>
+                                        <span style={{padding: "0 20px", flex: 1}}>{option.label}</span>
+                                      </div>
+                                      <button 
+                                        onClick={(e) => {
+                                          e.stopPropagation();  // Prevent event bubbling
+                                          handleRemoveOption(index, idx);
+                                        }}
+                                        style={{
+                                          height: 30, 
+                                          width: 30, 
+                                          borderRadius: "100%", 
+                                          border: "1px solid #e9eaeb", 
+                                          backgroundColor: "inherit", 
+                                          cursor: "pointer", 
+                                          color: "#525f7f",
+                                          fontWeight: 600,
+                                          fontSize: 14,
+                                        }}
+                                      >X</button>
                                     </div>
-                                    <button 
-                                    style={{
-                                      height: 30, 
-                                      width: 30, 
-                                      borderRadius: "100%", 
-                                      border: "1px solid #e9eaeb", 
-                                      backgroundColor: "inherit", 
-                                      cursor: "pointer", 
-                                      color: "#525f7f",
-                                      fontWeight: 600,
-                                      fontSize: 14,
-                                      }}
-                                    >X</button>
-                                  </div>
                                   ))
                                 ) : (
                                   <p style={{ color: "#6a6a6a" }}>No options available.</p>
