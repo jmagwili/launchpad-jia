@@ -66,7 +66,17 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [salaryNegotiable, setSalaryNegotiable] = useState(career?.salaryNegotiable || true);
     const [minimumSalary, setMinimumSalary] = useState(career?.minimumSalary || "");
     const [maximumSalary, setMaximumSalary] = useState(career?.maximumSalary || "");
-    const [screeningQuestions, setScreeningQuestions] = useState(career?.screeningQuestions || []);
+    const [screeningQuestions, setScreeningQuestions] = useState<any[]>(career?.screeningQuestions || [
+      {
+        question: "What is your highest educational attainment?",
+        type: "dropdown",
+        options: [
+          { label: "High School" },
+          { label: "College" },
+          { label: "Postgraduate" }
+        ]
+      }
+    ]);
     const [suggestedQuestions, setSuggestedQuestions] = useState([
       { 
         category: "Notice Period",
@@ -1051,7 +1061,20 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         <span>(optional)</span>
                     </div>
                     <div className="layered-card-content">
-                      { screeningQuestions.length == 0 && ("No pre-screening questions added yet.") }
+                      { screeningQuestions.length === 0 ? (
+                        "No pre-screening questions added yet."
+                      ) : (
+                        screeningQuestions.map((question: any, index: number) => (
+                          <div className="layered-card-middle" style={{padding: 0, border: "1px solid #e9eaeb", overflow: "hidden"}}>
+                            <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
+                              <span>{question.question}</span>
+                            </div>
+                            <div className="layered-card-content" style={{borderRadius: "0 0 10px 10px", border: "none"}}>
+                              testing
+                            </div>
+                          </div>
+                        ))
+                      ) }
                       <hr style={{margin: "10px 0"}}/>
                         <div>
                           <span style={{fontWeight: 700}}>Suggested Pre-screening Questions:</span>
