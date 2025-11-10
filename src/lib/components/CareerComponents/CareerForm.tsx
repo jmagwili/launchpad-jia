@@ -533,6 +533,17 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
       })
     }
 
+    const handleAddQuestion = () => {
+      setScreeningQuestions((prev)=>{
+        const newQuestion = {
+          question: "",
+          type: "Dropdown",
+          options: [],
+        };
+        return [...prev, newQuestion];
+      })
+    }
+
     useEffect(() => {
         const parseProvinces = () => {
           setProvinceList(philippineCitiesAndProvinces.provinces);
@@ -1122,14 +1133,16 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                     <span>(optional)</span>
                   </div>
                   <button style={{
-                    backgroundColor: "#181D27",
-                    color: "#FFFFFF", 
-                    border: "none",
-                    borderRadius: "9999px", 
-                    padding: "4px 12px", 
-                    cursor: "pointer", 
-                    fontSize: 14,
-                  }}>
+                      backgroundColor: "#181D27",
+                      color: "#FFFFFF", 
+                      border: "none",
+                      borderRadius: "9999px", 
+                      padding: "4px 12px", 
+                      cursor: "pointer", 
+                      fontSize: 14,
+                    }}
+                    onClick={handleAddQuestion}
+                  >
                     + Add Custom
                   </button>
                 </div>
