@@ -1088,7 +1088,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                       ) : (
                         screeningQuestions.map((question: any, index: number) => (
                           <div className="layered-card-middle" style={{padding: 0, border: "1px solid #e9eaeb", overflow: "hidden", minHeight: 300}}>
-                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" ,alignItems: "center", gap: 8 }}>
+                            <div style={{ height: "60px", padding: "0 20px" , display: "flex", flexDirection: "row", justifyContent: "space-between" ,alignItems: "center", gap: 8 }}>
                               <span>{question.question}</span>
                               <div style={{ width: "250px", flexShrink: 0 }}>
                                 <CustomDropdown
