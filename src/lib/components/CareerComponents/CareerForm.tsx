@@ -534,7 +534,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     }
 
     const handleAddQuestion = () => {
-      setScreeningQuestions((prev)=>{
+      setScreeningQuestions((prev)=>{ 
         const newQuestion = {
           question: "",
           type: "Dropdown",
@@ -544,6 +544,14 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
       })
     }
 
+    const handleUpdateQuestion = (questionIndex: number, newText: string) => {
+      setScreeningQuestions(prev => {
+        const updated = [...prev];
+        updated[questionIndex] = { ...updated[questionIndex], question: newText };
+        return updated;
+      });
+    };
+    
     useEffect(() => {
         const parseProvinces = () => {
           setProvinceList(philippineCitiesAndProvinces.provinces);
@@ -1153,7 +1161,31 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         screeningQuestions.map((question: any, index: number) => (
                           <div key={index} className="layered-card-middle" style={{padding: 0, border: "1px solid #e9eaeb", overflow: "hidden", minHeight: 300}}>
                             <div style={{ height: "60px", padding: "0 20px" , display: "flex", flexDirection: "row", justifyContent: "space-between" ,alignItems: "center", gap: 8 }}>
-                              <span>{question.question}</span>
+                              {question.question && question.question.toString().trim().length > 0 ? (
+                                <span>{question.question}</span>
+                              ) : (
+                                <input
+                                  type="text"
+                                  autoFocus
+                                  value={question.question || ""}
+                                  onChange={(e) => handleUpdateQuestion(index, e.target.value)}
+                                  onKeyDown={(e: any) => {
+                                    if (e.key === "Enter") {
+                                      e.preventDefault();
+                                      (e.target as HTMLInputElement).blur();
+                                    }
+                                  }}
+                                  placeholder="Type your custom question and press Enter"
+                                  style={{
+                                    flex: 1,
+                                    border: "none",
+                                    outline: "none",
+                                    fontSize: 16,
+                                    padding: "8px 0",
+                                    background: "transparent",
+                                  }}
+                                />
+                              )}
                               <div style={{ width: "250px", flexShrink: 0 }}>
                                 <CustomDropdown
                                   onSelectSetting={(setting) => {
