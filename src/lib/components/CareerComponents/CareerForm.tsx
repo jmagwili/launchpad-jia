@@ -519,6 +519,20 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
       });
     };
 
+    const handleAddOption = (questionIndex: number) => {
+      setScreeningQuestions((prev)=>{
+        const updatedQuestions = [...prev];
+        return updatedQuestions.map((q, i)=>{
+          if(i === questionIndex){
+            const updatedOptions = q.options ? [...q.options] : [];
+            updatedOptions.push({ label: `Option ${updatedOptions.length + 1}`, value: `option_${updatedOptions.length + 1}` });
+            return { ...q, options: updatedOptions };
+          }
+          return q;
+        });
+      })
+    }
+
     useEffect(() => {
         const parseProvinces = () => {
           setProvinceList(philippineCitiesAndProvinces.provinces);
@@ -1183,6 +1197,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                   marginTop: "8px",
                                   fontWeight: 500,
                                   }}
+                                  onClick={()=>handleAddOption(index)}
                                 >
                                   + Add Option
                                 </button>
