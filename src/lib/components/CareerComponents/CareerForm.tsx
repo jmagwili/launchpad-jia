@@ -371,46 +371,78 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
             name: user.name,
             email: user.email,
         };
-        const career = {
-            jobTitle,
-            description,
-            workSetup,
-            workSetupRemarks,
-            questions,
-            lastEditedBy: userInfoSlice,
-            createdBy: userInfoSlice,
-            screeningSetting,
-            screeningQuestions,
-            interviewScreening,
-            orgID,
-            requireVideo,
-            salaryNegotiable,
-            minimumSalary: isNaN(Number(minimumSalary)) ? null : Number(minimumSalary),
-            maximumSalary: isNaN(Number(maximumSalary)) ? null : Number(maximumSalary),
-            country,
-            province,
-            // Backwards compatibility
-            location: city,
-            status,
-            employmentType,
-        }
 
         try {
+            let response;
 
-            const response = await axios.post("/api/add-career", career);
+            // If we already have a saved career ID from step navigation, update it instead of creating new
+            if (savedCareerId) {
+                // Update existing draft career with final status
+                const updatedCareer = {
+                    _id: savedCareerId,
+                    jobTitle,
+                    description,
+                    workSetup,
+                    workSetupRemarks,
+                    questions,
+                    lastEditedBy: userInfoSlice,
+                    screeningSetting,
+                    screeningQuestions,
+                    interviewScreening,
+                    requireVideo,
+                    salaryNegotiable,
+                    minimumSalary: isNaN(Number(minimumSalary)) ? null : Number(minimumSalary),
+                    maximumSalary: isNaN(Number(maximumSalary)) ? null : Number(maximumSalary),
+                    country,
+                    province,
+                    location: city,
+                    status,
+                    employmentType,
+                    updatedAt: Date.now(),
+                };
+                response = await axios.post("/api/update-career", updatedCareer);
+            } else {
+                // Create new career (only if user didn't use "Save and Continue")
+                const career = {
+                    jobTitle,
+                    description,
+                    workSetup,
+                    workSetupRemarks,
+                    questions,
+                    lastEditedBy: userInfoSlice,
+                    createdBy: userInfoSlice,
+                    screeningSetting,
+                    screeningQuestions,
+                    interviewScreening,
+                    orgID,
+                    requireVideo,
+                    salaryNegotiable,
+                    minimumSalary: isNaN(Number(minimumSalary)) ? null : Number(minimumSalary),
+                    maximumSalary: isNaN(Number(maximumSalary)) ? null : Number(maximumSalary),
+                    country,
+                    province,
+                    // Backwards compatibility
+                    location: city,
+                    status,
+                    employmentType,
+                };
+                response = await axios.post("/api/add-career", career);
+            }
+
             if (response.status === 200) {
-            candidateActionToast(
-                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8, marginLeft: 8 }}>
-                    <span style={{ fontSize: 14, fontWeight: 700, color: "#181D27" }}>Career added {status === "active" ? "and published" : ""}</span>
-                </div>,
-                1300,
-            <i className="la la-check-circle" style={{ color: "#039855", fontSize: 32 }}></i>)
-            setTimeout(() => {
-                window.location.href = `/recruiter-dashboard/careers`;
-            }, 1300);
+                candidateActionToast(
+                    <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8, marginLeft: 8 }}>
+                        <span style={{ fontSize: 14, fontWeight: 700, color: "#181D27" }}>Career {savedCareerId ? 'saved' : 'added'} {status === "active" ? "and published" : ""}</span>
+                    </div>,
+                    1300,
+                    <i className="la la-check-circle" style={{ color: "#039855", fontSize: 32 }}></i>
+                );
+                setTimeout(() => {
+                    window.location.href = `/recruiter-dashboard/careers`;
+                }, 1300);
             }
         } catch (error) {
-            errorToast("Failed to add career", 1300);
+            errorToast("Failed to save career", 1300);
         } finally {
             savingCareerRef.current = false;
             setIsSavingCareer(false);
