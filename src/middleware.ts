@@ -27,14 +27,14 @@ export function middleware(request: NextRequest) {
     return NextResponse.rewrite(url);
   }
    // Redirect to hirejia.ai for recruiter portal
-  if (!host.includes("hirejia") && !host.includes("localhost") && pathname.includes("old-dashboard")) {
+  if (!host.includes("hirejia") && !host.includes("localhost") && pathname.startsWith("/old-dashboard")) {
     const newUrl = new URL(request.url);
     newUrl.hostname = `hirejia.ai`;
     return NextResponse.redirect(newUrl);
   }
 
   // Redirect to hellojia.ai for applicant portal
-  if (!host.includes("hellojia") && !host.includes("localhost") && (pathname.includes("applicant") || pathname.includes("job-openings"))) {
+  if (!host.includes("hellojia") && !host.includes("localhost") && (pathname.startsWith("/applicant") || pathname.startsWith("/job-openings"))) {
     const newUrl = new URL(request.url);
     newUrl.hostname = `hellojia.ai`;
     return NextResponse.redirect(newUrl);
