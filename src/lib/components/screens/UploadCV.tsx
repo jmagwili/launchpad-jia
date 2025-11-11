@@ -680,17 +680,15 @@ export default function () {
                       </span>
                       <div className={styles.detailsContainer} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                         {type === "dropdown" && (
-                          <div style={{ position: "relative", width: "100%" }}>
-                            <CustomDropdown
-                              screeningSetting={preScreenAnswers[idx] || ""}
-                              onSelectSetting={(value) => setPreScreenAnswers({ ...preScreenAnswers, [idx]: value })}
-                              settingList={options.map((o: any) => ({
-                                name: o.label || o,
-                                icon: ""
-                              }))}
-                              placeholder="Select an option"
-                            />
-                          </div>
+                          <CustomDropdown
+                            screeningSetting={preScreenAnswers[idx] || ""}
+                            onSelectSetting={(value) => setPreScreenAnswers({ ...preScreenAnswers, [idx]: value })}
+                            settingList={options.map((o: any) => ({
+                              name: o.label || o,
+                              icon: ""
+                            }))}
+                            placeholder="Select an option"
+                          />
                         )}
                         {type === "checkboxes" && (
                           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>

@@ -252,67 +252,6 @@
           textarea {
             height: 300px !important;
           }
-          :global(.dropdown) {
-            position: relative;
-            display: block;
-            width: 100%;
-          }
-          :global(.dropdown-btn) {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            background: #fff;
-            border: 1px solid #d5d7da;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #181d27;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            &:hover {
-              border-color: #a4a7ae;
-            }
-            &:disabled {
-              opacity: 0.5;
-              cursor: not-allowed;
-            }
-          }
-          :global(.dropdown-menu) {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: #fff;
-            border: 1px solid #e9eaeb;
-            border-radius: 8px;
-            box-shadow: 0px 4px 6px -2px rgba(10, 13, 18, 0.08),
-              0px 12px 16px -4px rgba(10, 13, 18, 0.08);
-            max-height: 200px;
-            overflow-y: auto;
-            margin-top: 4px;
-            display: none;
-            &.show {
-              display: block;
-            }
-          }
-          :global(.dropdown-item) {
-            padding: 10px 12px;
-            cursor: pointer;
-            font-size: 14px;
-            color: #181d27;
-            background: transparent;
-            border: none;
-            width: 100%;
-            text-align: left;
-            transition: background 0.2s ease;
-            &:hover {
-              background: #f8f9fc;
-            }
-          }
         }
       }
     }
