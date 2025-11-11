@@ -723,33 +723,65 @@ export default function () {
                           <div style={{ display: "flex", gap: 10 }}>
                             <div style={{display: "flex", flexDirection: "column", flex: 1}}>
                               <span style={{color: "#414651"}}>Minimum Salary</span>
-                              <input
-                                type="number"
-                                className="form-control"
-                                placeholder="Min"
-                                value={preScreenAnswers[idx]?.min || ""}
-                                onChange={(e) =>
-                                  setPreScreenAnswers({
-                                    ...preScreenAnswers,
-                                    [idx]: { ...(preScreenAnswers[idx] || {}), min: e.target.value },
-                                  })
-                                }
-                              />
+                              <div style={{ position: "relative" }}>
+                                <span
+                                  style={{
+                                    position: "absolute",
+                                    left: "12px",
+                                    top: "50%",
+                                    transform: "translateY(-50%)",
+                                    color: "#6c757d",
+                                    fontSize: "16px",
+                                    pointerEvents: "none",
+                                  }}
+                                >
+                                  ₱
+                                </span>
+                                <input
+                                  type="number"
+                                  className="form-control"
+                                  min={0}
+                                  style={{ paddingLeft: "28px" }}
+                                  value={preScreenAnswers[idx]?.min || "0"}
+                                  onChange={(e) =>
+                                    setPreScreenAnswers({
+                                      ...preScreenAnswers,
+                                      [idx]: { ...(preScreenAnswers[idx] || {}), min: e.target.value },
+                                    })
+                                  }
+                                />
+                              </div>
                             </div>
                             <div style={{display: "flex", flexDirection: "column", flex: 1}}>
                               <span style={{color: "#414651"}}>Maximum Salary</span>
-                              <input
-                                type="number"
-                                className="form-control"
-                                placeholder="Max"
-                                value={preScreenAnswers[idx]?.max || ""}
-                                onChange={(e) =>
-                                  setPreScreenAnswers({
-                                    ...preScreenAnswers,
-                                    [idx]: { ...(preScreenAnswers[idx] || {}), max: e.target.value },
-                                  })
-                                }
-                              />
+                              <div style={{ position: "relative" }}>
+                                <span
+                                  style={{
+                                    position: "absolute",
+                                    left: "12px",
+                                    top: "50%",
+                                    transform: "translateY(-50%)",
+                                    color: "#6c757d",
+                                    fontSize: "16px",
+                                    pointerEvents: "none",
+                                  }}
+                                >
+                                  ₱
+                                </span>
+                                <input
+                                  type="number"
+                                  className="form-control"
+                                  min={0}
+                                  style={{ paddingLeft: "28px" }}
+                                  value={preScreenAnswers[idx]?.max || "0"}
+                                  onChange={(e) =>
+                                    setPreScreenAnswers({
+                                      ...preScreenAnswers,
+                                      [idx]: { ...(preScreenAnswers[idx] || {}), max: e.target.value },
+                                    })
+                                  }
+                                />
+                              </div>
                             </div>
                           </div>
                         )}
