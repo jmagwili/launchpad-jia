@@ -650,6 +650,11 @@ export default function () {
 
           {currentStep == step[1] && (
             <div className={styles.cvDetailsContainer} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <div style={{display: "flex", flexDirection: "column", gap: 7, marginBottom: 22}}>
+                <span style={{fontSize: 20, color: "#181D27", fontWeight: 700}}>Quick Pre-screening</span>
+                <span style={{fontSize: 16, color: "#717680"}}>Just a few short questions to help your recruiters assess you faster. Takes less than a minute.</span>
+              </div>
+              
               {screeningQuestions.length === 0 && (
                 <div className={styles.gradient}>
                   <div className={styles.cvDetailsCard}>
