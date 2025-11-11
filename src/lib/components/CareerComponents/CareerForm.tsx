@@ -1620,8 +1620,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                       setIsCareerDetailsEditing(true);
                     }}
                     style={{
-                      background: "none",
-                      border: "1px solid #181D27",
+                      border: "1px solid #D5D7DA",
                       padding: "8px",
                       borderRadius: "50%",
                       fontSize: 16,
@@ -1631,9 +1630,10 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
+                      backgroundColor:"#FFFFFF"
                     }}
                   >
-                    <i className="la la-pencil" style={{ fontSize: 16 }}></i>
+                    <i className="la la-pencil" style={{ fontSize: 16, color:"#535862" }}></i>
                   </button>
                 </div>
 
@@ -2054,8 +2054,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                       setTempSuggestedQuestions(JSON.parse(JSON.stringify(suggestedQuestions)));
                     }}
                     style={{
-                      background: "none",
-                      border: "1px solid #181D27",
+                      border: "1px solid #D5D7DA",
                       padding: "8px",
                       borderRadius: "50%",
                       fontSize: 16,
@@ -2065,9 +2064,10 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
+                      backgroundColor:"#FFFFFF"
                     }}
                   >
-                    <i className="la la-pencil" style={{ fontSize: 16 }}></i>
+                    <i className="la la-pencil" style={{ fontSize: 16, color:"#535862" }}></i>
                   </button>
                 </div>
 
@@ -2649,8 +2649,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                       setTempQuestions(questions);
                     }}
                     style={{
-                      background: "none",
-                      border: "1px solid #181D27",
+                      border: "1px solid #D5D7DA",
                       padding: "8px",
                       borderRadius: "50%",
                       fontSize: 16,
@@ -2660,9 +2659,10 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
+                      backgroundColor:"#FFFFFF"
                     }}
                   >
-                    <i className="la la-pencil" style={{ fontSize: 16 }}></i>
+                    <i className="la la-pencil" style={{ fontSize: 16, color:"#535862" }}></i>
                   </button>
                 </div>
 
