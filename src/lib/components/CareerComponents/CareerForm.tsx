@@ -190,7 +190,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         }
     };
 
-    const [currentStep, setCurrentStep] = useState(step[0]); // Start at appropriate step
+    const [currentStep, setCurrentStep] = useState(step[2]); // Start at appropriate step
     const [savedCareerId, setSavedCareerId] = useState(career?._id || null); // Track career ID for updates
 
     // Accordion States
@@ -1069,10 +1069,8 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", gap: 16, alignItems: "flex-start", marginTop: 16 }}>
           <div style={{ width: "60%", display: "flex", flexDirection: "column", gap: 8 }}>
                 <div className="layered-card-middle">
-                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
-                    <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <i className="la la-suitcase" style={{ color: "#FFFFFF", fontSize: 20 }}></i>
-                    </div>
+                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8, padding: "0 10px" }}>
+
                         <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>1. CV Review Settings</span>
                     </div>
                     <div className="layered-card-content">
@@ -1458,10 +1456,8 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
 
           <div style={{ width: "40%", display: "flex", flexDirection: "column", gap: 8 }}>
               <div className="layered-card-middle">
-                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
-                  <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <i className="la la-suitcase" style={{ color: "#FFFFFF", fontSize: 20 }}></i>
-                  </div>
+                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8, padding: "0 10px" }}>
+                  
                   <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>Tips</span>
                 </div>
                   <div className="layered-card-content">
@@ -1487,10 +1483,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", gap: 16, alignItems: "flex-start", marginTop: 16 }}>
           <div style={{ width: "60%", display: "flex", flexDirection: "column", gap: 8 }}>
                 <div className="layered-card-middle">
-                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
-                    <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <i className="la la-suitcase" style={{ color: "#FFFFFF", fontSize: 20 }}></i>
-                    </div>
+                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8, padding: "0 10px" }}>
                         <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>1. AI Interview Settings</span>
                     </div>
                     <div className="layered-card-content">
