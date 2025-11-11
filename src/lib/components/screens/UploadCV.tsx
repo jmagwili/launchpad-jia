@@ -26,6 +26,8 @@ export default function () {
   const [screeningResult, setScreeningResult] = useState(null);
   const [userCV, setUserCV] = useState(null);
   const [screeningQuestions, setScreeningQuestions] = useState([]);
+  const [preScreenAnswers, setPreScreenAnswers] = useState<any>({});
+  const [screeningLoading, setScreeningLoading] = useState(false);
   const cvSections = [
     "Introduction",
     "Current Position",
@@ -37,7 +39,7 @@ export default function () {
     "Certifications",
     "Awards",
   ];
-  const step = ["Submit CV", "CV Screening", "Review Next Steps"];
+  const step = ["Submit CV", "Pre-Screening Questions", "Review"];
   const stepStatus = ["Completed", "Pending", "In Progress"];
 
   function handleDragOver(e) {
@@ -255,6 +257,7 @@ export default function () {
       }
     }
 
+    // Move only to Pre-Screening step (no AI call yet)
     setCurrentStep(step[1]);
 
     if (hasChanges) {
@@ -299,33 +302,43 @@ export default function () {
     }
 
     setHasChanges(true);
+  }
 
+  // Submit pre-screening answers -> trigger AI screening & move to review
+  function handleSubmitPreScreen() {
+    if (editingCV != null) {
+      alert("Please save the CV changes first.");
+      return;
+    }
+    // Optionally validate required answers (if needed later)
+    setScreeningLoading(true);
+    setCurrentStep(step[2]); // Show loader while AI is screening
     axios({
       url: "/api/whitecloak/screen-cv",
       method: "POST",
       data: {
         interviewID: interview.interviewID,
         userEmail: user.email,
+        // Pass answers if backend expects them (future-ready)
+        preScreenAnswers,
       },
     })
       .then((res) => {
         const result = res.data;
-
         if (result.error) {
           alert(result.message);
-          setCurrentStep(step[0]);
+          setCurrentStep(step[1]);
         } else {
-          setCurrentStep(step[2]);
           setScreeningResult(result);
         }
       })
       .catch((err) => {
-        alert("Error screening CV. Please try again.");
-        setCurrentStep(step[0]);
+        alert("Error submitting pre-screening. Please try again.");
+        setCurrentStep(step[1]);
         console.log(err);
       })
       .finally(() => {
-        setHasChanges(false);
+        setScreeningLoading(false);
       });
   }
 
@@ -636,86 +649,212 @@ export default function () {
           )}
 
           {currentStep == step[1] && (
-            <div className={styles.cvScreeningContainer}>
-              <img alt="" src={assetConstants.loading} />
-              <span className={styles.title}>Sit tight!</span>
-              <span className={styles.description}>
-                Our smart reviewer is checking your qualifications.
-              </span>
-              <span className={styles.description}>
-                We'll let you know what's next in just a moment.
-              </span>
+            <div className={styles.cvDetailsContainer}>
+              <div className={styles.gradient}>
+                <div className={styles.cvDetailsCard}>
+                  <span className={styles.sectionTitle}>
+                    <img alt="" src={assetConstants.account} />
+                    Pre-Screening Questions
+                  </span>
+                  <div className={styles.detailsContainer} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                    {screeningQuestions.length === 0 && (
+                      <span>No pre-screening questions for this role. You can proceed.</span>
+                    )}
+                    {screeningQuestions.map((q: any, idx: number) => {
+                      const type = (q.type || "").toString().toLowerCase();
+                      // Normalize options
+                      const options = Array.isArray(q.options) ? q.options : [];
+                      return (
+                        <div key={idx} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                          <span style={{ fontWeight: 600 }}>{q.question || `Question ${idx + 1}`}</span>
+                          {type === "dropdown" && (
+                            <select
+                              className="form-control"
+                              value={preScreenAnswers[idx] || ""}
+                              onChange={(e) =>
+                                setPreScreenAnswers({ ...preScreenAnswers, [idx]: e.target.value })
+                              }
+                            >
+                              <option value="">Select an option</option>
+                              {options.map((o: any, oIdx: number) => (
+                                <option key={oIdx} value={o.label || o}>{o.label || o}</option>
+                              ))}
+                            </select>
+                          )}
+                          {type === "checkboxes" && (
+                            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                              {options.map((o: any, oIdx: number) => {
+                                const current = preScreenAnswers[idx] || [];
+                                const label = o.label || o;
+                                const checked = current.includes(label);
+                                return (
+                                  <label key={oIdx} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                                    <input
+                                      type="checkbox"
+                                      checked={checked}
+                                      onChange={() => {
+                                        let next = [...current];
+                                        if (checked) {
+                                          next = next.filter((v) => v !== label);
+                                        } else {
+                                          next.push(label);
+                                        }
+                                        setPreScreenAnswers({ ...preScreenAnswers, [idx]: next });
+                                      }}
+                                    />
+                                    <span>{label}</span>
+                                  </label>
+                                );
+                              })}
+                            </div>
+                          )}
+                          {type === "range" && (
+                            <div style={{ display: "flex", gap: 10 }}>
+                              <input
+                                type="number"
+                                className="form-control"
+                                placeholder="Min"
+                                value={(preScreenAnswers[idx]?.min) || ""}
+                                onChange={(e) =>
+                                  setPreScreenAnswers({
+                                    ...preScreenAnswers,
+                                    [idx]: { ...(preScreenAnswers[idx] || {}), min: e.target.value },
+                                  })
+                                }
+                              />
+                              <input
+                                type="number"
+                                className="form-control"
+                                placeholder="Max"
+                                value={(preScreenAnswers[idx]?.max) || ""}
+                                onChange={(e) =>
+                                  setPreScreenAnswers({
+                                    ...preScreenAnswers,
+                                    [idx]: { ...(preScreenAnswers[idx] || {}), max: e.target.value },
+                                  })
+                                }
+                              />
+                            </div>
+                          )}
+                          {(type === "short answer" || type === "long answer" || !type) && (
+                            <textarea
+                              className="form-control"
+                              placeholder="Type your answer..."
+                              value={preScreenAnswers[idx] || ""}
+                              onChange={(e) =>
+                                setPreScreenAnswers({ ...preScreenAnswers, [idx]: e.target.value })
+                              }
+                              rows={type === "long answer" ? 4 : 2}
+                            />
+                          )}
+                        </div>
+                      );
+                    })}
+                    <button
+                      onClick={handleSubmitPreScreen}
+                      style={{
+                        marginTop: 8,
+                        background: "#181D27",
+                        color: "#fff",
+                        border: "none",
+                        padding: "10px 18px",
+                        borderRadius: "60px",
+                        cursor: "pointer",
+                        alignSelf: "flex-start",
+                      }}
+                    >
+                      Submit Pre-Screening
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
-          {currentStep == step[2] && screeningResult && (
-            <div className={styles.cvResultContainer}>
-              {screeningResult.applicationStatus == "Dropped" ? (
-                <>
-                  <img alt="" src={assetConstants.userRejected} />
-                  <span className={styles.title}>
-                    This role may not be the best match.
+          {currentStep == step[2] && (
+            <>
+              {(screeningLoading || !screeningResult) && (
+                <div className={styles.cvScreeningContainer}>
+                  <img alt="" src={assetConstants.loading} />
+                  <span className={styles.title}>Sit tight!</span>
+                  <span className={styles.description}>
+                    Our smart reviewer is checking your qualifications.
                   </span>
                   <span className={styles.description}>
-                    Based on your CV, it looks like this position might not be
-                    the right fit at the moment.
+                    We'll let you know what's next in just a moment.
                   </span>
-                  <br />
-                  <span className={styles.description}>
-                    Review your screening results and see recommended next
-                    steps.
-                  </span>
-                  <div className={styles.buttonContainer}>
-                    <button onClick={() => handleRedirection("dashboard")}>
-                      View Dashboard
-                    </button>
-                  </div>
-                </>
-              ) : screeningResult.status == "For AI Interview" ? (
-                <>
-                  <img alt="" src={assetConstants.checkV3} />
-                  <span className={styles.title}>
-                    Hooray! You’re a strong fit for this role.
-                  </span>
-                  <span className={styles.description}>
-                    Jia thinks you might be a great match.
-                  </span>
-                  <br />
-                  <span className={`${styles.description} ${styles.bold}`}>
-                    Ready to take the next step?
-                  </span>
-                  <span className={styles.description}>
-                    You may start your AI interview now.
-                  </span>
-                  <div className={styles.buttonContainer}>
-                    <button onClick={() => handleRedirection("interview")}>
-                      Start AI Interview
-                    </button>
-                    <button
-                      className="secondaryBtn"
-                      onClick={() => handleRedirection("dashboard")}
-                    >
-                      View Dashboard
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <img alt="" src={assetConstants.userCheck} />
-                  <span className={styles.title}>
-                    Your CV is now being reviewed by the hiring team.
-                  </span>
-                  <span className={styles.description}>
-                    We’ll be in touch soon with updates about your application.
-                  </span>
-                  <div className={styles.buttonContainer}>
-                    <button onClick={() => handleRedirection("dashboard")}>
-                      View Dashboard
-                    </button>
-                  </div>
-                </>
+                </div>
               )}
-            </div>
+              {!screeningLoading && screeningResult && (
+                <div className={styles.cvResultContainer}>
+                  {screeningResult.applicationStatus == "Dropped" ? (
+                    <>
+                      <img alt="" src={assetConstants.userRejected} />
+                      <span className={styles.title}>
+                        This role may not be the best match.
+                      </span>
+                      <span className={styles.description}>
+                        Based on your CV, it looks like this position might not be
+                        the right fit at the moment.
+                      </span>
+                      <br />
+                      <span className={styles.description}>
+                        Review your screening results and see recommended next
+                        steps.
+                      </span>
+                      <div className={styles.buttonContainer}>
+                        <button onClick={() => handleRedirection("dashboard")}>
+                          View Dashboard
+                        </button>
+                      </div>
+                    </>
+                  ) : screeningResult.status == "For AI Interview" ? (
+                    <>
+                      <img alt="" src={assetConstants.checkV3} />
+                      <span className={styles.title}>
+                        Hooray! You’re a strong fit for this role.
+                      </span>
+                      <span className={styles.description}>
+                        Jia thinks you might be a great match.
+                      </span>
+                      <br />
+                      <span className={`${styles.description} ${styles.bold}`}>
+                        Ready to take the next step?
+                      </span>
+                      <span className={styles.description}>
+                        You may start your AI interview now.
+                      </span>
+                      <div className={styles.buttonContainer}>
+                        <button onClick={() => handleRedirection("interview")}>
+                          Start AI Interview
+                        </button>
+                        <button
+                          className="secondaryBtn"
+                          onClick={() => handleRedirection("dashboard")}
+                        >
+                          View Dashboard
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <img alt="" src={assetConstants.userCheck} />
+                      <span className={styles.title}>
+                        Your CV is now being reviewed by the hiring team.
+                      </span>
+                      <span className={styles.description}>
+                        We’ll be in touch soon with updates about your application.
+                      </span>
+                      <div className={styles.buttonContainer}>
+                        <button onClick={() => handleRedirection("dashboard")}>
+                          View Dashboard
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+            </>
           )}
         </div>
       )}
