@@ -674,20 +674,20 @@ export default function () {
                 return (
                   <div key={idx} className={styles.gradient}>
                     <div className={styles.cvDetailsCard}>
-                      <span className={styles.sectionTitle} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span className={styles.sectionTitle} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", color: "#414651" }}>
                         {q.question || `Question ${idx + 1}`}
                       </span>
                       <div className={styles.detailsContainer} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                         {type === "dropdown" && (
                           <select
-                            className="form-control"
                             value={preScreenAnswers[idx] || ""}
-                            style={{
-                              
+                            style={{   
                               maxWidth: 300,
                               border: "1px solid #D5D7DA",
-                              padding: "10px"
-
+                              padding: "10px",
+                              borderRadius: "10px",
+                              color: "#717680",
+                              fontSize: "16px",
                             }}
                             onChange={(e) => setPreScreenAnswers({ ...preScreenAnswers, [idx]: e.target.value })}
                           >
@@ -739,9 +739,14 @@ export default function () {
                                 </span>
                                 <input
                                   type="number"
-                                  className="form-control"
                                   min={0}
-                                  style={{ paddingLeft: "28px" }}
+                                  style={{ 
+                                    paddingLeft: "28px",
+                                    border: "1px solid #D5D7DA",
+                                    borderRadius: "10px",
+                                    color: "#717680",
+                                    fontSize: "16px",                 
+                                  }}
                                   value={preScreenAnswers[idx]?.min || "0"}
                                   onChange={(e) =>
                                     setPreScreenAnswers({
@@ -770,9 +775,14 @@ export default function () {
                                 </span>
                                 <input
                                   type="number"
-                                  className="form-control"
                                   min={0}
-                                  style={{ paddingLeft: "28px" }}
+                                  style={{ 
+                                    paddingLeft: "28px",
+                                    border: "1px solid #D5D7DA",
+                                    borderRadius: "10px",
+                                    color: "#717680",
+                                    fontSize: "16px",                 
+                                  }}
                                   value={preScreenAnswers[idx]?.max || "0"}
                                   onChange={(e) =>
                                     setPreScreenAnswers({
