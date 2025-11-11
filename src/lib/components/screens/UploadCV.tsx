@@ -649,125 +649,123 @@ export default function () {
           )}
 
           {currentStep == step[1] && (
-            <div className={styles.cvDetailsContainer}>
-              <div className={styles.gradient}>
-                <div className={styles.cvDetailsCard}>
-                  <span className={styles.sectionTitle}>
-                    <img alt="" src={assetConstants.account} />
-                    Pre-Screening Questions
-                  </span>
-                  <div className={styles.detailsContainer} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                    {screeningQuestions.length === 0 && (
+            <div className={styles.cvDetailsContainer} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {screeningQuestions.length === 0 && (
+                <div className={styles.gradient}>
+                  <div className={styles.cvDetailsCard}>
+                    <span className={styles.sectionTitle}>
+                      <img alt="" src={assetConstants.account} />
+                      No Pre-Screening Questions
+                    </span>
+                    <div className={styles.detailsContainer}>
                       <span>No pre-screening questions for this role. You can proceed.</span>
-                    )}
-                    {screeningQuestions.map((q: any, idx: number) => {
-                      const type = (q.type || "").toString().toLowerCase();
-                      // Normalize options
-                      const options = Array.isArray(q.options) ? q.options : [];
-                      return (
-                        <div key={idx} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                          <span style={{ fontWeight: 600 }}>{q.question || `Question ${idx + 1}`}</span>
-                          {type === "dropdown" && (
-                            <select
-                              className="form-control"
-                              value={preScreenAnswers[idx] || ""}
-                              onChange={(e) =>
-                                setPreScreenAnswers({ ...preScreenAnswers, [idx]: e.target.value })
-                              }
-                            >
-                              <option value="">Select an option</option>
-                              {options.map((o: any, oIdx: number) => (
-                                <option key={oIdx} value={o.label || o}>{o.label || o}</option>
-                              ))}
-                            </select>
-                          )}
-                          {type === "checkboxes" && (
-                            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                              {options.map((o: any, oIdx: number) => {
-                                const current = preScreenAnswers[idx] || [];
-                                const label = o.label || o;
-                                const checked = current.includes(label);
-                                return (
-                                  <label key={oIdx} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                                    <input
-                                      type="checkbox"
-                                      checked={checked}
-                                      onChange={() => {
-                                        let next = [...current];
-                                        if (checked) {
-                                          next = next.filter((v) => v !== label);
-                                        } else {
-                                          next.push(label);
-                                        }
-                                        setPreScreenAnswers({ ...preScreenAnswers, [idx]: next });
-                                      }}
-                                    />
-                                    <span>{label}</span>
-                                  </label>
-                                );
-                              })}
-                            </div>
-                          )}
-                          {type === "range" && (
-                            <div style={{ display: "flex", gap: 10 }}>
-                              <input
-                                type="number"
-                                className="form-control"
-                                placeholder="Min"
-                                value={(preScreenAnswers[idx]?.min) || ""}
-                                onChange={(e) =>
-                                  setPreScreenAnswers({
-                                    ...preScreenAnswers,
-                                    [idx]: { ...(preScreenAnswers[idx] || {}), min: e.target.value },
-                                  })
-                                }
-                              />
-                              <input
-                                type="number"
-                                className="form-control"
-                                placeholder="Max"
-                                value={(preScreenAnswers[idx]?.max) || ""}
-                                onChange={(e) =>
-                                  setPreScreenAnswers({
-                                    ...preScreenAnswers,
-                                    [idx]: { ...(preScreenAnswers[idx] || {}), max: e.target.value },
-                                  })
-                                }
-                              />
-                            </div>
-                          )}
-                          {(type === "short answer" || type === "long answer" || !type) && (
-                            <textarea
-                              className="form-control"
-                              placeholder="Type your answer..."
-                              value={preScreenAnswers[idx] || ""}
-                              onChange={(e) =>
-                                setPreScreenAnswers({ ...preScreenAnswers, [idx]: e.target.value })
-                              }
-                              rows={type === "long answer" ? 4 : 2}
-                            />
-                          )}
-                        </div>
-                      );
-                    })}
-                    <button
-                      onClick={handleSubmitPreScreen}
-                      style={{
-                        marginTop: 8,
-                        background: "#181D27",
-                        color: "#fff",
-                        border: "none",
-                        padding: "10px 18px",
-                        borderRadius: "60px",
-                        cursor: "pointer",
-                        alignSelf: "flex-start",
-                      }}
-                    >
-                      Submit Pre-Screening
-                    </button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
+              {screeningQuestions.map((q: any, idx: number) => {
+                const type = (q.type || "").toString().toLowerCase();
+                const options = Array.isArray(q.options) ? q.options : [];
+                return (
+                  <div key={idx} className={styles.gradient}>
+                    <div className={styles.cvDetailsCard}>
+                      <span className={styles.sectionTitle} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        {q.question || `Question ${idx + 1}`}
+                      </span>
+                      <div className={styles.detailsContainer} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                        {type === "dropdown" && (
+                          <select
+                            className="form-control"
+                            value={preScreenAnswers[idx] || ""}
+                            onChange={(e) => setPreScreenAnswers({ ...preScreenAnswers, [idx]: e.target.value })}
+                          >
+                            <option value="">Select an option</option>
+                            {options.map((o: any, oIdx: number) => (
+                              <option key={oIdx} value={o.label || o}>{o.label || o}</option>
+                            ))}
+                          </select>
+                        )}
+                        {type === "checkboxes" && (
+                          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                            {options.map((o: any, oIdx: number) => {
+                              const current = preScreenAnswers[idx] || [];
+                              const label = o.label || o;
+                              const checked = current.includes(label);
+                              return (
+                                <label key={oIdx} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                                  <input
+                                    type="checkbox"
+                                    checked={checked}
+                                    onChange={() => {
+                                      let next = [...current];
+                                      next = checked ? next.filter(v => v !== label) : [...next, label];
+                                      setPreScreenAnswers({ ...preScreenAnswers, [idx]: next });
+                                    }}
+                                  />
+                                  <span>{label}</span>
+                                </label>
+                              );
+                            })}
+                          </div>
+                        )}
+                        {type === "range" && (
+                          <div style={{ display: "flex", gap: 10 }}>
+                            <input
+                              type="number"
+                              className="form-control"
+                              placeholder="Min"
+                              value={preScreenAnswers[idx]?.min || ""}
+                              onChange={(e) =>
+                                setPreScreenAnswers({
+                                  ...preScreenAnswers,
+                                  [idx]: { ...(preScreenAnswers[idx] || {}), min: e.target.value },
+                                })
+                              }
+                            />
+                            <input
+                              type="number"
+                              className="form-control"
+                              placeholder="Max"
+                              value={preScreenAnswers[idx]?.max || ""}
+                              onChange={(e) =>
+                                setPreScreenAnswers({
+                                  ...preScreenAnswers,
+                                  [idx]: { ...(preScreenAnswers[idx] || {}), max: e.target.value },
+                                })
+                              }
+                            />
+                          </div>
+                        )}
+                        {(type === "short answer" || type === "long answer" || !type) && (
+                          <textarea
+                            className="form-control"
+                            placeholder="Type your answer..."
+                            rows={type === "long answer" ? 4 : 2}
+                            value={preScreenAnswers[idx] || ""}
+                            onChange={(e) => setPreScreenAnswers({ ...preScreenAnswers, [idx]: e.target.value })}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+              <button
+                onClick={handleSubmitPreScreen}
+                style={{
+                  marginTop: 4,
+                  background: "#181D27",
+                  color: "#fff",
+                  border: "none",
+                  padding: "10px 18px",
+                  borderRadius: "60px",
+                  cursor: "pointer",
+                  alignSelf: "flex-start",
+                }}
+                disabled={screeningLoading}
+              >
+                {screeningLoading ? "Submitting..." : "Submit Pre-Screening"}
+              </button>
             </div>
           )}
 
