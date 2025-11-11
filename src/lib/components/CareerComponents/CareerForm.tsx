@@ -190,7 +190,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         }
     };
 
-    const [currentStep, setCurrentStep] = useState(step[2]); // Start at appropriate step
+    const [currentStep, setCurrentStep] = useState(determineInitialStep()); // Start at appropriate step
     const [savedCareerId, setSavedCareerId] = useState(career?._id || null); // Track career ID for updates
 
     // Accordion States
