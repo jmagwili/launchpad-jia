@@ -707,13 +707,21 @@ export default function () {
                                   <input
                                     type="checkbox"
                                     checked={checked}
+                                    style={{
+                                      height: 20,
+                                      width: 20,
+                                      border: "1px solid #D5D7DA",
+                                      borderRadius: 30,
+                                      cursor: "pointer",
+                                      accentColor: "#4A90E2",
+                                    }}
                                     onChange={() => {
                                       let next = [...current];
                                       next = checked ? next.filter(v => v !== label) : [...next, label];
                                       setPreScreenAnswers({ ...preScreenAnswers, [idx]: next });
                                     }}
                                   />
-                                  <span>{label}</span>
+                                  <span style={{ color: "#414651" }}>{label}</span>
                                 </label>
                               );
                             })}
