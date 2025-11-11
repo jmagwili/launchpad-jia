@@ -1529,10 +1529,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
 
           <div style={{ width: "40%", display: "flex", flexDirection: "column", gap: 8 }}>
               <div className="layered-card-middle">
-                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
-                  <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <i className="la la-suitcase" style={{ color: "#FFFFFF", fontSize: 20 }}></i>
-                  </div>
+                <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8, padding: "0 10px" }}>
                   <span style={{fontSize: 16, color: "#181D27", fontWeight: 700}}>Tips</span>
                 </div>
                   <div className="layered-card-content">
