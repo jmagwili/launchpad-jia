@@ -682,9 +682,15 @@ export default function () {
                           <select
                             className="form-control"
                             value={preScreenAnswers[idx] || ""}
+                            style={{
+                              
+                              maxWidth: 300,
+                              border: "1px solid #D5D7DA",
+                              padding: "10px"
+
+                            }}
                             onChange={(e) => setPreScreenAnswers({ ...preScreenAnswers, [idx]: e.target.value })}
                           >
-                            <option value="">Select an option</option>
                             {options.map((o: any, oIdx: number) => (
                               <option key={oIdx} value={o.label || o}>{o.label || o}</option>
                             ))}
@@ -715,30 +721,36 @@ export default function () {
                         )}
                         {type === "range" && (
                           <div style={{ display: "flex", gap: 10 }}>
-                            <input
-                              type="number"
-                              className="form-control"
-                              placeholder="Min"
-                              value={preScreenAnswers[idx]?.min || ""}
-                              onChange={(e) =>
-                                setPreScreenAnswers({
-                                  ...preScreenAnswers,
-                                  [idx]: { ...(preScreenAnswers[idx] || {}), min: e.target.value },
-                                })
-                              }
-                            />
-                            <input
-                              type="number"
-                              className="form-control"
-                              placeholder="Max"
-                              value={preScreenAnswers[idx]?.max || ""}
-                              onChange={(e) =>
-                                setPreScreenAnswers({
-                                  ...preScreenAnswers,
-                                  [idx]: { ...(preScreenAnswers[idx] || {}), max: e.target.value },
-                                })
-                              }
-                            />
+                            <div style={{display: "flex", flexDirection: "column", flex: 1}}>
+                              <span style={{color: "#414651"}}>Minimum Salary</span>
+                              <input
+                                type="number"
+                                className="form-control"
+                                placeholder="Min"
+                                value={preScreenAnswers[idx]?.min || ""}
+                                onChange={(e) =>
+                                  setPreScreenAnswers({
+                                    ...preScreenAnswers,
+                                    [idx]: { ...(preScreenAnswers[idx] || {}), min: e.target.value },
+                                  })
+                                }
+                              />
+                            </div>
+                            <div style={{display: "flex", flexDirection: "column", flex: 1}}>
+                              <span style={{color: "#414651"}}>Maximum Salary</span>
+                              <input
+                                type="number"
+                                className="form-control"
+                                placeholder="Max"
+                                value={preScreenAnswers[idx]?.max || ""}
+                                onChange={(e) =>
+                                  setPreScreenAnswers({
+                                    ...preScreenAnswers,
+                                    [idx]: { ...(preScreenAnswers[idx] || {}), max: e.target.value },
+                                  })
+                                }
+                              />
+                            </div>
                           </div>
                         )}
                         {(type === "short answer" || type === "long answer" || !type) && (
