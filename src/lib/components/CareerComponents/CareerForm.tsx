@@ -3109,7 +3109,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         )}
 
       {showSaveModal && (
-         <CareerActionModal action={showSaveModal} onAction={(action) => saveCareer(action)} />
+         <CareerActionModal action={showSaveModal} onAction={(action) => saveCareer(action)} isSaving={isSavingCareer} />
         )}
     {isSavingCareer && (
         <FullScreenLoadingAnimation title={formType === "add" ? "Saving career..." : "Updating career..."} subtext={`Please wait while we are ${formType === "add" ? "saving" : "updating"} the career`} />

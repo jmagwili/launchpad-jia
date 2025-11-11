@@ -1,4 +1,4 @@
-export default function CareerActionModal({ action, onAction }: { action: string, onAction: (action: string) => void }) {
+export default function CareerActionModal({ action, onAction, isSaving = false }: { action: string, onAction: (action: string) => void, isSaving?: boolean }) {
     
     const actions = {
         "active": {
@@ -53,22 +53,24 @@ export default function CareerActionModal({ action, onAction }: { action: string
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", gap: 16, width: "100%" }}>
                         <button
                         type="button"
+                        disabled={isSaving}
                         onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             onAction("");
                         }}
-                        style={{ display: "flex", width: "50%", flexDirection: "row", alignItems: "center", justifyContent: "center", textAlign: "center", gap: 8, backgroundColor: "#FFFFFF", borderRadius: "60px", border: "1px solid #D5D7DA", cursor: "pointer", padding: "10px 0px" }}>
+                        style={{ display: "flex", width: "50%", flexDirection: "row", alignItems: "center", justifyContent: "center", textAlign: "center", gap: 8, backgroundColor: "#FFFFFF", borderRadius: "60px", border: "1px solid #D5D7DA", cursor: isSaving ? "not-allowed" : "pointer", padding: "10px 0px", opacity: isSaving ? 0.6 : 1 }}>
                             Cancel
                         </button>
                         <button
                         type="button"
+                        disabled={isSaving}
                         onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             onAction(action);
                         }}
-                        style={{ display: "flex", width: "50%", flexDirection: "row", alignItems: "center", justifyContent: "center", textAlign: "center", gap: 8, backgroundColor: actions[action]?.color, color: "#FFFFFF", borderRadius: "60px", border: "1px solid #D5D7DA", cursor: "pointer", textTransform: "capitalize" }}>
+                        style={{ display: "flex", width: "50%", flexDirection: "row", alignItems: "center", justifyContent: "center", textAlign: "center", gap: 8, backgroundColor: actions[action]?.color, color: "#FFFFFF", borderRadius: "60px", border: "1px solid #D5D7DA", cursor: isSaving ? "not-allowed" : "pointer", textTransform: "capitalize", opacity: isSaving ? 0.6 : 1 }}>
                             {actions[action]?.buttonText}
                         </button>
                     </div>
