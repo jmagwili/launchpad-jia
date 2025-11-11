@@ -378,6 +378,8 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
             lastEditedBy: userInfoSlice,
             createdBy: userInfoSlice,
             screeningSetting,
+            screeningQuestions,
+            interviewScreening,
             orgID,
             requireVideo,
             salaryNegotiable,

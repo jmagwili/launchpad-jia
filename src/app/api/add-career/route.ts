@@ -24,6 +24,8 @@ export async function POST(request: Request) {
       country,
       province,
       employmentType,
+      screeningQuestions,
+      interviewScreening,
     } = await request.json();
     // Validate required fields
     if (!jobTitle || !description || !questions || !location || !workSetup) {
@@ -105,6 +107,8 @@ export async function POST(request: Request) {
       country,
       province,
       employmentType,
+      screeningQuestions,
+      interviewScreening
     };
 
     await db.collection("careers").insertOne(career);
