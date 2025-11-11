@@ -25,6 +25,7 @@ export default function () {
   const [interview, setInterview] = useState(null);
   const [screeningResult, setScreeningResult] = useState(null);
   const [userCV, setUserCV] = useState(null);
+  const [screeningQuestions, setScreeningQuestions] = useState([]);
   const cvSections = [
     "Introduction",
     "Current Position",
@@ -155,8 +156,8 @@ export default function () {
 
     if (storedSelectedCareer) {
       const parseStoredSelectedCareer = JSON.parse(storedSelectedCareer);
-      fetchInterview(parseStoredSelectedCareer.id);
       fetchCareer(parseStoredSelectedCareer.id);
+      fetchInterview(parseStoredSelectedCareer.id);
     } else {
       alert("No application is currently being managed.");
       window.location.href = pathConstants.dashboard;
@@ -197,7 +198,7 @@ export default function () {
       });
   }
 
-    function fetchCareer(careerID) {   
+  function fetchCareer(careerID) {
     axios({
       method: "POST",
       url: "/api/fetch-career-data",
@@ -211,18 +212,12 @@ export default function () {
           window.location.href = pathConstants.dashboard;
         } else {
           console.log("Fetched career:", result);
-          // if (result[0].cvStatus) {
-          //   alert("This application has already been processed.");
-          //   window.location.href = pathConstants.dashboard;
-          // } else {
-          //   setCurrentStep(step[0]);
-          //   setInterview(result[0]);
-          //   setLoading(false);
-          // }
+          // Safely access screeningQuestions with fallback to empty array
+          setScreeningQuestions(result.screeningQuestions || []);
         }
       })
       .catch((err) => {
-        alert("Error fetching existing applied jobs.");
+        alert("Error fetching career data.");
         window.location.href = pathConstants.dashboard;
         console.log(err);
       });
