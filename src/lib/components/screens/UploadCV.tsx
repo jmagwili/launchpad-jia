@@ -803,15 +803,34 @@ export default function () {
                             </div>
                           </div>
                         )}
-                        {(type === "short answer" || type === "long answer" || !type) && (
-                          <textarea
-                            className="form-control"
-                            placeholder="Type your answer..."
-                            rows={type === "long answer" ? 4 : 2}
-                            value={preScreenAnswers[idx] || ""}
-                            onChange={(e) => setPreScreenAnswers({ ...preScreenAnswers, [idx]: e.target.value })}
+                        {(type === "long answer") && (
+                          <input 
+                            type="text" 
+                            placeholder="Your answer" 
+                            style={{
+                              borderRadius: 10,
+                              border: "1px solid #E9EAEB",
+                            }}
+                            onChange={(e)=>{
+                              setPreScreenAnswers({ ...preScreenAnswers, [idx]: e.target.value });
+                            }} 
                           />
                         )}
+                        {(type === "short answer" || !type) && (
+                          <input 
+                            type="text" 
+                            placeholder="Your answer" 
+                            style={{
+                              borderRadius: 10,
+                              border: "1px solid #E9EAEB",
+                              maxWidth: 350,
+                            }}
+                            onChange={(e)=>{
+                              setPreScreenAnswers({ ...preScreenAnswers, [idx]: e.target.value });
+                            }} 
+                          />
+                        )}
+                        
                       </div>
                     </div>
                   </div>
