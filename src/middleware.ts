@@ -13,7 +13,7 @@ export function middleware(request: NextRequest) {
 
   if (
     host.includes("hirejia.ai") &&
-    (pathname.startsWith("/dashboard") || pathname.startsWith("/job-openings") || pathname.startsWith("/login"))
+    (pathname.startsWith("/dashboard") || pathname.startsWith("/login"))
   ) {
     const newUrl = new URL(request.url);
     newUrl.hostname = "hellojia.ai";
@@ -34,7 +34,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Redirect to hellojia.ai for applicant portal
-  if (!host.includes("hellojia") && !host.includes("localhost") && (pathname.startsWith("/applicant") || pathname.startsWith("/job-openings"))) {
+  if (!host.includes("hellojia") && !host.includes("localhost") && pathname.startsWith("/applicant")) {
     const newUrl = new URL(request.url);
     newUrl.hostname = `hellojia.ai`;
     return NextResponse.redirect(newUrl);
