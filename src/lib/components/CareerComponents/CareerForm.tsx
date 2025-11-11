@@ -239,7 +239,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const currentStepIndex = step.indexOf(currentStep);
 
     if (currentStepIndex == index) {
-      if (index == stepStatus.length - 1) {
+      if (index == step.length - 1) {
         return stepStatus[0];
       }
 
