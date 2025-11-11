@@ -51,17 +51,21 @@ export default function CareerActionModal({ action, onAction }: { action: string
                     <h3 className="modal-title">{actions[action]?.title}</h3>
                     <p style={{ maxWidth: "352px" }} dangerouslySetInnerHTML={{ __html: actions[action]?.subtext }}></p> 
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", gap: 16, width: "100%" }}>
-                        <button 
+                        <button
+                        type="button"
                         onClick={(e) => {
                             e.preventDefault();
+                            e.stopPropagation();
                             onAction("");
                         }}
                         style={{ display: "flex", width: "50%", flexDirection: "row", alignItems: "center", justifyContent: "center", textAlign: "center", gap: 8, backgroundColor: "#FFFFFF", borderRadius: "60px", border: "1px solid #D5D7DA", cursor: "pointer", padding: "10px 0px" }}>
                             Cancel
                         </button>
-                        <button 
+                        <button
+                        type="button"
                         onClick={(e) => {
                             e.preventDefault();
+                            e.stopPropagation();
                             onAction(action);
                         }}
                         style={{ display: "flex", width: "50%", flexDirection: "row", alignItems: "center", justifyContent: "center", textAlign: "center", gap: 8, backgroundColor: actions[action]?.color, color: "#FFFFFF", borderRadius: "60px", border: "1px solid #D5D7DA", cursor: "pointer", textTransform: "capitalize" }}>

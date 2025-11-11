@@ -356,14 +356,16 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     }
 
     const saveCareer = async (status: string) => {
-        setShowSaveModal("");
-        if (!status) {
-          return;
+        // Early return if already saving or no status provided
+        if (!status || savingCareerRef.current) {
+            return;
         }
 
-        if (!savingCareerRef.current) {
-        setIsSavingCareer(true);
+        // Set saving flags immediately to prevent duplicate submissions
         savingCareerRef.current = true;
+        setIsSavingCareer(true);
+        setShowSaveModal("");
+
         let userInfoSlice = {
             image: user.image,
             name: user.name,
@@ -394,14 +396,14 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         }
 
         try {
-            
+
             const response = await axios.post("/api/add-career", career);
             if (response.status === 200) {
             candidateActionToast(
                 <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8, marginLeft: 8 }}>
                     <span style={{ fontSize: 14, fontWeight: 700, color: "#181D27" }}>Career added {status === "active" ? "and published" : ""}</span>
                 </div>,
-                1300, 
+                1300,
             <i className="la la-check-circle" style={{ color: "#039855", fontSize: 32 }}></i>)
             setTimeout(() => {
                 window.location.href = `/recruiter-dashboard/careers`;
@@ -413,7 +415,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
             savingCareerRef.current = false;
             setIsSavingCareer(false);
         }
-      }
     }
 
     const goToNextStep = () => {
@@ -734,6 +735,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
               <h1 style={{ fontSize: "24px", fontWeight: 550, color: "#111827" }}>Add new career</h1>
               <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "10px" }}>
                   <button
+                  type="button"
                   disabled={!isFormValid() || isSavingCareer}
                    style={{ width: "fit-content", color: "#414651", background: "#fff", border: "1px solid #D5D7DA", padding: "8px 16px", borderRadius: "60px", cursor: !isFormValid() || isSavingCareer ? "not-allowed" : "pointer", whiteSpace: "nowrap" }} onClick={() => {
                     confirmSaveCareer("inactive");
@@ -741,6 +743,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                           Save as Unpublished
                   </button>
                   <button
+                  type="button"
                   disabled={(currentStep === step[3] ? !isFormValid() : !isCurrentStepValid()) || isSavingCareer}
                   style={{ width: "fit-content", background: (currentStep === step[3] ? !isFormValid() : !isCurrentStepValid()) || isSavingCareer ? "#D5D7DA" : "black", color: "#fff", border: "1px solid #E9EAEB", padding: "8px 16px", borderRadius: "60px", cursor: (currentStep === step[3] ? !isFormValid() : !isCurrentStepValid()) || isSavingCareer ? "not-allowed" : "pointer", whiteSpace: "nowrap"}} onClick={() => {
                     currentStep === step[3] ? confirmSaveCareer("active") : saveDraftAndContinue();
