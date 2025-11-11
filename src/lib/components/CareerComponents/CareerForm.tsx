@@ -190,7 +190,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         }
     };
 
-    const [currentStep, setCurrentStep] = useState(step[2]); // Start at appropriate step
+    const [currentStep, setCurrentStep] = useState(step[3]); // Start at appropriate step
     const [savedCareerId, setSavedCareerId] = useState(career?._id || null); // Track career ID for updates
 
     // Accordion States
@@ -1611,24 +1611,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         v
                       </div>
                   </div>
-
-                    <div
-                      style={{
-                        width: 32,
-                        height: 32,
-                        backgroundColor: "#181D27",
-                        borderRadius: "50%",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <i
-                        className="la la-suitcase"
-                        style={{ color: "#FFFFFF", fontSize: 20 }}
-                      ></i>
-                    </div>
-
                     <span
                       style={{
                         fontSize: 16,
@@ -2064,24 +2046,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         v
                       </div>
                   </div>
-
-                    <div
-                      style={{
-                        width: 32,
-                        height: 32,
-                        backgroundColor: "#181D27",
-                        borderRadius: "50%",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <i
-                        className="la la-suitcase"
-                        style={{ color: "#FFFFFF", fontSize: 20 }}
-                      ></i>
-                    </div>
-
                     <span
                       style={{
                         fontSize: 16,
@@ -2672,24 +2636,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         v
                       </div>
                   </div>
-
-                    <div
-                      style={{
-                        width: 32,
-                        height: 32,
-                        backgroundColor: "#181D27",
-                        borderRadius: "50%",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <i
-                        className="la la-suitcase"
-                        style={{ color: "#FFFFFF", fontSize: 20 }}
-                      ></i>
-                    </div>
-
                     <span
                       style={{
                         fontSize: 16,
