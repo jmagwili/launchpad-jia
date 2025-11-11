@@ -1735,12 +1735,13 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                       <div style={{flex: 1}} />
                     </div>
                     <hr style={{ margin: "10px 0" }} />
-                    <div style={{fontWeight:700, color: "#181D27"}}> 
+                    <div style={{fontWeight:700, color: "#181D27"}}>
                       <span>Job Description</span>
                     </div>
-                    <div> 
-                      <span>{description}</span>
-                    </div>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: description }}
+                      style={{ whiteSpace: "pre-wrap" }}
+                    />
                   </div>
                 </div>
 
