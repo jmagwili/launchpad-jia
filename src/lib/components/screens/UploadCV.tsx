@@ -11,6 +11,7 @@ import { CORE_API_URL } from "@/lib/Utils";
 import axios from "axios";
 import Markdown from "react-markdown";
 import { useEffect, useRef, useState } from "react";
+import CustomDropdown from "@/lib/components/CareerComponents/CustomDropdown";
 
 export default function () {
   const fileInputRef = useRef(null);
@@ -679,16 +680,15 @@ export default function () {
                       </span>
                       <div className={styles.detailsContainer} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                         {type === "dropdown" && (
-                          <select
-                            className="form-control"
-                            value={preScreenAnswers[idx] || ""}
-                            onChange={(e) => setPreScreenAnswers({ ...preScreenAnswers, [idx]: e.target.value })}
-                          >
-                            <option value="">Select an option</option>
-                            {options.map((o: any, oIdx: number) => (
-                              <option key={oIdx} value={o.label || o}>{o.label || o}</option>
-                            ))}
-                          </select>
+                          <CustomDropdown
+                            screeningSetting={preScreenAnswers[idx] || ""}
+                            onSelectSetting={(value) => setPreScreenAnswers({ ...preScreenAnswers, [idx]: value })}
+                            settingList={options.map((o: any) => ({
+                              name: o.label || o,
+                              icon: ""
+                            }))}
+                            placeholder="Select an option"
+                          />
                         )}
                         {type === "checkboxes" && (
                           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
