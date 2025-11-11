@@ -36,6 +36,7 @@
     "react-tooltip": "5.28.1",
     "react-type-animation": "3.2.0",
     "reaviz": "16.0.4",
+    "sanitize-html": "^2.17.0",
     "sass": "1.87.0",
     "socket.io-client": "4.8.1",
     "sweetalert2": "11.19.1"
