@@ -1622,13 +1622,18 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                     style={{
                       background: "none",
                       border: "1px solid #181D27",
-                      padding: "4px 10px",
-                      borderRadius: 8,
-                      fontSize: 12,
+                      padding: "8px",
+                      borderRadius: "50%",
+                      fontSize: 16,
                       cursor: "pointer",
+                      width: "32px",
+                      height: "32px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
-                    Edit
+                    <i className="la la-pencil" style={{ fontSize: 16 }}></i>
                   </button>
                 </div>
 
@@ -2051,13 +2056,18 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                     style={{
                       background: "none",
                       border: "1px solid #181D27",
-                      padding: "4px 10px",
-                      borderRadius: 8,
-                      fontSize: 12,
+                      padding: "8px",
+                      borderRadius: "50%",
+                      fontSize: 16,
                       cursor: "pointer",
+                      width: "32px",
+                      height: "32px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
-                    Edit
+                    <i className="la la-pencil" style={{ fontSize: 16 }}></i>
                   </button>
                 </div>
 
@@ -2641,13 +2651,18 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                     style={{
                       background: "none",
                       border: "1px solid #181D27",
-                      padding: "4px 10px",
-                      borderRadius: 8,
-                      fontSize: 12,
+                      padding: "8px",
+                      borderRadius: "50%",
+                      fontSize: 16,
                       cursor: "pointer",
+                      width: "32px",
+                      height: "32px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
-                    Edit
+                    <i className="la la-pencil" style={{ fontSize: 16 }}></i>
                   </button>
                 </div>
 
