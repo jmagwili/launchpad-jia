@@ -88,22 +88,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
     const [salaryNegotiable, setSalaryNegotiable] = useState(career?.salaryNegotiable || true);
     const [minimumSalary, setMinimumSalary] = useState(career?.minimumSalary || "");
     const [maximumSalary, setMaximumSalary] = useState(career?.maximumSalary || "");
-    const [screeningQuestions, setScreeningQuestions] = useState<any[]>(career?.screeningQuestions || [
-      {
-        question: "What is your highest educational attainment?",
-        type: "dropdown",
-        options: [
-          { label: "High School" },
-          { label: "College" },
-          { label: "Postgraduate" }
-        ]
-      },
-      {
-        question: "What is your expected salary range?",
-        type: "range",
-        range: { min: "10000", max: "20000" }
-      }
-    ]);
+    const [screeningQuestions, setScreeningQuestions] = useState<any[]>(career?.screeningQuestions || []);
     // Local state to track question being edited
     const [editingQuestion, setEditingQuestion] = useState<{ index: number; value: string } | null>(null);
     const [suggestedQuestions, setSuggestedQuestions] = useState([
@@ -205,7 +190,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         }
     };
 
-    const [currentStep, setCurrentStep] = useState(determineInitialStep()); // Start at appropriate step
+    const [currentStep, setCurrentStep] = useState(step[1]); // Start at appropriate step
     const [savedCareerId, setSavedCareerId] = useState(career?._id || null); // Track career ID for updates
 
     // Accordion States
@@ -1052,7 +1037,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                     <RichTextEditor setText={setDescription} text={description} />
                   </div>
               </div>
-     
           </div>
 
           <div style={{ width: "40%", display: "flex", flexDirection: "column", gap: 8 }}>
@@ -1092,7 +1076,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         {currentStep == step[1] && (
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", gap: 16, alignItems: "flex-start", marginTop: 16 }}>
           <div style={{ width: "60%", display: "flex", flexDirection: "column", gap: 8 }}>
-            <div className="layered-card-outer">
                 <div className="layered-card-middle">
                 <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
                     <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -1116,8 +1099,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         />
                     </div>
                 </div>
-            </div>
-            <div className="layered-card-outer">
               <div className="layered-card-middle">
                 <div style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 8, padding: "10px"}}>
                   <div>
@@ -1473,22 +1454,17 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                                     fontWeight: 600,
                                   }}
                                 >
-                                  {question.isAdded ? "Added" : "Add"}
-                                
+                                  {question.isAdded ? "Added" : "Add"}                           
                                 </button>
-
-
                               </div>
                             ))}
                           </div>
                         </div>
                     </div>
                 </div>
-            </div>
           </div>
 
           <div style={{ width: "40%", display: "flex", flexDirection: "column", gap: 8 }}>
-            <div className="layered-card-outer">
               <div className="layered-card-middle">
                 <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
                   <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -1511,7 +1487,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                     </div>
                   </div>
               </div>
-            </div>
           </div>
         </div>
         )}
