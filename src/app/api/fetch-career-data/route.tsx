@@ -15,9 +15,9 @@ export async function POST(request: Request) {
 
     const { db } = await connectMongoDB();
 
-    const career = await db
-      .collection("careers")
-      .findOne({ _id: new ObjectId(careerID) });
+ const career = await db
+  .collection("careers")
+  .findOne({ id: careerID });
 
     if (!career) {
       return NextResponse.json({ error: "Career not found" }, { status: 404 });
