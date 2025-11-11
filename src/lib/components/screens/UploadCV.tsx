@@ -156,6 +156,7 @@ export default function () {
     if (storedSelectedCareer) {
       const parseStoredSelectedCareer = JSON.parse(storedSelectedCareer);
       fetchInterview(parseStoredSelectedCareer.id);
+      fetchCareer(parseStoredSelectedCareer.id);
     } else {
       alert("No application is currently being managed.");
       window.location.href = pathConstants.dashboard;
@@ -187,6 +188,37 @@ export default function () {
             setInterview(result[0]);
             setLoading(false);
           }
+        }
+      })
+      .catch((err) => {
+        alert("Error fetching existing applied jobs.");
+        window.location.href = pathConstants.dashboard;
+        console.log(err);
+      });
+  }
+
+    function fetchCareer(careerID) {   
+    axios({
+      method: "POST",
+      url: "/api/fetch-career-data",
+      data: { careerID },
+    })
+      .then((res) => {
+        const result = res.data;
+
+        if (result.error) {
+          alert(result.error);
+          window.location.href = pathConstants.dashboard;
+        } else {
+          console.log("Fetched career:", result);
+          // if (result[0].cvStatus) {
+          //   alert("This application has already been processed.");
+          //   window.location.href = pathConstants.dashboard;
+          // } else {
+          //   setCurrentStep(step[0]);
+          //   setInterview(result[0]);
+          //   setLoading(false);
+          // }
         }
       })
       .catch((err) => {
