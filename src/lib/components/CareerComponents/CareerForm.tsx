@@ -190,7 +190,7 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         }
     };
 
-    const [currentStep, setCurrentStep] = useState(step[1]); // Start at appropriate step
+    const [currentStep, setCurrentStep] = useState(step[2]); // Start at appropriate step
     const [savedCareerId, setSavedCareerId] = useState(career?._id || null); // Track career ID for updates
 
     // Accordion States
@@ -1494,7 +1494,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
         {currentStep == step[2] && (
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", gap: 16, alignItems: "flex-start", marginTop: 16 }}>
           <div style={{ width: "60%", display: "flex", flexDirection: "column", gap: 8 }}>
-            <div className="layered-card-outer">
                 <div className="layered-card-middle">
                 <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
                     <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -1540,12 +1539,10 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                         </div>
                     </div>
                 </div>
-              </div>
               <InterviewQuestionGeneratorV2 questions={questions} setQuestions={(questions) => setQuestions(questions)} jobTitle={jobTitle} description={description} />
           </div>
 
           <div style={{ width: "40%", display: "flex", flexDirection: "column", gap: 8 }}>
-            <div className="layered-card-outer">
               <div className="layered-card-middle">
                 <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
                   <div style={{ width: 32, height: 32, backgroundColor: "#181D27", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -1568,7 +1565,6 @@ export default function CareerForm({ career, formType, setShowEditModal }: { car
                     </div>
                   </div>
               </div>
-            </div>
           </div>
         </div>
         )}

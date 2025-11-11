@@ -343,7 +343,7 @@ export default function (props) {
   }, []);
 
   return (
-    <div className="layered-card-outer">
+    <div>
         <div className="layered-card-middle">
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
               <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 8 }}>
